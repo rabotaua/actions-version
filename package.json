@@ -25,7 +25,11 @@
       }
     }
   },
-  "keywords": ["github", "actions", "version"],
+  "keywords": [
+    "github",
+    "actions",
+    "version"
+  ],
   "author": "Alexandr Marchenko <marchenko.alexandr@gmail.com>",
   "license": "MIT",
   "bugs": {
