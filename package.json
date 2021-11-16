@@ -1,20 +1,44 @@
 {
   "name": "actions-version",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "GitHub action to generate version numbers based on current build",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "parcel build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rabotaua/actions-version.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "targets": {
+    "default": {
+      "context": "node",
+      "outputFormat": "commonjs",
+      "isLibrary": true,
+      "optimize": false,
+      "includeNodeModules": true,
+      "sourceMap": false,
+      "source": "src/index.ts",
+      "distDir": "./dist",
+      "engines": {
+        "node": "12"
+      }
+    }
+  },
+  "keywords": ["github", "actions", "version"],
+  "author": "Alexandr Marchenko <marchenko.alexandr@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/rabotaua/actions-version/issues"
   },
-  "homepage": "https://github.com/rabotaua/actions-version#readme"
+  "homepage": "https://github.com/rabotaua/actions-version#readme",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.0.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  }
 }
