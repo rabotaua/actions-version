@@ -13,9 +13,6 @@ var $3B1P3$url = require("url");
 var $3B1P3$zlib = require("zlib");
 var $3B1P3$punycode = require("punycode");
 
-function $parcel$interopDefault(a) {
-  return a && a.__esModule ? a.default : a;
-}
 function $parcel$export(e, n, v, s) {
   Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
 }
@@ -29,6 +26,9 @@ typeof globalThis !== 'undefined'
   : typeof global !== 'undefined'
   ? global
   : {};
+function $parcel$interopDefault(a) {
+  return a && a.__esModule ? a.default : a;
+}
 var $parcel$modules = {};
 var $parcel$inits = {};
 
@@ -8438,13 +8438,13 @@ $b2ffea015edc5d5f$exports.getOctokit = $b2ffea015edc5d5f$var$getOctokit;
 
 try {
     var ref, ref1, ref2;
-    const version = (/*@__PURE__*/$parcel$interopDefault($8c7cc7c00e6bea0c$exports)).getInput('version');
-    if (!version || !version.match(/\d+\.\d+/)) (/*@__PURE__*/$parcel$interopDefault($8c7cc7c00e6bea0c$exports)).setFailed(`Unexpected version "${version}" must be something like "2.1"`);
-    (/*@__PURE__*/$parcel$interopDefault($8c7cc7c00e6bea0c$exports)).exportVariable('GITHUB_SHA_SHORT', ((/*@__PURE__*/$parcel$interopDefault($b2ffea015edc5d5f$exports)).context.eventName === 'pull_request' ? (ref = (/*@__PURE__*/$parcel$interopDefault($b2ffea015edc5d5f$exports)).context.payload.pull_request) === null || ref === void 0 ? void 0 : ref.head.sha : (/*@__PURE__*/$parcel$interopDefault($b2ffea015edc5d5f$exports)).context.sha).substring(0, 7));
-    (/*@__PURE__*/$parcel$interopDefault($8c7cc7c00e6bea0c$exports)).exportVariable('GITHUB_BRANCH_SLUG', ((ref2 = (ref1 = process.env.GITHUB_HEAD_REF) === null || ref1 === void 0 ? void 0 : ref1.split('/')) === null || ref2 === void 0 ? void 0 : ref2.pop()) || (/*@__PURE__*/$parcel$interopDefault($b2ffea015edc5d5f$exports)).context.ref.split('/').pop());
-    (/*@__PURE__*/$parcel$interopDefault($8c7cc7c00e6bea0c$exports)).exportVariable('VERSION', `${version}.${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_SHA_SHORT}-${process.env.GITHUB_BRANCH_SLUG}`);
+    const version = $8c7cc7c00e6bea0c$exports.getInput('version') || '1.0';
+    if (!version || !version.match(/\d+\.\d+/)) $8c7cc7c00e6bea0c$exports.setFailed(`Unexpected version "${version}" must be something like "2.1"`);
+    $8c7cc7c00e6bea0c$exports.exportVariable('GITHUB_SHA_SHORT', ($b2ffea015edc5d5f$exports.context.eventName === 'pull_request' ? (ref = $b2ffea015edc5d5f$exports.context.payload.pull_request) === null || ref === void 0 ? void 0 : ref.head.sha : $b2ffea015edc5d5f$exports.context.sha).substring(0, 7));
+    $8c7cc7c00e6bea0c$exports.exportVariable('GITHUB_BRANCH_SLUG', ((ref2 = (ref1 = process.env.GITHUB_HEAD_REF) === null || ref1 === void 0 ? void 0 : ref1.split('/')) === null || ref2 === void 0 ? void 0 : ref2.pop()) || $b2ffea015edc5d5f$exports.context.ref.split('/').pop());
+    $8c7cc7c00e6bea0c$exports.exportVariable('VERSION', `${version}.${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_SHA_SHORT}-${process.env.GITHUB_BRANCH_SLUG}`);
 } catch (error) {
-    (/*@__PURE__*/$parcel$interopDefault($8c7cc7c00e6bea0c$exports)).setFailed(error.message);
+    $8c7cc7c00e6bea0c$exports.setFailed(error.message);
 }
 
 
