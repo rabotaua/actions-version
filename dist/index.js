@@ -8436,13 +8436,17 @@ $b2ffea015edc5d5f$exports.context = new $b2ffea015edc5d5f$var$Context.Context();
 $b2ffea015edc5d5f$exports.getOctokit = $b2ffea015edc5d5f$var$getOctokit;
 
 
+const $60f95bdd24cab3fa$var$exportVariable = (key, val)=>{
+    $8c7cc7c00e6bea0c$exports.exportVariable(key, val);
+    console.log(key, val);
+};
 try {
     var ref, ref1, ref2;
     const version = $8c7cc7c00e6bea0c$exports.getInput('version') || '1.0';
     if (!version || !version.match(/\d+\.\d+/)) $8c7cc7c00e6bea0c$exports.setFailed(`Unexpected version "${version}" must be something like "2.1"`);
-    $8c7cc7c00e6bea0c$exports.exportVariable('GITHUB_SHA_SHORT', ($b2ffea015edc5d5f$exports.context.eventName === 'pull_request' ? (ref = $b2ffea015edc5d5f$exports.context.payload.pull_request) === null || ref === void 0 ? void 0 : ref.head.sha : $b2ffea015edc5d5f$exports.context.sha).substring(0, 7));
-    $8c7cc7c00e6bea0c$exports.exportVariable('GITHUB_BRANCH_SLUG', ((ref2 = (ref1 = process.env.GITHUB_HEAD_REF) === null || ref1 === void 0 ? void 0 : ref1.split('/')) === null || ref2 === void 0 ? void 0 : ref2.pop()) || $b2ffea015edc5d5f$exports.context.ref.split('/').pop());
-    $8c7cc7c00e6bea0c$exports.exportVariable('VERSION', `${version}.${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_SHA_SHORT}-${process.env.GITHUB_BRANCH_SLUG}`);
+    $60f95bdd24cab3fa$var$exportVariable('GITHUB_SHA_SHORT', ($b2ffea015edc5d5f$exports.context.eventName === 'pull_request' ? (ref = $b2ffea015edc5d5f$exports.context.payload.pull_request) === null || ref === void 0 ? void 0 : ref.head.sha : $b2ffea015edc5d5f$exports.context.sha).substring(0, 7));
+    $60f95bdd24cab3fa$var$exportVariable('GITHUB_BRANCH_SLUG', ((ref2 = (ref1 = process.env.GITHUB_HEAD_REF) === null || ref1 === void 0 ? void 0 : ref1.split('/')) === null || ref2 === void 0 ? void 0 : ref2.pop()) || $b2ffea015edc5d5f$exports.context.ref.split('/').pop());
+    $60f95bdd24cab3fa$var$exportVariable('VERSION', `${version}.${process.env.GITHUB_RUN_NUMBER}-${process.env.GITHUB_SHA_SHORT}-${process.env.GITHUB_BRANCH_SLUG}`);
 } catch (error) {
     $8c7cc7c00e6bea0c$exports.setFailed(error.message);
 }
