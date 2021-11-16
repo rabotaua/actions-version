@@ -16,6 +16,16 @@ with:
   version: 2.1
 ```
 
+Action will generate `VERSION` environment variable which then can be used anywhere:
+
+```yml
+- run: echo $VERSION
+```
+
+Version consists of: `[version].[build]-[sha]-[branch]` so output will be `2.1.3-dfcc185-main`
+
+Also `GITHUB_SHA_SHORT` and `GITHUB_BRANCH_SLUG` are exported just in case
+
 ## Build
 
 `npm run build`
