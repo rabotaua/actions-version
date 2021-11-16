@@ -22,6 +22,8 @@ with:
 
 **WARNING:** neither `parcel` nor `ncc` do not work under Windows
 
+If you have made changes you **should** commit both source and dist
+
 ## TODO
 
 - prettier
