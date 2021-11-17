@@ -34,8 +34,27 @@ Also `GITHUB_SHA_SHORT` and `GITHUB_BRANCH_SLUG` are exported just in case
 
 If you have made changes you **should** commit both source and dist
 
-## TODO
+## Context
 
-- prettier
-- eslint
-- husky pre commit build OR add action which will build and commit result
+Because of how GitHub works underneath there are few tricky things around pull requests
+
+For usual builds commits are here `github.context.sha` but for pull requests actual commits are here `github.context.payload.pull_request?.head.sha`
+
+The same story for branch names, here is an example
+
+For usual build:
+
+```ini
+github.context.sha = xxxxxx
+github.context.ref = refs/heads/main
+```
+
+For pull request:
+
+```ini
+github.context.sha = yyyyyy # merge commit
+github.context.ref = refs/pull/3/merge
+
+github.context.payload.pull_request.head.sha = xxxxxx # expected commit
+process.env.GITHUB_HEAD_REF = refs/head/main # expected branch
+```

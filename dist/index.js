@@ -8441,18 +8441,17 @@ const $60f95bdd24cab3fa$var$exportVariable = (key, val)=>{
     console.log(key, val);
 };
 try {
-    var ref, ref1, ref2;
+    var ref;
     const version = $8c7cc7c00e6bea0c$exports.getInput("version") || "1.0";
     if (!version || !version.match(/\d+\.\d+/)) $8c7cc7c00e6bea0c$exports.setFailed(`Unexpected version "${version}" must be something like "2.1"`);
+    // Described in readme, context section
     const commit = $b2ffea015edc5d5f$exports.context.eventName === "pull_request" ? (ref = $b2ffea015edc5d5f$exports.context.payload.pull_request) === null || ref === void 0 ? void 0 : ref.head.sha : $b2ffea015edc5d5f$exports.context.sha;
+    const branch = (process.env.GITHUB_HEAD_REF || $b2ffea015edc5d5f$exports.context.ref).split("/").pop();
+    const num = $b2ffea015edc5d5f$exports.context.runNumber;
     const sha = commit.substring(0, 7);
     $60f95bdd24cab3fa$var$exportVariable("GITHUB_SHA_SHORT", sha);
-    console.log({
-        env: process.env.GITHUB_HEAD_REF,
-        ref: $b2ffea015edc5d5f$exports.context.ref
-    });
-    $60f95bdd24cab3fa$var$exportVariable("GITHUB_BRANCH_SLUG", ((ref2 = (ref1 = process.env.GITHUB_HEAD_REF) === null || ref1 === void 0 ? void 0 : ref1.split("/")) === null || ref2 === void 0 ? void 0 : ref2.pop()) || $b2ffea015edc5d5f$exports.context.ref.split("/").pop());
-    $60f95bdd24cab3fa$var$exportVariable("VERSION", `${version}.${process.env.GITHUB_RUN_NUMBER}-${sha}-${process.env.GITHUB_BRANCH_SLUG}`);
+    $60f95bdd24cab3fa$var$exportVariable("GITHUB_BRANCH_SLUG", branch);
+    $60f95bdd24cab3fa$var$exportVariable("VERSION", `${version}.${num}-${sha}-${branch}`);
 } catch (error) {
     $8c7cc7c00e6bea0c$exports.setFailed(error.message);
 }

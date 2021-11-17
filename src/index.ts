@@ -12,19 +12,16 @@ try {
     core.setFailed(`Unexpected version "${version}" must be something like "2.1"`);
   }
 
+  // Described in readme, context section
   const commit = github.context.eventName === "pull_request" ? github.context.payload.pull_request?.head.sha : github.context.sha;
+  const branch = (process.env.GITHUB_HEAD_REF || github.context.ref).split("/").pop()!;
+
+  const num = github.context.runNumber;
   const sha = commit.substring(0, 7);
 
   exportVariable("GITHUB_SHA_SHORT", sha);
-
-  console.log({
-    env: process.env.GITHUB_HEAD_REF,
-    ref: github.context.ref,
-  });
-
-  exportVariable("GITHUB_BRANCH_SLUG", (process.env.GITHUB_HEAD_REF?.split("/")?.pop() || github.context.ref.split("/").pop())!);
-
-  exportVariable("VERSION", `${version}.${process.env.GITHUB_RUN_NUMBER}-${sha}-${process.env.GITHUB_BRANCH_SLUG}`);
+  exportVariable("GITHUB_BRANCH_SLUG", branch);
+  exportVariable("VERSION", `${version}.${num}-${sha}-${branch}`);
 } catch (error) {
   core.setFailed((error as Error).message);
 }
