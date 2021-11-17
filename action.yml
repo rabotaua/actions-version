@@ -1,10 +1,10 @@
-name: 'Versions'
-description: 'GitHub action to generate version numbers based on current build'
+name: "Versions"
+description: "GitHub action to generate version numbers based on current build"
 inputs:
   version:
-    description: 'version prefix to use'
-    default: '1.0'
+    description: "version prefix to use"
+    default: "1.0"
     required: true
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
