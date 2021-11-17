@@ -13,7 +13,7 @@
   },
   "lint-staged": {
     "*.ts": "eslint --fix",
-    "*.{ts,json,md}": "prettier --write"
+    "*.{ts,json,md,yml}": "prettier --write"
   },
   "repository": {
     "type": "git",
