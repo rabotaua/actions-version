@@ -96,19 +96,16 @@ var $ed1bcf6f7c5f488f$var$HttpCodes;
     HttpCodes[HttpCodes["BadGateway"] = 502] = "BadGateway";
     HttpCodes[HttpCodes["ServiceUnavailable"] = 503] = "ServiceUnavailable";
     HttpCodes[HttpCodes["GatewayTimeout"] = 504] = "GatewayTimeout";
-})($ed1bcf6f7c5f488f$var$HttpCodes = module.exports.HttpCodes || (module.exports.HttpCodes = {
-}));
+})($ed1bcf6f7c5f488f$var$HttpCodes = module.exports.HttpCodes || (module.exports.HttpCodes = {}));
 var $ed1bcf6f7c5f488f$var$Headers;
 (function(Headers) {
     Headers["Accept"] = "accept";
     Headers["ContentType"] = "content-type";
-})($ed1bcf6f7c5f488f$var$Headers = module.exports.Headers || (module.exports.Headers = {
-}));
+})($ed1bcf6f7c5f488f$var$Headers = module.exports.Headers || (module.exports.Headers = {}));
 var $ed1bcf6f7c5f488f$var$MediaTypes;
 (function(MediaTypes) {
     MediaTypes["ApplicationJson"] = "application/json";
-})($ed1bcf6f7c5f488f$var$MediaTypes = module.exports.MediaTypes || (module.exports.MediaTypes = {
-}));
+})($ed1bcf6f7c5f488f$var$MediaTypes = module.exports.MediaTypes || (module.exports.MediaTypes = {}));
 /**
  * Returns the proxy URL, depending upon the supplied url and proxy environment variables.
  * @param serverUrl  The server URL where the request will be sent. For example, https://api.github.com
@@ -197,32 +194,25 @@ class $ed1bcf6f7c5f488f$var$HttpClient {
         }
     }
     options(requestUrl, additionalHeaders) {
-        return this.request('OPTIONS', requestUrl, null, additionalHeaders || {
-        });
+        return this.request('OPTIONS', requestUrl, null, additionalHeaders || {});
     }
     get(requestUrl, additionalHeaders) {
-        return this.request('GET', requestUrl, null, additionalHeaders || {
-        });
+        return this.request('GET', requestUrl, null, additionalHeaders || {});
     }
     del(requestUrl, additionalHeaders) {
-        return this.request('DELETE', requestUrl, null, additionalHeaders || {
-        });
+        return this.request('DELETE', requestUrl, null, additionalHeaders || {});
     }
     post(requestUrl, data, additionalHeaders) {
-        return this.request('POST', requestUrl, data, additionalHeaders || {
-        });
+        return this.request('POST', requestUrl, data, additionalHeaders || {});
     }
     patch(requestUrl, data, additionalHeaders) {
-        return this.request('PATCH', requestUrl, data, additionalHeaders || {
-        });
+        return this.request('PATCH', requestUrl, data, additionalHeaders || {});
     }
     put(requestUrl, data, additionalHeaders) {
-        return this.request('PUT', requestUrl, data, additionalHeaders || {
-        });
+        return this.request('PUT', requestUrl, data, additionalHeaders || {});
     }
     head(requestUrl, additionalHeaders) {
-        return this.request('HEAD', requestUrl, null, additionalHeaders || {
-        });
+        return this.request('HEAD', requestUrl, null, additionalHeaders || {});
     }
     sendStream(verb, requestUrl, stream, additionalHeaders) {
         return this.request(verb, requestUrl, stream, additionalHeaders);
@@ -230,30 +220,26 @@ class $ed1bcf6f7c5f488f$var$HttpClient {
     /**
      * Gets a typed object from an endpoint
      * Be aware that not found returns a null.  Other errors (4xx, 5xx) reject the promise
-     */ async getJson(requestUrl, additionalHeaders = {
-    }) {
+     */ async getJson(requestUrl, additionalHeaders = {}) {
         additionalHeaders[$ed1bcf6f7c5f488f$var$Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, $ed1bcf6f7c5f488f$var$Headers.Accept, $ed1bcf6f7c5f488f$var$MediaTypes.ApplicationJson);
         let res = await this.get(requestUrl, additionalHeaders);
         return this._processResponse(res, this.requestOptions);
     }
-    async postJson(requestUrl, obj, additionalHeaders = {
-    }) {
+    async postJson(requestUrl, obj, additionalHeaders = {}) {
         let data = JSON.stringify(obj, null, 2);
         additionalHeaders[$ed1bcf6f7c5f488f$var$Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, $ed1bcf6f7c5f488f$var$Headers.Accept, $ed1bcf6f7c5f488f$var$MediaTypes.ApplicationJson);
         additionalHeaders[$ed1bcf6f7c5f488f$var$Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, $ed1bcf6f7c5f488f$var$Headers.ContentType, $ed1bcf6f7c5f488f$var$MediaTypes.ApplicationJson);
         let res = await this.post(requestUrl, data, additionalHeaders);
         return this._processResponse(res, this.requestOptions);
     }
-    async putJson(requestUrl, obj, additionalHeaders = {
-    }) {
+    async putJson(requestUrl, obj, additionalHeaders = {}) {
         let data = JSON.stringify(obj, null, 2);
         additionalHeaders[$ed1bcf6f7c5f488f$var$Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, $ed1bcf6f7c5f488f$var$Headers.Accept, $ed1bcf6f7c5f488f$var$MediaTypes.ApplicationJson);
         additionalHeaders[$ed1bcf6f7c5f488f$var$Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, $ed1bcf6f7c5f488f$var$Headers.ContentType, $ed1bcf6f7c5f488f$var$MediaTypes.ApplicationJson);
         let res = await this.put(requestUrl, data, additionalHeaders);
         return this._processResponse(res, this.requestOptions);
     }
-    async patchJson(requestUrl, obj, additionalHeaders = {
-    }) {
+    async patchJson(requestUrl, obj, additionalHeaders = {}) {
         let data = JSON.stringify(obj, null, 2);
         additionalHeaders[$ed1bcf6f7c5f488f$var$Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, $ed1bcf6f7c5f488f$var$Headers.Accept, $ed1bcf6f7c5f488f$var$MediaTypes.ApplicationJson);
         additionalHeaders[$ed1bcf6f7c5f488f$var$Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, $ed1bcf6f7c5f488f$var$Headers.ContentType, $ed1bcf6f7c5f488f$var$MediaTypes.ApplicationJson);
@@ -383,14 +369,12 @@ class $ed1bcf6f7c5f488f$var$HttpClient {
         return this._getAgent(parsedUrl);
     }
     _prepareRequest(method, requestUrl, headers) {
-        const info = {
-        };
+        const info = {};
         info.parsedUrl = requestUrl;
         const usingSsl = info.parsedUrl.protocol === 'https:';
         info.httpModule = usingSsl ? $3B1P3$https : $3B1P3$http;
         const defaultPort = usingSsl ? 443 : 80;
-        info.options = {
-        };
+        info.options = {};
         info.options.host = info.parsedUrl.hostname;
         info.options.port = info.parsedUrl.port ? parseInt(info.parsedUrl.port) : defaultPort;
         info.options.path = (info.parsedUrl.pathname || '') + (info.parsedUrl.search || '');
@@ -406,18 +390,14 @@ class $ed1bcf6f7c5f488f$var$HttpClient {
     }
     _mergeHeaders(headers) {
         const lowercaseKeys = (obj)=>Object.keys(obj).reduce((c, k)=>(c[k.toLowerCase()] = obj[k], c)
-            , {
-            })
+            , {})
         ;
-        if (this.requestOptions && this.requestOptions.headers) return Object.assign({
-        }, lowercaseKeys(this.requestOptions.headers), lowercaseKeys(headers));
-        return lowercaseKeys(headers || {
-        });
+        if (this.requestOptions && this.requestOptions.headers) return Object.assign({}, lowercaseKeys(this.requestOptions.headers), lowercaseKeys(headers));
+        return lowercaseKeys(headers || {});
     }
     _getExistingOrDefaultHeader(additionalHeaders, header, _default) {
         const lowercaseKeys = (obj)=>Object.keys(obj).reduce((c, k)=>(c[k.toLowerCase()] = obj[k], c)
-            , {
-            })
+            , {})
         ;
         let clientHeader;
         if (this.requestOptions && this.requestOptions.headers) clientHeader = lowercaseKeys(this.requestOptions.headers)[header];
@@ -469,8 +449,7 @@ class $ed1bcf6f7c5f488f$var$HttpClient {
         if (usingSsl && this._ignoreSslError) // we don't want to set NODE_TLS_REJECT_UNAUTHORIZED=0 since that will affect request for entire process
         // http.RequestOptions doesn't expose a way to modify RequestOptions.agent.options
         // we have to cast it to any and change it directly
-        agent.options = Object.assign(agent.options || {
-        }, {
+        agent.options = Object.assign(agent.options || {}, {
             rejectUnauthorized: false
         });
         return agent;
@@ -495,8 +474,7 @@ class $ed1bcf6f7c5f488f$var$HttpClient {
             const response = {
                 statusCode: statusCode,
                 result: null,
-                headers: {
-                }
+                headers: {}
             };
             // not found leads to null obj returned
             if (statusCode == $ed1bcf6f7c5f488f$var$HttpCodes.NotFound) resolve(response);
@@ -630,10 +608,8 @@ function $64b68130f47e31b5$var$httpsOverHttps(options) {
 }
 function $64b68130f47e31b5$var$TunnelingAgent(options1) {
     var self = this;
-    self.options = options1 || {
-    };
-    self.proxyOptions = self.options.proxy || {
-    };
+    self.options = options1 || {};
+    self.proxyOptions = self.options.proxy || {};
     self.maxSockets = self.options.maxSockets || $3B1P3$http.Agent.defaultMaxSockets;
     self.requests = [];
     self.sockets = [];
@@ -683,11 +659,9 @@ $64b68130f47e31b5$var$TunnelingAgent.prototype.addRequest = function addRequest(
 };
 $64b68130f47e31b5$var$TunnelingAgent.prototype.createSocket = function createSocket(options, cb) {
     var self = this;
-    var placeholder = {
-    };
+    var placeholder = {};
     self.sockets.push(placeholder);
-    var connectOptions = $64b68130f47e31b5$var$mergeOptions({
-    }, self.proxyOptions, {
+    var connectOptions = $64b68130f47e31b5$var$mergeOptions({}, self.proxyOptions, {
         method: 'CONNECT',
         path: options.host + ':' + options.port,
         agent: false,
@@ -697,8 +671,7 @@ $64b68130f47e31b5$var$TunnelingAgent.prototype.createSocket = function createSoc
     });
     if (options.localAddress) connectOptions.localAddress = options.localAddress;
     if (connectOptions.proxyAuth) {
-        connectOptions.headers = connectOptions.headers || {
-        };
+        connectOptions.headers = connectOptions.headers || {};
         connectOptions.headers['Proxy-Authorization'] = 'Basic ' + new Buffer(connectOptions.proxyAuth).toString('base64');
     }
     $64b68130f47e31b5$var$debug('making CONNECT request');
@@ -768,8 +741,7 @@ function $64b68130f47e31b5$var$createSecureSocket(options, cb) {
     var self = this;
     $64b68130f47e31b5$var$TunnelingAgent.prototype.createSocket.call(self, options, function(socket) {
         var hostHeader = options.request.getHeader('host');
-        var tlsOptions = $64b68130f47e31b5$var$mergeOptions({
-        }, self.options, {
+        var tlsOptions = $64b68130f47e31b5$var$mergeOptions({}, self.options, {
             socket: socket,
             servername: hostHeader ? hostHeader.replace(/:.*$/, '') : options.host
         });
@@ -807,8 +779,7 @@ if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) $64b681
     else args.unshift('TUNNEL:');
     console.error.apply(console, args);
 };
-else $64b68130f47e31b5$var$debug = function() {
-};
+else $64b68130f47e31b5$var$debug = function() {};
 $64b68130f47e31b5$export$1c9f709888824e05 = $64b68130f47e31b5$var$debug; // for test
 
 });
@@ -828,8 +799,7 @@ class $059c360746f4ef84$var$Context {
      * Hydrate the context from the environment
      */ constructor(){
         var _a, _b, _c;
-        this.payload = {
-        };
+        this.payload = {};
         if (process.env.GITHUB_EVENT_PATH) {
             if ($3B1P3$fs.existsSync(process.env.GITHUB_EVENT_PATH)) this.payload = JSON.parse($3B1P3$fs.readFileSync(process.env.GITHUB_EVENT_PATH, {
                 encoding: 'utf8'
@@ -854,8 +824,7 @@ class $059c360746f4ef84$var$Context {
     }
     get issue() {
         const payload = this.payload;
-        return Object.assign(Object.assign({
-        }, this.repo), {
+        return Object.assign(Object.assign({}, this.repo), {
             number: (payload.issue || payload.pull_request || payload).number
         });
     }
@@ -902,8 +871,7 @@ var $ae0c7ab68007fc51$var$__setModuleDefault = module.exports && module.exports.
 });
 var $ae0c7ab68007fc51$var$__importStar = module.exports && module.exports.__importStar || function(mod) {
     if (mod && mod.__esModule) return mod;
-    var result = {
-    };
+    var result = {};
     if (mod != null) {
         for(var k in mod)if (k !== "default" && Object.hasOwnProperty.call(mod, k)) $ae0c7ab68007fc51$var$__createBinding(result, mod, k);
     }
@@ -1089,8 +1057,7 @@ module.exports = {
         return obj;
     },
     setup (obj, constructorArgs, privateData) {
-        if (!privateData) privateData = {
-        };
+        if (!privateData) privateData = {};
         privateData.wrapper = obj;
         obj[$93210ca2b71e3c3f$var$impl] = new $btlpj.implementation(constructorArgs, privateData);
         obj[$93210ca2b71e3c3f$var$impl][$dVkCH.wrapperSymbol] = obj;
@@ -1109,8 +1076,7 @@ module.exports = {
 });
 parcelRequire.register("c2IPG", function(module, exports) {
 "use strict";
-var $8c4872c54f596414$var$conversions = {
-};
+var $8c4872c54f596414$var$conversions = {};
 module.exports = $8c4872c54f596414$var$conversions;
 function $8c4872c54f596414$var$sign(x) {
     return x < 0 ? -1 : 1;
@@ -1127,8 +1093,7 @@ function $8c4872c54f596414$var$createNumberConversion(bitLength, typeOpts) {
     const moduloVal = typeOpts.moduloBitLength ? Math.pow(2, typeOpts.moduloBitLength) : Math.pow(2, bitLength);
     const moduloBound = typeOpts.moduloBitLength ? Math.pow(2, typeOpts.moduloBitLength - 1) : Math.pow(2, bitLength - 1);
     return function(V, opts) {
-        if (!opts) opts = {
-        };
+        if (!opts) opts = {};
         let x = +V;
         if (opts.enforceRange) {
             if (!Number.isFinite(x)) throw new TypeError("Argument is not a finite number");
@@ -1199,8 +1164,7 @@ $8c4872c54f596414$var$conversions["unrestricted double"] = function(V) {
 $8c4872c54f596414$var$conversions["float"] = $8c4872c54f596414$var$conversions["double"];
 $8c4872c54f596414$var$conversions["unrestricted float"] = $8c4872c54f596414$var$conversions["unrestricted double"];
 $8c4872c54f596414$var$conversions["DOMString"] = function(V, opts) {
-    if (!opts) opts = {
-    };
+    if (!opts) opts = {};
     if (opts.treatNullAsEmptyString && V === null) return "";
     return String(V);
 };
@@ -2307,8 +2271,7 @@ $453d8174fe55ea3f$export$2e7f7e38cf280175 = function(url) {
     }
 };
 $453d8174fe55ea3f$export$49426ae341001e98 = function(input, options) {
-    if (options === undefined) options = {
-    };
+    if (options === undefined) options = {};
     const usm = new $453d8174fe55ea3f$var$URLStateMachine(input, options.baseURL, options.encodingOverride, options.url, options.stateOverride);
     if (usm.failure) return "failure";
     return usm.url;
@@ -2329,8 +2292,7 @@ $453d8174fe55ea3f$export$694507dc48e0aff6 = function(integer) {
     return String(integer);
 };
 $453d8174fe55ea3f$export$4b3d9a5bae55976 = function(input, options) {
-    if (options === undefined) options = {
-    };
+    if (options === undefined) options = {};
     // We don't handle blobs, so this just delegates:
     return $453d8174fe55ea3f$export$49426ae341001e98(input, {
         baseURL: options.baseURL,
@@ -2520,8 +2482,7 @@ var $8c7cc7c00e6bea0c$var$__setModuleDefault = $8c7cc7c00e6bea0c$exports && $8c7
 });
 var $8c7cc7c00e6bea0c$var$__importStar = $8c7cc7c00e6bea0c$exports && $8c7cc7c00e6bea0c$exports.__importStar || function(mod) {
     if (mod && mod.__esModule) return mod;
-    var result = {
-    };
+    var result = {};
     if (mod != null) {
         for(var k in mod)if (k !== "default" && Object.hasOwnProperty.call(mod, k)) $8c7cc7c00e6bea0c$var$__createBinding(result, mod, k);
     }
@@ -2583,8 +2544,7 @@ var $3ecfdf502cef912d$var$__setModuleDefault = $3ecfdf502cef912d$exports && $3ec
 });
 var $3ecfdf502cef912d$var$__importStar = $3ecfdf502cef912d$exports && $3ecfdf502cef912d$exports.__importStar || function(mod) {
     if (mod && mod.__esModule) return mod;
-    var result = {
-    };
+    var result = {};
     if (mod != null) {
         for(var k in mod)if (k !== "default" && Object.hasOwnProperty.call(mod, k)) $3ecfdf502cef912d$var$__createBinding(result, mod, k);
     }
@@ -2619,8 +2579,7 @@ $8edc3b90e976de31$exports.toCommandValue = $8edc3b90e976de31$var$toCommandValue;
  * @returns The command properties to send with the actual annotation command
  * See IssueCommandProperties: https://github.com/actions/runner/blob/main/src/Runner.Worker/ActionCommandManager.cs#L646
  */ function $8edc3b90e976de31$var$toCommandProperties(annotationProperties) {
-    if (!Object.keys(annotationProperties).length) return {
-    };
+    if (!Object.keys(annotationProperties).length) return {};
     return {
         title: annotationProperties.title,
         file: annotationProperties.file,
@@ -2648,8 +2607,7 @@ $8edc3b90e976de31$exports.toCommandProperties = $8edc3b90e976de31$var$toCommandP
 }
 $3ecfdf502cef912d$exports.issueCommand = $3ecfdf502cef912d$var$issueCommand;
 function $3ecfdf502cef912d$var$issue(name, message = '') {
-    $3ecfdf502cef912d$var$issueCommand(name, {
-    }, message);
+    $3ecfdf502cef912d$var$issueCommand(name, {}, message);
 }
 $3ecfdf502cef912d$exports.issue = $3ecfdf502cef912d$var$issue;
 const $3ecfdf502cef912d$var$CMD_STRING = '::';
@@ -2711,8 +2669,7 @@ var $24012dd272ea9b9a$var$__setModuleDefault = $24012dd272ea9b9a$exports && $240
 });
 var $24012dd272ea9b9a$var$__importStar = $24012dd272ea9b9a$exports && $24012dd272ea9b9a$exports.__importStar || function(mod) {
     if (mod && mod.__esModule) return mod;
-    var result = {
-    };
+    var result = {};
     if (mod != null) {
         for(var k in mod)if (k !== "default" && Object.hasOwnProperty.call(mod, k)) $24012dd272ea9b9a$var$__createBinding(result, mod, k);
     }
@@ -2907,8 +2864,7 @@ $0a8e739db5585665$exports.OidcClient = $0a8e739db5585665$var$OidcClient;
     /**
      * A code indicating that the action was a failure
      */ ExitCode[ExitCode["Failure"] = 1] = "Failure";
-})($8c7cc7c00e6bea0c$var$ExitCode = $8c7cc7c00e6bea0c$exports.ExitCode || ($8c7cc7c00e6bea0c$exports.ExitCode = {
-}));
+})($8c7cc7c00e6bea0c$var$ExitCode = $8c7cc7c00e6bea0c$exports.ExitCode || ($8c7cc7c00e6bea0c$exports.ExitCode = {}));
 //-----------------------------------------------------------------------
 // Variables
 //-----------------------------------------------------------------------
@@ -2934,8 +2890,7 @@ $8c7cc7c00e6bea0c$exports.exportVariable = $8c7cc7c00e6bea0c$var$exportVariable;
  * Registers a secret which will get masked from logs
  * @param secret value of the secret
  */ function $8c7cc7c00e6bea0c$var$setSecret(secret) {
-    $3ecfdf502cef912d$exports.issueCommand('add-mask', {
-    }, secret);
+    $3ecfdf502cef912d$exports.issueCommand('add-mask', {}, secret);
 }
 $8c7cc7c00e6bea0c$exports.setSecret = $8c7cc7c00e6bea0c$var$setSecret;
 /**
@@ -2944,8 +2899,7 @@ $8c7cc7c00e6bea0c$exports.setSecret = $8c7cc7c00e6bea0c$var$setSecret;
  */ function $8c7cc7c00e6bea0c$var$addPath(inputPath) {
     const filePath = process.env['GITHUB_PATH'] || '';
     if (filePath) $24012dd272ea9b9a$exports.issueCommand('PATH', inputPath);
-    else $3ecfdf502cef912d$exports.issueCommand('add-path', {
-    }, inputPath);
+    else $3ecfdf502cef912d$exports.issueCommand('add-path', {}, inputPath);
     process.env['PATH'] = `${inputPath}${$8c7cc7c00e6bea0c$var$path.delimiter}${process.env['PATH']}`;
 }
 $8c7cc7c00e6bea0c$exports.addPath = $8c7cc7c00e6bea0c$var$addPath;
@@ -3049,16 +3003,14 @@ $8c7cc7c00e6bea0c$exports.isDebug = $8c7cc7c00e6bea0c$var$isDebug;
  * Writes debug message to user log
  * @param message debug message
  */ function $8c7cc7c00e6bea0c$var$debug(message) {
-    $3ecfdf502cef912d$exports.issueCommand('debug', {
-    }, message);
+    $3ecfdf502cef912d$exports.issueCommand('debug', {}, message);
 }
 $8c7cc7c00e6bea0c$exports.debug = $8c7cc7c00e6bea0c$var$debug;
 /**
  * Adds an error issue
  * @param message error issue message. Errors will be converted to string via toString()
  * @param properties optional properties to add to the annotation.
- */ function $8c7cc7c00e6bea0c$var$error(message, properties = {
-}) {
+ */ function $8c7cc7c00e6bea0c$var$error(message, properties = {}) {
     $3ecfdf502cef912d$exports.issueCommand('error', $8edc3b90e976de31$exports.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 $8c7cc7c00e6bea0c$exports.error = $8c7cc7c00e6bea0c$var$error;
@@ -3066,8 +3018,7 @@ $8c7cc7c00e6bea0c$exports.error = $8c7cc7c00e6bea0c$var$error;
  * Adds a warning issue
  * @param message warning issue message. Errors will be converted to string via toString()
  * @param properties optional properties to add to the annotation.
- */ function $8c7cc7c00e6bea0c$var$warning(message, properties = {
-}) {
+ */ function $8c7cc7c00e6bea0c$var$warning(message, properties = {}) {
     $3ecfdf502cef912d$exports.issueCommand('warning', $8edc3b90e976de31$exports.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 $8c7cc7c00e6bea0c$exports.warning = $8c7cc7c00e6bea0c$var$warning;
@@ -3075,8 +3026,7 @@ $8c7cc7c00e6bea0c$exports.warning = $8c7cc7c00e6bea0c$var$warning;
  * Adds a notice issue
  * @param message notice issue message. Errors will be converted to string via toString()
  * @param properties optional properties to add to the annotation.
- */ function $8c7cc7c00e6bea0c$var$notice(message, properties = {
-}) {
+ */ function $8c7cc7c00e6bea0c$var$notice(message, properties = {}) {
     $3ecfdf502cef912d$exports.issueCommand('notice', $8edc3b90e976de31$exports.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 $8c7cc7c00e6bea0c$exports.notice = $8c7cc7c00e6bea0c$var$notice;
@@ -3179,8 +3129,7 @@ var $b2ffea015edc5d5f$var$__setModuleDefault = $b2ffea015edc5d5f$exports && $b2f
 });
 var $b2ffea015edc5d5f$var$__importStar = $b2ffea015edc5d5f$exports && $b2ffea015edc5d5f$exports.__importStar || function(mod) {
     if (mod && mod.__esModule) return mod;
-    var result = {
-    };
+    var result = {};
     if (mod != null) {
         for(var k in mod)if (k !== "default" && Object.hasOwnProperty.call(mod, k)) $b2ffea015edc5d5f$var$__createBinding(result, mod, k);
     }
@@ -3217,8 +3166,7 @@ var $34a39b9cfdd3c6a2$var$__setModuleDefault = $34a39b9cfdd3c6a2$exports && $34a
 });
 var $34a39b9cfdd3c6a2$var$__importStar = $34a39b9cfdd3c6a2$exports && $34a39b9cfdd3c6a2$exports.__importStar || function(mod) {
     if (mod && mod.__esModule) return mod;
-    var result = {
-    };
+    var result = {};
     if (mod != null) {
         for(var k in mod)if (k !== "default" && Object.hasOwnProperty.call(mod, k)) $34a39b9cfdd3c6a2$var$__createBinding(result, mod, k);
     }
@@ -3245,8 +3193,7 @@ var $fae842d03e907b82$exports = {};
 $fae842d03e907b82$exports = $fae842d03e907b82$var$register;
 function $fae842d03e907b82$var$register(state, name1, method1, options) {
     if (typeof method1 !== "function") throw new Error("method for before hook must be a function");
-    if (!options) options = {
-    };
+    if (!options) options = {};
     if (Array.isArray(name1)) return name1.reverse().reduce(function(callback, name) {
         return $fae842d03e907b82$var$register.bind(null, state, name, callback, options);
     }, method1)();
@@ -3334,8 +3281,7 @@ function $0a93a511d39a81c4$var$bindApi(hook, state, name) {
 function $0a93a511d39a81c4$var$HookSingular() {
     var singularHookName = 'h';
     var singularHookState = {
-        registry: {
-        }
+        registry: {}
     };
     var singularHook = $fae842d03e907b82$exports.bind(null, singularHookState, singularHookName);
     $0a93a511d39a81c4$var$bindApi(singularHook, singularHookState, singularHookName);
@@ -3343,8 +3289,7 @@ function $0a93a511d39a81c4$var$HookSingular() {
 }
 function $0a93a511d39a81c4$var$HookCollection() {
     var state = {
-        registry: {
-        }
+        registry: {}
     };
     var hook = $fae842d03e907b82$exports.bind(null, state);
     $0a93a511d39a81c4$var$bindApi(hook, state);
@@ -3393,17 +3338,14 @@ function $b293229275f92b63$export$53b83ca8eaab0383(o) {
 
 
 function $f9329cf9adbb1373$var$lowercaseKeys(object) {
-    if (!object) return {
-    };
+    if (!object) return {};
     return Object.keys(object).reduce((newObj, key)=>{
         newObj[key.toLowerCase()] = object[key];
         return newObj;
-    }, {
-    });
+    }, {});
 }
 function $f9329cf9adbb1373$var$mergeDeep(defaults, options) {
-    const result = Object.assign({
-    }, defaults);
+    const result = Object.assign({}, defaults);
     Object.keys(options).forEach((key)=>{
         if ($b293229275f92b63$export$53b83ca8eaab0383(options[key])) {
             if (!(key in defaults)) Object.assign(result, {
@@ -3429,15 +3371,13 @@ function $f9329cf9adbb1373$var$merge(defaults, route, options) {
         } : {
             url: method
         }, options);
-    } else options = Object.assign({
-    }, route);
+    } else options = Object.assign({}, route);
     // lowercase header names before merging with defaults to avoid duplicates
     options.headers = $f9329cf9adbb1373$var$lowercaseKeys(options.headers);
     // remove properties with undefined values before merging
     $f9329cf9adbb1373$var$removeUndefinedProperties(options);
     $f9329cf9adbb1373$var$removeUndefinedProperties(options.headers);
-    const mergedOptions = $f9329cf9adbb1373$var$mergeDeep(defaults || {
-    }, options);
+    const mergedOptions = $f9329cf9adbb1373$var$mergeDeep(defaults || {}, options);
     // mediaType.previews arrays are merged, instead of overwritten
     if (defaults && defaults.mediaType.previews.length) mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)
     ).concat(mergedOptions.mediaType.previews);
@@ -3469,8 +3409,7 @@ function $f9329cf9adbb1373$var$omit(object, keysToOmit) {
     ).reduce((obj, key)=>{
         obj[key] = object[key];
         return obj;
-    }, {
-    });
+    }, {});
 }
 // Based on https://github.com/bramstein/url-template, licensed under BSD
 // TODO: create separate package.
@@ -3596,8 +3535,7 @@ function $f9329cf9adbb1373$var$parse(options) {
     let method = options.method.toUpperCase();
     // replace :varname with {varname} to make it RFC 6570 compatible
     let url = (options.url || "/").replace(/:([a-z]\w+)/g, "{$1}");
-    let headers = Object.assign({
-    }, options.headers);
+    let headers = Object.assign({}, options.headers);
     let body;
     let parameters = $f9329cf9adbb1373$var$omit(options, [
         "method",
@@ -3784,8 +3722,7 @@ class $8dafdd0617a538ba$var$Blob {
     }
     stream() {
         const readable = new $8dafdd0617a538ba$var$Readable();
-        readable._read = function() {
-        };
+        readable._read = function() {};
         readable.push(this[$8dafdd0617a538ba$var$BUFFER]);
         readable.push(null);
         return readable;
@@ -3858,8 +3795,7 @@ let $8dafdd0617a538ba$var$convert;
 
 try {
     $8dafdd0617a538ba$var$convert = $8dafdd0617a538ba$import$d8738670c721d955$9c68d69a4c5bbcf9;
-} catch (e) {
-}
+} catch (e) {}
 const $8dafdd0617a538ba$var$INTERNALS = Symbol('Body internals');
 // fix an issue where "PassThrough" isn't a named export for node <10
 const $8dafdd0617a538ba$var$PassThrough = ($parcel$interopDefault($3B1P3$stream)).PassThrough;
@@ -3873,8 +3809,7 @@ const $8dafdd0617a538ba$var$PassThrough = ($parcel$interopDefault($3B1P3$stream)
  * @return  Void
  */ function $8dafdd0617a538ba$var$Body(body) {
     var _this = this;
-    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-    }, _ref$size = _ref.size;
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}, _ref$size = _ref.size;
     let size = _ref$size === undefined ? 0 : _ref$size;
     var _ref$timeout = _ref.timeout;
     let timeout = _ref$timeout === undefined ? 0 : _ref$timeout;
@@ -4542,8 +4477,7 @@ const $8dafdd0617a538ba$var$STATUS_CODES = ($parcel$interopDefault($3B1P3$http))
  */ class $8dafdd0617a538ba$export$9f633d56d7ec90d3 {
     constructor(){
         let body = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        let opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-        };
+        let opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         $8dafdd0617a538ba$var$Body.call(this, body, opts);
         const status = opts.status || 200;
         const headers = new $8dafdd0617a538ba$export$79b704688b15c0f4(opts.headers);
@@ -4664,8 +4598,7 @@ function $8dafdd0617a538ba$var$isAbortSignal(signal) {
  * @return  Void
  */ class $8dafdd0617a538ba$export$7fa6c5b6f8193917 {
     constructor(input){
-        let init = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-        };
+        let init = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         let parsedURL;
         // normalize input
         if (!$8dafdd0617a538ba$var$isRequest(input)) {
@@ -4675,8 +4608,7 @@ function $8dafdd0617a538ba$var$isAbortSignal(signal) {
             parsedURL = $8dafdd0617a538ba$var$parseURL(input.href);
             else // coerce input to a string before attempting to parse
             parsedURL = $8dafdd0617a538ba$var$parseURL(`${input}`);
-            input = {
-            };
+            input = {};
         } else parsedURL = $8dafdd0617a538ba$var$parseURL(input.url);
         let method = init.method || input.method || 'GET';
         method = method.toUpperCase();
@@ -4686,8 +4618,7 @@ function $8dafdd0617a538ba$var$isAbortSignal(signal) {
             timeout: init.timeout || input.timeout || 0,
             size: init.size || input.size || 0
         });
-        const headers = new $8dafdd0617a538ba$export$79b704688b15c0f4(init.headers || input.headers || {
-        });
+        const headers = new $8dafdd0617a538ba$export$79b704688b15c0f4(init.headers || input.headers || {});
         if (inputBody != null && !headers.has('Content-Type')) {
             const contentType = $8dafdd0617a538ba$var$extractContentType(inputBody);
             if (contentType) headers.append('Content-Type', contentType);
@@ -4789,8 +4720,7 @@ Object.defineProperties($8dafdd0617a538ba$export$7fa6c5b6f8193917.prototype, {
     if (!headers.has('Connection') && !agent) headers.set('Connection', 'close');
     // HTTP-network fetch step 4.2
     // chunked encoding is handled by Node.js
-    return Object.assign({
-    }, parsedURL, {
+    return Object.assign({}, parsedURL, {
         method: request.method,
         headers: $8dafdd0617a538ba$var$exportNodeCompatibleHeaders(headers),
         agent: agent
@@ -5067,6 +4997,7 @@ function $6cc7b8104a34f7f8$var$wrappy(fn, cb1) {
     Object.keys(fn).forEach(function(k) {
         wrapper[k] = fn[k];
     });
+    return wrapper;
     function wrapper() {
         var args = new Array(arguments.length);
         for(var i = 0; i < args.length; i++){
@@ -5081,7 +5012,6 @@ function $6cc7b8104a34f7f8$var$wrappy(fn, cb1) {
         }
         return ret;
     }
-    return wrapper;
 }
 
 
@@ -5143,10 +5073,8 @@ const $e33030079bf8c831$var$logOnceHeaders = (/*@__PURE__*/$parcel$interopDefaul
             headers = options.response.headers;
         }
         // redact request credentials without mutating original request options
-        const requestCopy = Object.assign({
-        }, options.request);
-        if (options.request.headers.authorization) requestCopy.headers = Object.assign({
-        }, options.request.headers, {
+        const requestCopy = Object.assign({}, options.request);
+        if (options.request.headers.authorization) requestCopy.headers = Object.assign({}, options.request.headers, {
             authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
         });
         requestCopy.url = requestCopy.url// client_id & client_secret can be passed as URL query parameters to increase rate limit
@@ -5165,8 +5093,7 @@ const $e33030079bf8c831$var$logOnceHeaders = (/*@__PURE__*/$parcel$interopDefaul
         Object.defineProperty(this, "headers", {
             get () {
                 $e33030079bf8c831$var$logOnceHeaders(new $f21435d3efab1819$export$d5e40bdbb672dd52("[@octokit/request-error] `error.headers` is deprecated, use `error.response.headers`."));
-                return headers || {
-                };
+                return headers || {};
             }
         });
     }
@@ -5180,8 +5107,7 @@ function $0833ed85faf7b1d6$var$getBufferResponse(response) {
 function $0833ed85faf7b1d6$var$fetchWrapper(requestOptions) {
     const log = requestOptions.request && requestOptions.request.log ? requestOptions.request.log : console;
     if ($b293229275f92b63$export$53b83ca8eaab0383(requestOptions.body) || Array.isArray(requestOptions.body)) requestOptions.body = JSON.stringify(requestOptions.body);
-    let headers = {
-    };
+    let headers = {};
     let status;
     let url;
     const fetch = requestOptions.request && requestOptions.request.fetch || $8dafdd0617a538ba$export$2e2bcd8739ae039;
@@ -5346,20 +5272,17 @@ function $60ddf0afc740d123$var$graphql(request, query, options) {
             result[key] = parsedOptions[key];
             return result;
         }
-        if (!result.variables) result.variables = {
-        };
+        if (!result.variables) result.variables = {};
         result.variables[key] = parsedOptions[key];
         return result;
-    }, {
-    });
+    }, {});
     // workaround for GitHub Enterprise baseUrl set with /api/v3 suffix
     // https://github.com/octokit/auth-app.js/issues/111#issuecomment-657610451
     const baseUrl = parsedOptions.baseUrl || request.endpoint.DEFAULTS.baseUrl;
     if ($60ddf0afc740d123$var$GHES_V3_SUFFIX_REGEX.test(baseUrl)) requestOptions.url = baseUrl.replace($60ddf0afc740d123$var$GHES_V3_SUFFIX_REGEX, "/api/graphql");
     return request(requestOptions).then((response)=>{
         if (response.data.errors) {
-            const headers = {
-            };
+            const headers = {};
             for (const key of Object.keys(response.headers))headers[key] = response.headers[key];
             throw new $60ddf0afc740d123$export$d19deff0ec585725(requestOptions, headers, response.data);
         }
@@ -5430,15 +5353,12 @@ const $ddbd57b9483ca347$export$acf0006d85231cb6 = function $ddbd57b9483ca347$exp
 
 const $54b3cc8c9f7e5ec5$var$VERSION = "3.5.1";
 class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
-    constructor(options = {
-    }){
+    constructor(options = {}){
         const hook = new $0a93a511d39a81c4$exports.Collection();
         const requestDefaults = {
             baseUrl: $0833ed85faf7b1d6$export$b5fe3f66a567bec0.endpoint.DEFAULTS.baseUrl,
-            headers: {
-            },
-            request: Object.assign({
-            }, options.request, {
+            headers: {},
+            request: Object.assign({}, options.request, {
                 // @ts-ignore internal usage only, no need to type
                 hook: hook.bind(null, "request")
             }),
@@ -5458,10 +5378,8 @@ class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
         this.request = $0833ed85faf7b1d6$export$b5fe3f66a567bec0.defaults(requestDefaults);
         this.graphql = $60ddf0afc740d123$export$9eb07bf38af78249(this.request).defaults(requestDefaults);
         this.log = Object.assign({
-            debug: ()=>{
-            },
-            info: ()=>{
-            },
+            debug: ()=>{},
+            info: ()=>{},
             warn: console.warn.bind(console),
             error: console.error.bind(console)
         }, options.log);
@@ -5511,14 +5429,12 @@ class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
     static defaults(defaults) {
         const OctokitWithDefaults = class extends this {
             constructor(...args){
-                const options = args[0] || {
-                };
+                const options = args[0] || {};
                 if (typeof defaults === "function") {
                     super(defaults(options));
                     return;
                 }
-                super(Object.assign({
-                }, defaults, options, options.userAgent && defaults.userAgent ? {
+                super(Object.assign({}, defaults, options, options.userAgent && defaults.userAgent ? {
                     userAgent: `${options.userAgent} ${defaults.userAgent}`
                 } : null));
             }
@@ -5661,8 +5577,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         getRepoPermissions: [
             "GET /repos/{owner}/{repo}/actions/permissions",
-            {
-            },
+            {},
             {
                 renamed: [
                     "actions",
@@ -5871,8 +5786,7 @@ const $50c44f055a02491e$var$Endpoints = {
     apps: {
         addRepoToInstallation: [
             "PUT /user/installations/{installation_id}/repositories/{repository_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "apps",
@@ -5989,8 +5903,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         removeRepoFromInstallation: [
             "DELETE /user/installations/{installation_id}/repositories/{repository_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "apps",
@@ -6084,8 +5997,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         getAlert: [
             "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
-            {
-            },
+            {},
             {
                 renamedParameters: {
                     alert_id: "alert_number"
@@ -6106,8 +6018,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listAlertsInstances: [
             "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances",
-            {
-            },
+            {},
             {
                 renamed: [
                     "codeScanning",
@@ -6287,8 +6198,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         getRestrictionsForYourPublicRepos: [
             "GET /user/interaction-limits",
-            {
-            },
+            {},
             {
                 renamed: [
                     "interactions",
@@ -6307,8 +6217,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         removeRestrictionsForYourPublicRepos: [
             "DELETE /user/interaction-limits",
-            {
-            },
+            {},
             {
                 renamed: [
                     "interactions",
@@ -6327,8 +6236,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         setRestrictionsForYourPublicRepos: [
             "PUT /user/interaction-limits",
-            {
-            },
+            {},
             {
                 renamed: [
                     "interactions",
@@ -6539,8 +6447,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listReposForUser: [
             "GET /user/migrations/{migration_id}/repositories",
-            {
-            },
+            {},
             {
                 renamed: [
                     "migrations",
@@ -6722,8 +6629,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         getAllPackageVersionsForAPackageOwnedByAnOrg: [
             "GET /orgs/{org}/packages/{package_type}/{package_name}/versions",
-            {
-            },
+            {},
             {
                 renamed: [
                     "packages",
@@ -6733,8 +6639,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         getAllPackageVersionsForAPackageOwnedByTheAuthenticatedUser: [
             "GET /user/packages/{package_type}/{package_name}/versions",
-            {
-            },
+            {},
             {
                 renamed: [
                     "packages",
@@ -7024,8 +6929,7 @@ const $50c44f055a02491e$var$Endpoints = {
     repos: {
         acceptInvitation: [
             "PATCH /user/repository_invitations/{invitation_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "repos",
@@ -7038,8 +6942,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         addAppAccessRestrictions: [
             "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
-            {
-            },
+            {},
             {
                 mapToData: "apps"
             }, 
@@ -7049,24 +6952,21 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         addStatusCheckContexts: [
             "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
-            {
-            },
+            {},
             {
                 mapToData: "contexts"
             }, 
         ],
         addTeamAccessRestrictions: [
             "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
-            {
-            },
+            {},
             {
                 mapToData: "teams"
             }, 
         ],
         addUserAccessRestrictions: [
             "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
-            {
-            },
+            {},
             {
                 mapToData: "users"
             }, 
@@ -7136,8 +7036,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         declineInvitation: [
             "DELETE /user/repository_invitations/{invitation_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "repos",
@@ -7210,8 +7109,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         downloadArchive: [
             "GET /repos/{owner}/{repo}/zipball/{ref}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "repos",
@@ -7483,8 +7381,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         removeAppAccessRestrictions: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
-            {
-            },
+            {},
             {
                 mapToData: "apps"
             }, 
@@ -7494,8 +7391,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         removeStatusCheckContexts: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
-            {
-            },
+            {},
             {
                 mapToData: "contexts"
             }, 
@@ -7505,16 +7401,14 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         removeTeamAccessRestrictions: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
-            {
-            },
+            {},
             {
                 mapToData: "teams"
             }, 
         ],
         removeUserAccessRestrictions: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
-            {
-            },
+            {},
             {
                 mapToData: "users"
             }, 
@@ -7540,32 +7434,28 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         setAppAccessRestrictions: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
-            {
-            },
+            {},
             {
                 mapToData: "apps"
             }, 
         ],
         setStatusCheckContexts: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
-            {
-            },
+            {},
             {
                 mapToData: "contexts"
             }, 
         ],
         setTeamAccessRestrictions: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
-            {
-            },
+            {},
             {
                 mapToData: "teams"
             }, 
         ],
         setUserAccessRestrictions: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
-            {
-            },
+            {},
             {
                 mapToData: "users"
             }, 
@@ -7602,8 +7492,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         updateStatusCheckPotection: [
             "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
-            {
-            },
+            {},
             {
                 renamed: [
                     "repos",
@@ -7766,8 +7655,7 @@ const $50c44f055a02491e$var$Endpoints = {
     users: {
         addEmailForAuthenticated: [
             "POST /user/emails",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7792,8 +7680,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         createGpgKeyForAuthenticated: [
             "POST /user/gpg_keys",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7806,8 +7693,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         createPublicSshKeyForAuthenticated: [
             "POST /user/keys",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7820,8 +7706,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         deleteEmailForAuthenticated: [
             "DELETE /user/emails",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7834,8 +7719,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         deleteGpgKeyForAuthenticated: [
             "DELETE /user/gpg_keys/{gpg_key_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7848,8 +7732,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         deletePublicSshKeyForAuthenticated: [
             "DELETE /user/keys/{key_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7874,8 +7757,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         getGpgKeyForAuthenticated: [
             "GET /user/gpg_keys/{gpg_key_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7888,8 +7770,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         getPublicSshKeyForAuthenticated: [
             "GET /user/keys/{key_id}",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7905,8 +7786,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listBlockedByAuthenticated: [
             "GET /user/blocks",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7919,8 +7799,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listEmailsForAuthenticated: [
             "GET /user/emails",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7933,8 +7812,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listFollowedByAuthenticated: [
             "GET /user/following",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7956,8 +7834,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listGpgKeysForAuthenticated: [
             "GET /user/gpg_keys",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7973,8 +7850,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listPublicEmailsForAuthenticated: [
             "GET /user/public_emails",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -7990,8 +7866,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listPublicSshKeysForAuthenticated: [
             "GET /user/keys",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -8004,8 +7879,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         setPrimaryEmailVisibilityForAuthenticated: [
             "PATCH /user/email/visibility",
-            {
-            },
+            {},
             {
                 renamed: [
                     "users",
@@ -8029,8 +7903,7 @@ const $50c44f055a02491e$var$Endpoints = {
 };
 const $50c44f055a02491e$var$VERSION = "5.13.0";
 function $50c44f055a02491e$var$endpointsToMethods(octokit, endpointsMap) {
-    const newMethods = {
-    };
+    const newMethods = {};
     for (const [scope, endpoints] of Object.entries(endpointsMap))for (const [methodName, endpoint] of Object.entries(endpoints)){
         const [route, defaults, decorations] = endpoint;
         const [method, url] = route.split(/ /);
@@ -8038,8 +7911,7 @@ function $50c44f055a02491e$var$endpointsToMethods(octokit, endpointsMap) {
             method: method,
             url: url
         }, defaults);
-        if (!newMethods[scope]) newMethods[scope] = {
-        };
+        if (!newMethods[scope]) newMethods[scope] = {};
         const scopeMethods = newMethods[scope];
         if (decorations) {
             scopeMethods[methodName] = $50c44f055a02491e$var$decorate(octokit, scope, methodName, endpointDefaults, decorations);
@@ -8056,8 +7928,7 @@ function $50c44f055a02491e$var$decorate(octokit, scope, methodName, defaults, de
         let options = requestWithDefaults.endpoint.merge(...args);
         // There are currently no other decorations than `.mapToData`
         if (decorations.mapToData) {
-            options = Object.assign({
-            }, options, {
+            options = Object.assign({}, options, {
                 data: options[decorations.mapToData],
                 [decorations.mapToData]: undefined
             });
@@ -8172,8 +8043,7 @@ function $db1342f2dd9071a2$var$iterator(octokit, route, parameters) {
                         return {
                             value: {
                                 status: 200,
-                                headers: {
-                                },
+                                headers: {},
                                 data: []
                             }
                         };
@@ -8436,9 +8306,7 @@ $34a39b9cfdd3c6a2$exports.GitHub = $54b3cc8c9f7e5ec5$export$d19f1ac68c042717.plu
  * @param     token    the repo PAT or GITHUB_TOKEN
  * @param     options  other options to set
  */ function $34a39b9cfdd3c6a2$var$getOctokitOptions(token, options) {
-    const opts = Object.assign({
-    }, options || {
-    }); // Shallow clone - don't mutate the object provided by the caller
+    const opts = Object.assign({}, options || {}); // Shallow clone - don't mutate the object provided by the caller
     // Auth
     const auth = $34a39b9cfdd3c6a2$var$Utils.getAuthString(token, opts);
     if (auth) opts.auth = auth;
