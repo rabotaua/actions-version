@@ -5100,7 +5100,7 @@ const $e33030079bf8c831$var$logOnceHeaders = (/*@__PURE__*/$parcel$interopDefaul
 }
 
 
-const $0833ed85faf7b1d6$var$VERSION = "5.6.2";
+const $0833ed85faf7b1d6$var$VERSION = "5.6.3";
 function $0833ed85faf7b1d6$var$getBufferResponse(response) {
     return response.arrayBuffer();
 }
@@ -5351,7 +5351,7 @@ const $ddbd57b9483ca347$export$acf0006d85231cb6 = function $ddbd57b9483ca347$exp
 };
 
 
-const $54b3cc8c9f7e5ec5$var$VERSION = "3.5.1";
+const $54b3cc8c9f7e5ec5$var$VERSION = "3.6.0";
 class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
     constructor(options = {}){
         const hook = new $0a93a511d39a81c4$exports.Collection();
