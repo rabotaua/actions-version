@@ -1182,17 +1182,17 @@ $8c4872c54f596414$var$conversions["USVString"] = function(V) {
     const U = [];
     for(let i = 0; i < n; ++i){
         const c = S.charCodeAt(i);
-        if (c < 55296 || c > 57343) U.push(String.fromCodePoint(c));
-        else if (56320 <= c && c <= 57343) U.push(String.fromCodePoint(65533));
-        else if (i === n - 1) U.push(String.fromCodePoint(65533));
+        if (c < 0xD800 || c > 0xDFFF) U.push(String.fromCodePoint(c));
+        else if (0xDC00 <= c && c <= 0xDFFF) U.push(String.fromCodePoint(0xFFFD));
+        else if (i === n - 1) U.push(String.fromCodePoint(0xFFFD));
         else {
             const d = S.charCodeAt(i + 1);
-            if (56320 <= d && d <= 57343) {
-                const a = c & 1023;
-                const b = d & 1023;
+            if (0xDC00 <= d && d <= 0xDFFF) {
+                const a = c & 0x3FF;
+                const b = d & 0x3FF;
                 U.push(String.fromCodePoint(65536 + 1024 * a + b));
                 ++i;
-            } else U.push(String.fromCodePoint(65533));
+            } else U.push(String.fromCodePoint(0xFFFD));
         }
     }
     return U.join('');
@@ -1422,16 +1422,16 @@ function $453d8174fe55ea3f$var$at(input, idx) {
     return isNaN(c) ? undefined : String.fromCodePoint(c);
 }
 function $453d8174fe55ea3f$var$isASCIIDigit(c) {
-    return c >= 48 && c <= 57;
+    return c >= 0x30 && c <= 0x39;
 }
 function $453d8174fe55ea3f$var$isASCIIAlpha(c) {
-    return c >= 65 && c <= 90 || c >= 97 && c <= 122;
+    return c >= 0x41 && c <= 0x5A || c >= 0x61 && c <= 0x7A;
 }
 function $453d8174fe55ea3f$var$isASCIIAlphanumeric(c) {
     return $453d8174fe55ea3f$var$isASCIIAlpha(c) || $453d8174fe55ea3f$var$isASCIIDigit(c);
 }
 function $453d8174fe55ea3f$var$isASCIIHex(c) {
-    return $453d8174fe55ea3f$var$isASCIIDigit(c) || c >= 65 && c <= 70 || c >= 97 && c <= 102;
+    return $453d8174fe55ea3f$var$isASCIIDigit(c) || c >= 0x41 && c <= 0x46 || c >= 0x61 && c <= 0x66;
 }
 function $453d8174fe55ea3f$var$isSingleDot(buffer) {
     return buffer === "." || buffer.toLowerCase() === "%2e";
@@ -1488,7 +1488,7 @@ function $453d8174fe55ea3f$var$utf8PercentDecode(str) {
     return new Buffer(output).toString();
 }
 function $453d8174fe55ea3f$var$isC0ControlPercentEncode(c) {
-    return c <= 31 || c > 126;
+    return c <= 0x1F || c > 0x7E;
 }
 const $453d8174fe55ea3f$var$extraPathPercentEncodeSet = new Set([
     32,
@@ -1606,7 +1606,7 @@ function $453d8174fe55ea3f$var$parseIPv6(input) {
         let value = 0;
         let length = 0;
         while(length < 4 && $453d8174fe55ea3f$var$isASCIIHex(input[pointer])){
-            value = value * 16 + parseInt($453d8174fe55ea3f$var$at(input, pointer), 16);
+            value = value * 0x10 + parseInt($453d8174fe55ea3f$var$at(input, pointer), 16);
             ++pointer;
             ++length;
         }
@@ -1630,7 +1630,7 @@ function $453d8174fe55ea3f$var$parseIPv6(input) {
                     if (ipv4Piece > 255) return $453d8174fe55ea3f$var$failure;
                     ++pointer;
                 }
-                address[pieceIndex] = address[pieceIndex] * 256 + ipv4Piece;
+                address[pieceIndex] = address[pieceIndex] * 0x100 + ipv4Piece;
                 ++numbersSeen;
                 if (numbersSeen === 2 || numbersSeen === 4) ++pieceIndex;
             }
@@ -2192,7 +2192,7 @@ $453d8174fe55ea3f$var$URLStateMachine.prototype["parse query"] = function parseQ
     if (isNaN(c) || !this.stateOverride && c === 35) {
         if (!$453d8174fe55ea3f$var$isSpecial(this.url) || this.url.scheme === "ws" || this.url.scheme === "wss") this.encodingOverride = "utf-8";
         const buffer = new Buffer(this.buffer); // TODO: Use encoding override instead
-        for(let i = 0; i < buffer.length; ++i)if (buffer[i] < 33 || buffer[i] > 126 || buffer[i] === 34 || buffer[i] === 35 || buffer[i] === 60 || buffer[i] === 62) this.url.query += $453d8174fe55ea3f$var$percentEncode(buffer[i]);
+        for(let i = 0; i < buffer.length; ++i)if (buffer[i] < 0x21 || buffer[i] > 0x7E || buffer[i] === 0x22 || buffer[i] === 0x23 || buffer[i] === 0x3C || buffer[i] === 0x3E) this.url.query += $453d8174fe55ea3f$var$percentEncode(buffer[i]);
         else this.url.query += String.fromCodePoint(buffer[i]);
         this.buffer = "";
         if (c === 35) {
@@ -2208,7 +2208,7 @@ $453d8174fe55ea3f$var$URLStateMachine.prototype["parse query"] = function parseQ
 };
 $453d8174fe55ea3f$var$URLStateMachine.prototype["parse fragment"] = function parseFragment(c) {
     if (isNaN(c)) ;
-    else if (c === 0) this.parseError = true;
+    else if (c === 0x0) this.parseError = true;
     else {
         // TODO: If c is not a URL code point and not "%", parse error.
         if (c === 37 && (!$453d8174fe55ea3f$var$isASCIIHex(this.input[this.pointer + 1]) || !$453d8174fe55ea3f$var$isASCIIHex(this.input[this.pointer + 2]))) this.parseError = true;
@@ -3103,6 +3103,307 @@ function $8c7cc7c00e6bea0c$var$getIDToken(aud) {
     });
 }
 $8c7cc7c00e6bea0c$exports.getIDToken = $8c7cc7c00e6bea0c$var$getIDToken;
+var $29e544edc79548fd$exports = {};
+"use strict";
+var $29e544edc79548fd$var$__awaiter = $29e544edc79548fd$exports && $29e544edc79548fd$exports.__awaiter || function(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve) {
+            resolve(value);
+        });
+    }
+    return new (P || (P = Promise))(function(resolve, reject) {
+        function fulfilled(value) {
+            try {
+                step(generator.next(value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function rejected(value) {
+            try {
+                step(generator["throw"](value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function step(result) {
+            result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty($29e544edc79548fd$exports, "__esModule", {
+    value: true
+});
+$29e544edc79548fd$exports.markdownSummary = $29e544edc79548fd$exports.SUMMARY_DOCS_URL = $29e544edc79548fd$exports.SUMMARY_ENV_VAR = void 0;
+
+
+const { access: $29e544edc79548fd$var$access , appendFile: $29e544edc79548fd$var$appendFile , writeFile: $29e544edc79548fd$var$writeFile  } = $3B1P3$fs.promises;
+$29e544edc79548fd$exports.SUMMARY_ENV_VAR = 'GITHUB_STEP_SUMMARY';
+$29e544edc79548fd$exports.SUMMARY_DOCS_URL = 'https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions#adding-a-markdown-summary';
+class $29e544edc79548fd$var$MarkdownSummary {
+    constructor(){
+        this._buffer = '';
+    }
+    /**
+     * Finds the summary file path from the environment, rejects if env var is not found or file does not exist
+     * Also checks r/w permissions.
+     *
+     * @returns step summary file path
+     */ filePath() {
+        return $29e544edc79548fd$var$__awaiter(this, void 0, void 0, function*() {
+            if (this._filePath) return this._filePath;
+            const pathFromEnv = process.env[$29e544edc79548fd$exports.SUMMARY_ENV_VAR];
+            if (!pathFromEnv) throw new Error(`Unable to find environment variable for $${$29e544edc79548fd$exports.SUMMARY_ENV_VAR}. Check if your runtime environment supports markdown summaries.`);
+            try {
+                yield $29e544edc79548fd$var$access(pathFromEnv, $3B1P3$fs.constants.R_OK | $3B1P3$fs.constants.W_OK);
+            } catch (_a) {
+                throw new Error(`Unable to access summary file: '${pathFromEnv}'. Check if the file has correct read/write permissions.`);
+            }
+            this._filePath = pathFromEnv;
+            return this._filePath;
+        });
+    }
+    /**
+     * Wraps content in an HTML tag, adding any HTML attributes
+     *
+     * @param {string} tag HTML tag to wrap
+     * @param {string | null} content content within the tag
+     * @param {[attribute: string]: string} attrs key-value list of HTML attributes to add
+     *
+     * @returns {string} content wrapped in HTML element
+     */ wrap(tag, content, attrs = {}) {
+        const htmlAttrs = Object.entries(attrs).map(([key, value])=>` ${key}="${value}"`
+        ).join('');
+        if (!content) return `<${tag}${htmlAttrs}>`;
+        return `<${tag}${htmlAttrs}>${content}</${tag}>`;
+    }
+    /**
+     * Writes text in the buffer to the summary buffer file and empties buffer. Will append by default.
+     *
+     * @param {SummaryWriteOptions} [options] (optional) options for write operation
+     *
+     * @returns {Promise<MarkdownSummary>} markdown summary instance
+     */ write(options) {
+        return $29e544edc79548fd$var$__awaiter(this, void 0, void 0, function*() {
+            const overwrite = !!(options === null || options === void 0 ? void 0 : options.overwrite);
+            const filePath = yield this.filePath();
+            const writeFunc = overwrite ? $29e544edc79548fd$var$writeFile : $29e544edc79548fd$var$appendFile;
+            yield writeFunc(filePath, this._buffer, {
+                encoding: 'utf8'
+            });
+            return this.emptyBuffer();
+        });
+    }
+    /**
+     * Clears the summary buffer and wipes the summary file
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ clear() {
+        return $29e544edc79548fd$var$__awaiter(this, void 0, void 0, function*() {
+            return this.emptyBuffer().write({
+                overwrite: true
+            });
+        });
+    }
+    /**
+     * Returns the current summary buffer as a string
+     *
+     * @returns {string} string of summary buffer
+     */ stringify() {
+        return this._buffer;
+    }
+    /**
+     * If the summary buffer is empty
+     *
+     * @returns {boolen} true if the buffer is empty
+     */ isEmptyBuffer() {
+        return this._buffer.length === 0;
+    }
+    /**
+     * Resets the summary buffer without writing to summary file
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ emptyBuffer() {
+        this._buffer = '';
+        return this;
+    }
+    /**
+     * Adds raw text to the summary buffer
+     *
+     * @param {string} text content to add
+     * @param {boolean} [addEOL=false] (optional) append an EOL to the raw text (default: false)
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addRaw(text, addEOL = false) {
+        this._buffer += text;
+        return addEOL ? this.addEOL() : this;
+    }
+    /**
+     * Adds the operating system-specific end-of-line marker to the buffer
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addEOL() {
+        return this.addRaw($3B1P3$os.EOL);
+    }
+    /**
+     * Adds an HTML codeblock to the summary buffer
+     *
+     * @param {string} code content to render within fenced code block
+     * @param {string} lang (optional) language to syntax highlight code
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addCodeBlock(code, lang) {
+        const attrs = Object.assign({}, lang && {
+            lang: lang
+        });
+        const element = this.wrap('pre', this.wrap('code', code), attrs);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML list to the summary buffer
+     *
+     * @param {string[]} items list of items to render
+     * @param {boolean} [ordered=false] (optional) if the rendered list should be ordered or not (default: false)
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addList(items, ordered = false) {
+        const tag = ordered ? 'ol' : 'ul';
+        const listItems = items.map((item)=>this.wrap('li', item)
+        ).join('');
+        const element = this.wrap(tag, listItems);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML table to the summary buffer
+     *
+     * @param {SummaryTableCell[]} rows table rows
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addTable(rows) {
+        const tableBody = rows.map((row)=>{
+            const cells = row.map((cell)=>{
+                if (typeof cell === 'string') return this.wrap('td', cell);
+                const { header: header , data: data , colspan: colspan , rowspan: rowspan  } = cell;
+                const tag = header ? 'th' : 'td';
+                const attrs = Object.assign(Object.assign({}, colspan && {
+                    colspan: colspan
+                }), rowspan && {
+                    rowspan: rowspan
+                });
+                return this.wrap(tag, data, attrs);
+            }).join('');
+            return this.wrap('tr', cells);
+        }).join('');
+        const element = this.wrap('table', tableBody);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds a collapsable HTML details element to the summary buffer
+     *
+     * @param {string} label text for the closed state
+     * @param {string} content collapsable content
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addDetails(label, content) {
+        const element = this.wrap('details', this.wrap('summary', label) + content);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML image tag to the summary buffer
+     *
+     * @param {string} src path to the image you to embed
+     * @param {string} alt text description of the image
+     * @param {SummaryImageOptions} options (optional) addition image attributes
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addImage(src, alt, options) {
+        const { width: width , height: height  } = options || {};
+        const attrs = Object.assign(Object.assign({}, width && {
+            width: width
+        }), height && {
+            height: height
+        });
+        const element = this.wrap('img', null, Object.assign({
+            src: src,
+            alt: alt
+        }, attrs));
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML section heading element
+     *
+     * @param {string} text heading text
+     * @param {number | string} [level=1] (optional) the heading level, default: 1
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addHeading(text, level) {
+        const tag = `h${level}`;
+        const allowedTag = [
+            'h1',
+            'h2',
+            'h3',
+            'h4',
+            'h5',
+            'h6'
+        ].includes(tag) ? tag : 'h1';
+        const element = this.wrap(allowedTag, text);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML thematic break (<hr>) to the summary buffer
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addSeparator() {
+        const element = this.wrap('hr', null);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML line break (<br>) to the summary buffer
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addBreak() {
+        const element = this.wrap('br', null);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML blockquote to the summary buffer
+     *
+     * @param {string} text quote text
+     * @param {string} cite (optional) citation url
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addQuote(text, cite) {
+        const attrs = Object.assign({}, cite && {
+            cite: cite
+        });
+        const element = this.wrap('blockquote', text, attrs);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML anchor tag to the summary buffer
+     *
+     * @param {string} text link text/content
+     * @param {string} href hyperlink
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */ addLink(text, href) {
+        const element = this.wrap('a', text, {
+            href: href
+        });
+        return this.addRaw(element).addEOL();
+    }
+}
+// singleton export
+$29e544edc79548fd$exports.markdownSummary = new $29e544edc79548fd$var$MarkdownSummary();
+
+
+Object.defineProperty($8c7cc7c00e6bea0c$exports, "markdownSummary", {
+    enumerable: true,
+    get: function() {
+        return $29e544edc79548fd$exports.markdownSummary;
+    }
+});
 
 
 var $b2ffea015edc5d5f$exports = {};
@@ -4940,7 +5241,7 @@ const $8dafdd0617a538ba$var$isDomainOrSubdomain = function isDomainOrSubdomain(d
                 const raw = res.pipe(new $8dafdd0617a538ba$var$PassThrough$1());
                 raw.once('data', function(chunk) {
                     // see http://stackoverflow.com/questions/37519828
-                    if ((chunk[0] & 15) === 8) body = body.pipe(($parcel$interopDefault($3B1P3$zlib)).createInflate());
+                    if ((chunk[0] & 0x0F) === 0x08) body = body.pipe(($parcel$interopDefault($3B1P3$zlib)).createInflate());
                     else body = body.pipe(($parcel$interopDefault($3B1P3$zlib)).createInflateRaw());
                     response = new $8dafdd0617a538ba$export$9f633d56d7ec90d3(body, response_options);
                     resolve(response);
