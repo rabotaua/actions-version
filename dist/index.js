@@ -3103,9 +3103,9 @@ function $8c7cc7c00e6bea0c$var$getIDToken(aud) {
     });
 }
 $8c7cc7c00e6bea0c$exports.getIDToken = $8c7cc7c00e6bea0c$var$getIDToken;
-var $29e544edc79548fd$exports = {};
+var $f22ad59e6c74d205$exports = {};
 "use strict";
-var $29e544edc79548fd$var$__awaiter = $29e544edc79548fd$exports && $29e544edc79548fd$exports.__awaiter || function(thisArg, _arguments, P, generator) {
+var $f22ad59e6c74d205$var$__awaiter = $f22ad59e6c74d205$exports && $f22ad59e6c74d205$exports.__awaiter || function(thisArg, _arguments, P, generator) {
     function adopt(value) {
         return value instanceof P ? value : new P(function(resolve) {
             resolve(value);
@@ -3132,16 +3132,16 @@ var $29e544edc79548fd$var$__awaiter = $29e544edc79548fd$exports && $29e544edc795
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty($29e544edc79548fd$exports, "__esModule", {
+Object.defineProperty($f22ad59e6c74d205$exports, "__esModule", {
     value: true
 });
-$29e544edc79548fd$exports.markdownSummary = $29e544edc79548fd$exports.SUMMARY_DOCS_URL = $29e544edc79548fd$exports.SUMMARY_ENV_VAR = void 0;
+$f22ad59e6c74d205$exports.summary = $f22ad59e6c74d205$exports.markdownSummary = $f22ad59e6c74d205$exports.SUMMARY_DOCS_URL = $f22ad59e6c74d205$exports.SUMMARY_ENV_VAR = void 0;
 
 
-const { access: $29e544edc79548fd$var$access , appendFile: $29e544edc79548fd$var$appendFile , writeFile: $29e544edc79548fd$var$writeFile  } = $3B1P3$fs.promises;
-$29e544edc79548fd$exports.SUMMARY_ENV_VAR = 'GITHUB_STEP_SUMMARY';
-$29e544edc79548fd$exports.SUMMARY_DOCS_URL = 'https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions#adding-a-markdown-summary';
-class $29e544edc79548fd$var$MarkdownSummary {
+const { access: $f22ad59e6c74d205$var$access , appendFile: $f22ad59e6c74d205$var$appendFile , writeFile: $f22ad59e6c74d205$var$writeFile  } = $3B1P3$fs.promises;
+$f22ad59e6c74d205$exports.SUMMARY_ENV_VAR = 'GITHUB_STEP_SUMMARY';
+$f22ad59e6c74d205$exports.SUMMARY_DOCS_URL = 'https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary';
+class $f22ad59e6c74d205$var$Summary {
     constructor(){
         this._buffer = '';
     }
@@ -3151,12 +3151,12 @@ class $29e544edc79548fd$var$MarkdownSummary {
      *
      * @returns step summary file path
      */ filePath() {
-        return $29e544edc79548fd$var$__awaiter(this, void 0, void 0, function*() {
+        return $f22ad59e6c74d205$var$__awaiter(this, void 0, void 0, function*() {
             if (this._filePath) return this._filePath;
-            const pathFromEnv = process.env[$29e544edc79548fd$exports.SUMMARY_ENV_VAR];
-            if (!pathFromEnv) throw new Error(`Unable to find environment variable for $${$29e544edc79548fd$exports.SUMMARY_ENV_VAR}. Check if your runtime environment supports markdown summaries.`);
+            const pathFromEnv = process.env[$f22ad59e6c74d205$exports.SUMMARY_ENV_VAR];
+            if (!pathFromEnv) throw new Error(`Unable to find environment variable for $${$f22ad59e6c74d205$exports.SUMMARY_ENV_VAR}. Check if your runtime environment supports job summaries.`);
             try {
-                yield $29e544edc79548fd$var$access(pathFromEnv, $3B1P3$fs.constants.R_OK | $3B1P3$fs.constants.W_OK);
+                yield $f22ad59e6c74d205$var$access(pathFromEnv, $3B1P3$fs.constants.R_OK | $3B1P3$fs.constants.W_OK);
             } catch (_a) {
                 throw new Error(`Unable to access summary file: '${pathFromEnv}'. Check if the file has correct read/write permissions.`);
             }
@@ -3183,12 +3183,12 @@ class $29e544edc79548fd$var$MarkdownSummary {
      *
      * @param {SummaryWriteOptions} [options] (optional) options for write operation
      *
-     * @returns {Promise<MarkdownSummary>} markdown summary instance
+     * @returns {Promise<Summary>} summary instance
      */ write(options) {
-        return $29e544edc79548fd$var$__awaiter(this, void 0, void 0, function*() {
+        return $f22ad59e6c74d205$var$__awaiter(this, void 0, void 0, function*() {
             const overwrite = !!(options === null || options === void 0 ? void 0 : options.overwrite);
             const filePath = yield this.filePath();
-            const writeFunc = overwrite ? $29e544edc79548fd$var$writeFile : $29e544edc79548fd$var$appendFile;
+            const writeFunc = overwrite ? $f22ad59e6c74d205$var$writeFile : $f22ad59e6c74d205$var$appendFile;
             yield writeFunc(filePath, this._buffer, {
                 encoding: 'utf8'
             });
@@ -3198,9 +3198,9 @@ class $29e544edc79548fd$var$MarkdownSummary {
     /**
      * Clears the summary buffer and wipes the summary file
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ clear() {
-        return $29e544edc79548fd$var$__awaiter(this, void 0, void 0, function*() {
+        return $f22ad59e6c74d205$var$__awaiter(this, void 0, void 0, function*() {
             return this.emptyBuffer().write({
                 overwrite: true
             });
@@ -3223,7 +3223,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
     /**
      * Resets the summary buffer without writing to summary file
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ emptyBuffer() {
         this._buffer = '';
         return this;
@@ -3234,7 +3234,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string} text content to add
      * @param {boolean} [addEOL=false] (optional) append an EOL to the raw text (default: false)
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addRaw(text, addEOL = false) {
         this._buffer += text;
         return addEOL ? this.addEOL() : this;
@@ -3242,7 +3242,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
     /**
      * Adds the operating system-specific end-of-line marker to the buffer
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addEOL() {
         return this.addRaw($3B1P3$os.EOL);
     }
@@ -3252,7 +3252,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string} code content to render within fenced code block
      * @param {string} lang (optional) language to syntax highlight code
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addCodeBlock(code, lang) {
         const attrs = Object.assign({}, lang && {
             lang: lang
@@ -3266,7 +3266,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string[]} items list of items to render
      * @param {boolean} [ordered=false] (optional) if the rendered list should be ordered or not (default: false)
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addList(items, ordered = false) {
         const tag = ordered ? 'ol' : 'ul';
         const listItems = items.map((item)=>this.wrap('li', item)
@@ -3279,7 +3279,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      *
      * @param {SummaryTableCell[]} rows table rows
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addTable(rows) {
         const tableBody = rows.map((row)=>{
             const cells = row.map((cell)=>{
@@ -3304,7 +3304,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string} label text for the closed state
      * @param {string} content collapsable content
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addDetails(label, content) {
         const element = this.wrap('details', this.wrap('summary', label) + content);
         return this.addRaw(element).addEOL();
@@ -3316,7 +3316,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string} alt text description of the image
      * @param {SummaryImageOptions} options (optional) addition image attributes
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addImage(src, alt, options) {
         const { width: width , height: height  } = options || {};
         const attrs = Object.assign(Object.assign({}, width && {
@@ -3336,7 +3336,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string} text heading text
      * @param {number | string} [level=1] (optional) the heading level, default: 1
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addHeading(text, level) {
         const tag = `h${level}`;
         const allowedTag = [
@@ -3353,7 +3353,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
     /**
      * Adds an HTML thematic break (<hr>) to the summary buffer
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addSeparator() {
         const element = this.wrap('hr', null);
         return this.addRaw(element).addEOL();
@@ -3361,7 +3361,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
     /**
      * Adds an HTML line break (<br>) to the summary buffer
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addBreak() {
         const element = this.wrap('br', null);
         return this.addRaw(element).addEOL();
@@ -3372,7 +3372,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string} text quote text
      * @param {string} cite (optional) citation url
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addQuote(text, cite) {
         const attrs = Object.assign({}, cite && {
             cite: cite
@@ -3386,7 +3386,7 @@ class $29e544edc79548fd$var$MarkdownSummary {
      * @param {string} text link text/content
      * @param {string} href hyperlink
      *
-     * @returns {MarkdownSummary} markdown summary instance
+     * @returns {Summary} summary instance
      */ addLink(text, href) {
         const element = this.wrap('a', text, {
             href: href
@@ -3394,14 +3394,24 @@ class $29e544edc79548fd$var$MarkdownSummary {
         return this.addRaw(element).addEOL();
     }
 }
-// singleton export
-$29e544edc79548fd$exports.markdownSummary = new $29e544edc79548fd$var$MarkdownSummary();
+const $f22ad59e6c74d205$var$_summary = new $f22ad59e6c74d205$var$Summary();
+/**
+ * @deprecated use `core.summary`
+ */ $f22ad59e6c74d205$exports.markdownSummary = $f22ad59e6c74d205$var$_summary;
+$f22ad59e6c74d205$exports.summary = $f22ad59e6c74d205$var$_summary;
 
+
+Object.defineProperty($8c7cc7c00e6bea0c$exports, "summary", {
+    enumerable: true,
+    get: function() {
+        return $f22ad59e6c74d205$exports.summary;
+    }
+});
 
 Object.defineProperty($8c7cc7c00e6bea0c$exports, "markdownSummary", {
     enumerable: true,
     get: function() {
-        return $29e544edc79548fd$exports.markdownSummary;
+        return $f22ad59e6c74d205$exports.markdownSummary;
     }
 });
 
