@@ -3533,6 +3533,94 @@ Object.defineProperty($8c7cc7c00e6bea0c$exports, "markdownSummary", {
         return $f22ad59e6c74d205$exports.markdownSummary;
     }
 });
+var $da8ef66be96b8d68$exports = {};
+"use strict";
+var $da8ef66be96b8d68$var$__createBinding = $da8ef66be96b8d68$exports && $da8ef66be96b8d68$exports.__createBinding || (Object.create ? function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, {
+        enumerable: true,
+        get: function() {
+            return m[k];
+        }
+    });
+} : function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+var $da8ef66be96b8d68$var$__setModuleDefault = $da8ef66be96b8d68$exports && $da8ef66be96b8d68$exports.__setModuleDefault || (Object.create ? function(o, v) {
+    Object.defineProperty(o, "default", {
+        enumerable: true,
+        value: v
+    });
+} : function(o, v) {
+    o["default"] = v;
+});
+var $da8ef66be96b8d68$var$__importStar = $da8ef66be96b8d68$exports && $da8ef66be96b8d68$exports.__importStar || function(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) {
+        for(var k in mod)if (k !== "default" && Object.hasOwnProperty.call(mod, k)) $da8ef66be96b8d68$var$__createBinding(result, mod, k);
+    }
+    $da8ef66be96b8d68$var$__setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty($da8ef66be96b8d68$exports, "__esModule", {
+    value: true
+});
+$da8ef66be96b8d68$exports.toPlatformPath = $da8ef66be96b8d68$exports.toWin32Path = $da8ef66be96b8d68$exports.toPosixPath = void 0;
+
+const $da8ef66be96b8d68$var$path = $da8ef66be96b8d68$var$__importStar($3B1P3$path);
+/**
+ * toPosixPath converts the given path to the posix form. On Windows, \\ will be
+ * replaced with /.
+ *
+ * @param pth. Path to transform.
+ * @return string Posix path.
+ */ function $da8ef66be96b8d68$var$toPosixPath(pth) {
+    return pth.replace(/[\\]/g, "/");
+}
+$da8ef66be96b8d68$exports.toPosixPath = $da8ef66be96b8d68$var$toPosixPath;
+/**
+ * toWin32Path converts the given path to the win32 form. On Linux, / will be
+ * replaced with \\.
+ *
+ * @param pth. Path to transform.
+ * @return string Win32 path.
+ */ function $da8ef66be96b8d68$var$toWin32Path(pth) {
+    return pth.replace(/[/]/g, "\\");
+}
+$da8ef66be96b8d68$exports.toWin32Path = $da8ef66be96b8d68$var$toWin32Path;
+/**
+ * toPlatformPath converts the given path to a platform-specific path. It does
+ * this by replacing instances of / and \ with the platform-specific path
+ * separator.
+ *
+ * @param pth The path to platformize.
+ * @return string The platform-specific path.
+ */ function $da8ef66be96b8d68$var$toPlatformPath(pth) {
+    return pth.replace(/[/\\]/g, $da8ef66be96b8d68$var$path.sep);
+}
+$da8ef66be96b8d68$exports.toPlatformPath = $da8ef66be96b8d68$var$toPlatformPath;
+
+
+Object.defineProperty($8c7cc7c00e6bea0c$exports, "toPosixPath", {
+    enumerable: true,
+    get: function() {
+        return $da8ef66be96b8d68$exports.toPosixPath;
+    }
+});
+Object.defineProperty($8c7cc7c00e6bea0c$exports, "toWin32Path", {
+    enumerable: true,
+    get: function() {
+        return $da8ef66be96b8d68$exports.toWin32Path;
+    }
+});
+Object.defineProperty($8c7cc7c00e6bea0c$exports, "toPlatformPath", {
+    enumerable: true,
+    get: function() {
+        return $da8ef66be96b8d68$exports.toPlatformPath;
+    }
+});
 
 
 var $b2ffea015edc5d5f$exports = {};
