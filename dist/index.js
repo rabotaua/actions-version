@@ -9,12 +9,16 @@ var $3B1P3$fs = require("fs");
 var $3B1P3$os = require("os");
 var $3B1P3$punycode = require("punycode");
 var $3B1P3$path = require("path");
+var $3B1P3$crypto = require("crypto");
 var $3B1P3$stream = require("stream");
 var $3B1P3$url = require("url");
 var $3B1P3$zlib = require("zlib");
 
 function $parcel$export(e, n, v, s) {
   Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
+}
+function $parcel$interopDefault(a) {
+  return a && a.__esModule ? a.default : a;
 }
 var $parcel$global =
 typeof globalThis !== 'undefined'
@@ -26,9 +30,6 @@ typeof globalThis !== 'undefined'
   : typeof global !== 'undefined'
   ? global
   : {};
-function $parcel$interopDefault(a) {
-  return a && a.__esModule ? a.default : a;
-}
 var $parcel$modules = {};
 var $parcel$inits = {};
 
@@ -128,43 +129,43 @@ const $94c37631a9e74248$var$pm = $94c37631a9e74248$var$__importStar((parcelRequi
 
 const $94c37631a9e74248$var$tunnel = $94c37631a9e74248$var$__importStar((parcelRequire("3jni9")));
 var $94c37631a9e74248$var$HttpCodes;
-(function(HttpCodes1) {
-    HttpCodes1[HttpCodes1["OK"] = 200] = "OK";
-    HttpCodes1[HttpCodes1["MultipleChoices"] = 300] = "MultipleChoices";
-    HttpCodes1[HttpCodes1["MovedPermanently"] = 301] = "MovedPermanently";
-    HttpCodes1[HttpCodes1["ResourceMoved"] = 302] = "ResourceMoved";
-    HttpCodes1[HttpCodes1["SeeOther"] = 303] = "SeeOther";
-    HttpCodes1[HttpCodes1["NotModified"] = 304] = "NotModified";
-    HttpCodes1[HttpCodes1["UseProxy"] = 305] = "UseProxy";
-    HttpCodes1[HttpCodes1["SwitchProxy"] = 306] = "SwitchProxy";
-    HttpCodes1[HttpCodes1["TemporaryRedirect"] = 307] = "TemporaryRedirect";
-    HttpCodes1[HttpCodes1["PermanentRedirect"] = 308] = "PermanentRedirect";
-    HttpCodes1[HttpCodes1["BadRequest"] = 400] = "BadRequest";
-    HttpCodes1[HttpCodes1["Unauthorized"] = 401] = "Unauthorized";
-    HttpCodes1[HttpCodes1["PaymentRequired"] = 402] = "PaymentRequired";
-    HttpCodes1[HttpCodes1["Forbidden"] = 403] = "Forbidden";
-    HttpCodes1[HttpCodes1["NotFound"] = 404] = "NotFound";
-    HttpCodes1[HttpCodes1["MethodNotAllowed"] = 405] = "MethodNotAllowed";
-    HttpCodes1[HttpCodes1["NotAcceptable"] = 406] = "NotAcceptable";
-    HttpCodes1[HttpCodes1["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
-    HttpCodes1[HttpCodes1["RequestTimeout"] = 408] = "RequestTimeout";
-    HttpCodes1[HttpCodes1["Conflict"] = 409] = "Conflict";
-    HttpCodes1[HttpCodes1["Gone"] = 410] = "Gone";
-    HttpCodes1[HttpCodes1["TooManyRequests"] = 429] = "TooManyRequests";
-    HttpCodes1[HttpCodes1["InternalServerError"] = 500] = "InternalServerError";
-    HttpCodes1[HttpCodes1["NotImplemented"] = 501] = "NotImplemented";
-    HttpCodes1[HttpCodes1["BadGateway"] = 502] = "BadGateway";
-    HttpCodes1[HttpCodes1["ServiceUnavailable"] = 503] = "ServiceUnavailable";
-    HttpCodes1[HttpCodes1["GatewayTimeout"] = 504] = "GatewayTimeout";
+(function(HttpCodes) {
+    HttpCodes[HttpCodes["OK"] = 200] = "OK";
+    HttpCodes[HttpCodes["MultipleChoices"] = 300] = "MultipleChoices";
+    HttpCodes[HttpCodes["MovedPermanently"] = 301] = "MovedPermanently";
+    HttpCodes[HttpCodes["ResourceMoved"] = 302] = "ResourceMoved";
+    HttpCodes[HttpCodes["SeeOther"] = 303] = "SeeOther";
+    HttpCodes[HttpCodes["NotModified"] = 304] = "NotModified";
+    HttpCodes[HttpCodes["UseProxy"] = 305] = "UseProxy";
+    HttpCodes[HttpCodes["SwitchProxy"] = 306] = "SwitchProxy";
+    HttpCodes[HttpCodes["TemporaryRedirect"] = 307] = "TemporaryRedirect";
+    HttpCodes[HttpCodes["PermanentRedirect"] = 308] = "PermanentRedirect";
+    HttpCodes[HttpCodes["BadRequest"] = 400] = "BadRequest";
+    HttpCodes[HttpCodes["Unauthorized"] = 401] = "Unauthorized";
+    HttpCodes[HttpCodes["PaymentRequired"] = 402] = "PaymentRequired";
+    HttpCodes[HttpCodes["Forbidden"] = 403] = "Forbidden";
+    HttpCodes[HttpCodes["NotFound"] = 404] = "NotFound";
+    HttpCodes[HttpCodes["MethodNotAllowed"] = 405] = "MethodNotAllowed";
+    HttpCodes[HttpCodes["NotAcceptable"] = 406] = "NotAcceptable";
+    HttpCodes[HttpCodes["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
+    HttpCodes[HttpCodes["RequestTimeout"] = 408] = "RequestTimeout";
+    HttpCodes[HttpCodes["Conflict"] = 409] = "Conflict";
+    HttpCodes[HttpCodes["Gone"] = 410] = "Gone";
+    HttpCodes[HttpCodes["TooManyRequests"] = 429] = "TooManyRequests";
+    HttpCodes[HttpCodes["InternalServerError"] = 500] = "InternalServerError";
+    HttpCodes[HttpCodes["NotImplemented"] = 501] = "NotImplemented";
+    HttpCodes[HttpCodes["BadGateway"] = 502] = "BadGateway";
+    HttpCodes[HttpCodes["ServiceUnavailable"] = 503] = "ServiceUnavailable";
+    HttpCodes[HttpCodes["GatewayTimeout"] = 504] = "GatewayTimeout";
 })($94c37631a9e74248$var$HttpCodes = module.exports.HttpCodes || (module.exports.HttpCodes = {}));
 var $94c37631a9e74248$var$Headers;
-(function(Headers1) {
-    Headers1["Accept"] = "accept";
-    Headers1["ContentType"] = "content-type";
+(function(Headers) {
+    Headers["Accept"] = "accept";
+    Headers["ContentType"] = "content-type";
 })($94c37631a9e74248$var$Headers = module.exports.Headers || (module.exports.Headers = {}));
 var $94c37631a9e74248$var$MediaTypes;
-(function(MediaTypes1) {
-    MediaTypes1["ApplicationJson"] = "application/json";
+(function(MediaTypes) {
+    MediaTypes["ApplicationJson"] = "application/json";
 })($94c37631a9e74248$var$MediaTypes = module.exports.MediaTypes || (module.exports.MediaTypes = {}));
 /**
  * Returns the proxy URL, depending upon the supplied url and proxy environment variables.
@@ -585,9 +586,9 @@ class $94c37631a9e74248$var$HttpClient {
                         else if (contents && contents.length > 0) // it may be the case that the exception is in the body message as string
                         msg = contents;
                         else msg = `Failed request: (${statusCode})`;
-                        const err = new $94c37631a9e74248$var$HttpClientError(msg, statusCode);
-                        err.result = response.result;
-                        reject(err);
+                        const err1 = new $94c37631a9e74248$var$HttpClientError(msg, statusCode);
+                        err1.result = response.result;
+                        reject(err1);
                     } else resolve(response);
                 }));
         });
@@ -691,9 +692,9 @@ function $64b68130f47e31b5$var$httpsOverHttps(options) {
     agent.defaultPort = 443;
     return agent;
 }
-function $64b68130f47e31b5$var$TunnelingAgent(options1) {
+function $64b68130f47e31b5$var$TunnelingAgent(options) {
     var self = this;
-    self.options = options1 || {};
+    self.options = options || {};
     self.proxyOptions = self.options.proxy || {};
     self.maxSockets = self.options.maxSockets || $3B1P3$http.Agent.defaultMaxSockets;
     self.requests = [];
@@ -811,8 +812,8 @@ $64b68130f47e31b5$var$TunnelingAgent.prototype.createSocket = function createSoc
         self.removeSocket(placeholder);
     }
 };
-$64b68130f47e31b5$var$TunnelingAgent.prototype.removeSocket = function removeSocket(socket1) {
-    var pos = this.sockets.indexOf(socket1);
+$64b68130f47e31b5$var$TunnelingAgent.prototype.removeSocket = function removeSocket(socket) {
+    var pos = this.sockets.indexOf(socket);
     if (pos === -1) return;
     this.sockets.splice(pos, 1);
     var pending = this.requests.shift();
@@ -1642,8 +1643,8 @@ function $453d8174fe55ea3f$var$parseIPv4(input) {
     if (numbers[numbers.length - 1] >= Math.pow(256, 5 - numbers.length)) return $453d8174fe55ea3f$var$failure;
     let ipv4 = numbers.pop();
     let counter = 0;
-    for (const n of numbers){
-        ipv4 += n * Math.pow(256, 3 - counter);
+    for (const n1 of numbers){
+        ipv4 += n1 * Math.pow(256, 3 - counter);
         ++counter;
     }
     return ipv4;
@@ -1859,9 +1860,9 @@ function $453d8174fe55ea3f$var$URLStateMachine(input, base, encodingOverride, ur
         if (res !== this.input) this.parseError = true;
         this.input = res;
     }
-    const res = $453d8174fe55ea3f$var$trimTabAndNewline(this.input);
-    if (res !== this.input) this.parseError = true;
-    this.input = res;
+    const res1 = $453d8174fe55ea3f$var$trimTabAndNewline(this.input);
+    if (res1 !== this.input) this.parseError = true;
+    this.input = res1;
     this.state = stateOverride || "scheme start";
     this.buffer = "";
     this.atFlag = false;
@@ -2092,9 +2093,9 @@ $453d8174fe55ea3f$var$URLStateMachine.prototype["parse hostname"] = $453d8174fe5
             this.parseError = true;
             return false;
         }
-        const host = $453d8174fe55ea3f$var$parseHost(this.buffer, $453d8174fe55ea3f$var$isSpecial(this.url));
-        if (host === $453d8174fe55ea3f$var$failure) return $453d8174fe55ea3f$var$failure;
-        this.url.host = host;
+        const host1 = $453d8174fe55ea3f$var$parseHost(this.buffer, $453d8174fe55ea3f$var$isSpecial(this.url));
+        if (host1 === $453d8174fe55ea3f$var$failure) return $453d8174fe55ea3f$var$failure;
+        this.url.host = host1;
         this.buffer = "";
         this.state = "path start";
         if (this.stateOverride) return false;
@@ -2787,6 +2788,62 @@ $24012dd272ea9b9a$exports.issueCommand = $24012dd272ea9b9a$var$issueCommand;
 const $8c7cc7c00e6bea0c$var$os = $8c7cc7c00e6bea0c$var$__importStar($3B1P3$os);
 
 const $8c7cc7c00e6bea0c$var$path = $8c7cc7c00e6bea0c$var$__importStar($3B1P3$path);
+
+const $7becf67cc2adf79c$var$rnds8Pool = new Uint8Array(256); // # of random values to pre-allocate
+let $7becf67cc2adf79c$var$poolPtr = $7becf67cc2adf79c$var$rnds8Pool.length;
+function $7becf67cc2adf79c$export$2e2bcd8739ae039() {
+    if ($7becf67cc2adf79c$var$poolPtr > $7becf67cc2adf79c$var$rnds8Pool.length - 16) {
+        (0, ($parcel$interopDefault($3B1P3$crypto))).randomFillSync($7becf67cc2adf79c$var$rnds8Pool);
+        $7becf67cc2adf79c$var$poolPtr = 0;
+    }
+    return $7becf67cc2adf79c$var$rnds8Pool.slice($7becf67cc2adf79c$var$poolPtr, $7becf67cc2adf79c$var$poolPtr += 16);
+}
+
+
+var $61444495534721ff$export$2e2bcd8739ae039 = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
+
+
+function $7d0e7293d0c50d4f$var$validate(uuid) {
+    return typeof uuid === "string" && (0, $61444495534721ff$export$2e2bcd8739ae039).test(uuid);
+}
+var $7d0e7293d0c50d4f$export$2e2bcd8739ae039 = $7d0e7293d0c50d4f$var$validate;
+
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */ const $2f02daec17b608f9$var$byteToHex = [];
+for(let i = 0; i < 256; ++i)$2f02daec17b608f9$var$byteToHex.push((i + 0x100).toString(16).substr(1));
+function $2f02daec17b608f9$var$stringify(arr, offset = 0) {
+    // Note: Be careful editing this code!  It's been tuned for performance
+    // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+    const uuid = ($2f02daec17b608f9$var$byteToHex[arr[offset + 0]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 1]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 2]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 3]] + "-" + $2f02daec17b608f9$var$byteToHex[arr[offset + 4]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 5]] + "-" + $2f02daec17b608f9$var$byteToHex[arr[offset + 6]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 7]] + "-" + $2f02daec17b608f9$var$byteToHex[arr[offset + 8]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 9]] + "-" + $2f02daec17b608f9$var$byteToHex[arr[offset + 10]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 11]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 12]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 13]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 14]] + $2f02daec17b608f9$var$byteToHex[arr[offset + 15]]).toLowerCase(); // Consistency check for valid UUID.  If this throws, it's likely due to one
+    // of the following:
+    // - One or more input array values don't map to a hex octet (leading to
+    // "undefined" in the uuid)
+    // - Invalid input values for the RFC `version` or `variant` fields
+    if (!(0, $7d0e7293d0c50d4f$export$2e2bcd8739ae039)(uuid)) throw TypeError("Stringified UUID is invalid");
+    return uuid;
+}
+var $2f02daec17b608f9$export$2e2bcd8739ae039 = $2f02daec17b608f9$var$stringify;
+
+
+function $bb5fef6ed537e5c8$var$v4(options, buf, offset) {
+    options = options || {};
+    const rnds = options.random || (options.rng || (0, $7becf67cc2adf79c$export$2e2bcd8739ae039))(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+    rnds[6] = rnds[6] & 0x0f | 0x40;
+    rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+    if (buf) {
+        offset = offset || 0;
+        for(let i = 0; i < 16; ++i)buf[offset + i] = rnds[i];
+        return buf;
+    }
+    return (0, $2f02daec17b608f9$export$2e2bcd8739ae039)(rnds);
+}
+var $bb5fef6ed537e5c8$export$2e2bcd8739ae039 = $bb5fef6ed537e5c8$var$v4;
+
+
+
 var $0a8e739db5585665$exports = {};
 "use strict";
 var $0a8e739db5585665$var$__awaiter = $0a8e739db5585665$exports && $0a8e739db5585665$exports.__awaiter || function(thisArg, _arguments, P, generator) {
@@ -2979,13 +3036,13 @@ $0a8e739db5585665$exports.OidcClient = $0a8e739db5585665$var$OidcClient;
 /**
  * The code to exit an action
  */ var $8c7cc7c00e6bea0c$var$ExitCode;
-(function(ExitCode1) {
+(function(ExitCode) {
     /**
      * A code indicating that the action was successful
-     */ ExitCode1[ExitCode1["Success"] = 0] = "Success";
+     */ ExitCode[ExitCode["Success"] = 0] = "Success";
     /**
      * A code indicating that the action was a failure
-     */ ExitCode1[ExitCode1["Failure"] = 1] = "Failure";
+     */ ExitCode[ExitCode["Failure"] = 1] = "Failure";
 })($8c7cc7c00e6bea0c$var$ExitCode = $8c7cc7c00e6bea0c$exports.ExitCode || ($8c7cc7c00e6bea0c$exports.ExitCode = {}));
 //-----------------------------------------------------------------------
 // Variables
@@ -3000,7 +3057,10 @@ function $8c7cc7c00e6bea0c$var$exportVariable(name, val) {
     process.env[name] = convertedVal;
     const filePath = process.env["GITHUB_ENV"] || "";
     if (filePath) {
-        const delimiter = "_GitHubActionsFileCommandDelimeter_";
+        const delimiter = `ghadelimiter_${$bb5fef6ed537e5c8$export$2e2bcd8739ae039()}`;
+        // These should realistically never happen, but just in case someone finds a way to exploit uuid generation let's not allow keys or values that contain the delimiter.
+        if (name.includes(delimiter)) throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter}"`);
+        if (convertedVal.includes(delimiter)) throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
         const commandValue = `${name}<<${delimiter}${$8c7cc7c00e6bea0c$var$os.EOL}${convertedVal}${$8c7cc7c00e6bea0c$var$os.EOL}${delimiter}`;
         $24012dd272ea9b9a$exports.issueCommand("ENV", commandValue);
     } else $3ecfdf502cef912d$exports.issueCommand("set-env", {
@@ -3709,17 +3769,17 @@ function $54242adf02630d3d$export$7935961ef7719cb0() {
 var $0a93a511d39a81c4$exports = {};
 var $fae842d03e907b82$exports = {};
 $fae842d03e907b82$exports = $fae842d03e907b82$var$register;
-function $fae842d03e907b82$var$register(state, name1, method1, options) {
-    if (typeof method1 !== "function") throw new Error("method for before hook must be a function");
+function $fae842d03e907b82$var$register(state, name, method, options) {
+    if (typeof method !== "function") throw new Error("method for before hook must be a function");
     if (!options) options = {};
-    if (Array.isArray(name1)) return name1.reverse().reduce(function(callback, name) {
+    if (Array.isArray(name)) return name.reverse().reduce(function(callback, name) {
         return $fae842d03e907b82$var$register.bind(null, state, name, callback, options);
-    }, method1)();
+    }, method)();
     return Promise.resolve().then(function() {
-        if (!state.registry[name1]) return method1(options);
-        return state.registry[name1].reduce(function(method, registered) {
+        if (!state.registry[name]) return method(options);
+        return state.registry[name].reduce(function(method, registered) {
             return registered.hook.bind(null, method, options);
-        }, method1)();
+        }, method)();
     });
 }
 
@@ -3973,28 +4033,28 @@ function $f9329cf9adbb1373$var$isKeyOperator(operator) {
     return operator === ";" || operator === "&" || operator === "?";
 }
 function $f9329cf9adbb1373$var$getValues(context, operator, key, modifier) {
-    var value1 = context[key], result = [];
-    if ($f9329cf9adbb1373$var$isDefined(value1) && value1 !== "") {
-        if (typeof value1 === "string" || typeof value1 === "number" || typeof value1 === "boolean") {
-            value1 = value1.toString();
-            if (modifier && modifier !== "*") value1 = value1.substring(0, parseInt(modifier, 10));
-            result.push($f9329cf9adbb1373$var$encodeValue(operator, value1, $f9329cf9adbb1373$var$isKeyOperator(operator) ? key : ""));
+    var value = context[key], result = [];
+    if ($f9329cf9adbb1373$var$isDefined(value) && value !== "") {
+        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+            value = value.toString();
+            if (modifier && modifier !== "*") value = value.substring(0, parseInt(modifier, 10));
+            result.push($f9329cf9adbb1373$var$encodeValue(operator, value, $f9329cf9adbb1373$var$isKeyOperator(operator) ? key : ""));
         } else if (modifier === "*") {
-            if (Array.isArray(value1)) value1.filter($f9329cf9adbb1373$var$isDefined).forEach(function(value) {
+            if (Array.isArray(value)) value.filter($f9329cf9adbb1373$var$isDefined).forEach(function(value) {
                 result.push($f9329cf9adbb1373$var$encodeValue(operator, value, $f9329cf9adbb1373$var$isKeyOperator(operator) ? key : ""));
             });
-            else Object.keys(value1).forEach(function(k) {
-                if ($f9329cf9adbb1373$var$isDefined(value1[k])) result.push($f9329cf9adbb1373$var$encodeValue(operator, value1[k], k));
+            else Object.keys(value).forEach(function(k) {
+                if ($f9329cf9adbb1373$var$isDefined(value[k])) result.push($f9329cf9adbb1373$var$encodeValue(operator, value[k], k));
             });
         } else {
             const tmp = [];
-            if (Array.isArray(value1)) value1.filter($f9329cf9adbb1373$var$isDefined).forEach(function(value) {
+            if (Array.isArray(value)) value.filter($f9329cf9adbb1373$var$isDefined).forEach(function(value) {
                 tmp.push($f9329cf9adbb1373$var$encodeValue(operator, value));
             });
-            else Object.keys(value1).forEach(function(k) {
-                if ($f9329cf9adbb1373$var$isDefined(value1[k])) {
+            else Object.keys(value).forEach(function(k) {
+                if ($f9329cf9adbb1373$var$isDefined(value[k])) {
                     tmp.push($f9329cf9adbb1373$var$encodeUnreserved(k));
-                    tmp.push($f9329cf9adbb1373$var$encodeValue(operator, value1[k].toString()));
+                    tmp.push($f9329cf9adbb1373$var$encodeValue(operator, value[k].toString()));
                 }
             });
             if ($f9329cf9adbb1373$var$isKeyOperator(operator)) result.push($f9329cf9adbb1373$var$encodeUnreserved(key) + "=" + tmp.join(","));
@@ -4002,9 +4062,9 @@ function $f9329cf9adbb1373$var$getValues(context, operator, key, modifier) {
         }
     } else {
         if (operator === ";") {
-            if ($f9329cf9adbb1373$var$isDefined(value1)) result.push($f9329cf9adbb1373$var$encodeUnreserved(key));
-        } else if (value1 === "" && (operator === "&" || operator === "?")) result.push($f9329cf9adbb1373$var$encodeUnreserved(key) + "=");
-        else if (value1 === "") result.push("");
+            if ($f9329cf9adbb1373$var$isDefined(value)) result.push($f9329cf9adbb1373$var$encodeUnreserved(key));
+        } else if (value === "" && (operator === "&" || operator === "?")) result.push($f9329cf9adbb1373$var$encodeUnreserved(key) + "=");
+        else if (value === "") result.push("");
     }
     return result;
 }
@@ -4111,12 +4171,12 @@ function $f9329cf9adbb1373$var$endpointWithDefaults(defaults, route, options) {
     return $f9329cf9adbb1373$var$parse($f9329cf9adbb1373$var$merge(defaults, route, options));
 }
 function $f9329cf9adbb1373$var$withDefaults(oldDefaults, newDefaults) {
-    const DEFAULTS1 = $f9329cf9adbb1373$var$merge(oldDefaults, newDefaults);
-    const endpoint1 = $f9329cf9adbb1373$var$endpointWithDefaults.bind(null, DEFAULTS1);
-    return Object.assign(endpoint1, {
-        DEFAULTS: DEFAULTS1,
-        defaults: $f9329cf9adbb1373$var$withDefaults.bind(null, DEFAULTS1),
-        merge: $f9329cf9adbb1373$var$merge.bind(null, DEFAULTS1),
+    const DEFAULTS = $f9329cf9adbb1373$var$merge(oldDefaults, newDefaults);
+    const endpoint = $f9329cf9adbb1373$var$endpointWithDefaults.bind(null, DEFAULTS);
+    return Object.assign(endpoint, {
+        DEFAULTS: DEFAULTS,
+        defaults: $f9329cf9adbb1373$var$withDefaults.bind(null, DEFAULTS),
+        merge: $f9329cf9adbb1373$var$merge.bind(null, DEFAULTS),
         parse: $f9329cf9adbb1373$var$parse
     });
 }
@@ -4734,8 +4794,8 @@ class $8dafdd0617a538ba$export$79b704688b15c0f4 {
                 }
             } else // record<ByteString, ByteString>
             for (const key of Object.keys(init)){
-                const value = init[key];
-                this.append(key, value);
+                const value1 = init[key];
+                this.append(key, value1);
             }
         } else throw new TypeError("Provided initializer must be an object");
     }
@@ -5503,8 +5563,8 @@ var $6cc7b8104a34f7f8$exports = {};
 // This makes sure that own properties are retained, so that
 // decorations and such are not lost along the way.
 $6cc7b8104a34f7f8$exports = $6cc7b8104a34f7f8$var$wrappy;
-function $6cc7b8104a34f7f8$var$wrappy(fn, cb1) {
-    if (fn && cb1) return $6cc7b8104a34f7f8$var$wrappy(fn)(cb1);
+function $6cc7b8104a34f7f8$var$wrappy(fn, cb) {
+    if (fn && cb) return $6cc7b8104a34f7f8$var$wrappy(fn)(cb);
     if (typeof fn !== "function") throw new TypeError("need wrapper function");
     Object.keys(fn).forEach(function(k) {
         wrapper[k] = fn[k];
@@ -5705,22 +5765,22 @@ function $0833ed85faf7b1d6$var$toErrorMessage(data) {
     return `Unknown error: ${JSON.stringify(data)}`;
 }
 function $0833ed85faf7b1d6$var$withDefaults(oldEndpoint, newDefaults) {
-    const endpoint1 = oldEndpoint.defaults(newDefaults);
-    const newApi = function(route1, parameters1) {
-        const endpointOptions = endpoint1.merge(route1, parameters1);
-        if (!endpointOptions.request || !endpointOptions.request.hook) return $0833ed85faf7b1d6$var$fetchWrapper(endpoint1.parse(endpointOptions));
-        const request1 = (route, parameters)=>{
-            return $0833ed85faf7b1d6$var$fetchWrapper(endpoint1.parse(endpoint1.merge(route, parameters)));
+    const endpoint = oldEndpoint.defaults(newDefaults);
+    const newApi = function(route, parameters) {
+        const endpointOptions = endpoint.merge(route, parameters);
+        if (!endpointOptions.request || !endpointOptions.request.hook) return $0833ed85faf7b1d6$var$fetchWrapper(endpoint.parse(endpointOptions));
+        const request = (route, parameters)=>{
+            return $0833ed85faf7b1d6$var$fetchWrapper(endpoint.parse(endpoint.merge(route, parameters)));
         };
-        Object.assign(request1, {
-            endpoint: endpoint1,
-            defaults: $0833ed85faf7b1d6$var$withDefaults.bind(null, endpoint1)
+        Object.assign(request, {
+            endpoint: endpoint,
+            defaults: $0833ed85faf7b1d6$var$withDefaults.bind(null, endpoint)
         });
-        return endpointOptions.request.hook(request1, endpointOptions);
+        return endpointOptions.request.hook(request, endpointOptions);
     };
     return Object.assign(newApi, {
-        endpoint: endpoint1,
-        defaults: $0833ed85faf7b1d6$var$withDefaults.bind(null, endpoint1)
+        endpoint: endpoint,
+        defaults: $0833ed85faf7b1d6$var$withDefaults.bind(null, endpoint)
     });
 }
 const $0833ed85faf7b1d6$export$b5fe3f66a567bec0 = $0833ed85faf7b1d6$var$withDefaults((0, $f9329cf9adbb1373$export$125e2b775860041f), {
@@ -5737,9 +5797,9 @@ function $60ddf0afc740d123$var$_buildMessageForResponseErrors(data) {
     return `Request failed due to following response errors:\n` + data.errors.map((e)=>` - ${e.message}`).join("\n");
 }
 class $60ddf0afc740d123$export$d19deff0ec585725 extends Error {
-    constructor(request1, headers, response){
+    constructor(request, headers, response){
         super($60ddf0afc740d123$var$_buildMessageForResponseErrors(response));
-        this.request = request1;
+        this.request = request;
         this.headers = headers;
         this.response = response;
         this.name = "GraphqlResponseError";
@@ -5765,7 +5825,7 @@ const $60ddf0afc740d123$var$FORBIDDEN_VARIABLE_OPTIONS = [
     "url"
 ];
 const $60ddf0afc740d123$var$GHES_V3_SUFFIX_REGEX = /\/api\/v3\/?$/;
-function $60ddf0afc740d123$var$graphql(request2, query, options) {
+function $60ddf0afc740d123$var$graphql(request, query, options) {
     if (options) {
         if (typeof query === "string" && "query" in options) return Promise.reject(new Error(`[@octokit/graphql] "query" cannot be used as variable name`));
         for(const key in options){
@@ -5787,9 +5847,9 @@ function $60ddf0afc740d123$var$graphql(request2, query, options) {
     }, {});
     // workaround for GitHub Enterprise baseUrl set with /api/v3 suffix
     // https://github.com/octokit/auth-app.js/issues/111#issuecomment-657610451
-    const baseUrl = parsedOptions.baseUrl || request2.endpoint.DEFAULTS.baseUrl;
+    const baseUrl = parsedOptions.baseUrl || request.endpoint.DEFAULTS.baseUrl;
     if ($60ddf0afc740d123$var$GHES_V3_SUFFIX_REGEX.test(baseUrl)) requestOptions.url = baseUrl.replace($60ddf0afc740d123$var$GHES_V3_SUFFIX_REGEX, "/api/graphql");
-    return request2(requestOptions).then((response)=>{
+    return request(requestOptions).then((response)=>{
         if (response.data.errors) {
             const headers = {};
             for (const key of Object.keys(response.headers))headers[key] = response.headers[key];
@@ -5912,7 +5972,7 @@ class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
             }
         } else {
             const { authStrategy: authStrategy , ...otherOptions } = options;
-            const auth = authStrategy(Object.assign({
+            const auth1 = authStrategy(Object.assign({
                 request: this.request,
                 log: this.log,
                 // we pass the current octokit instance as well as its constructor options
@@ -5924,8 +5984,8 @@ class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
                 octokitOptions: otherOptions
             }, options.auth));
             // @ts-ignore  ¯\_(ツ)_/¯
-            hook.wrap("request", auth.hook);
-            this.auth = auth;
+            hook.wrap("request", auth1.hook);
+            this.auth = auth1;
         }
         // apply plugins
         // https://stackoverflow.com/a/16345172
@@ -8448,13 +8508,13 @@ function $50c44f055a02491e$var$decorate(octokit, scope, methodName, defaults, de
         if (decorations.deprecated) octokit.log.warn(decorations.deprecated);
         if (decorations.renamedParameters) {
             // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
-            const options = requestWithDefaults.endpoint.merge(...args);
-            for (const [name, alias] of Object.entries(decorations.renamedParameters))if (name in options) {
+            const options1 = requestWithDefaults.endpoint.merge(...args);
+            for (const [name, alias] of Object.entries(decorations.renamedParameters))if (name in options1) {
                 octokit.log.warn(`"${name}" parameter is deprecated for "octokit.${scope}.${methodName}()". Use "${alias}" instead`);
-                if (!(alias in options)) options[alias] = options[name];
-                delete options[name];
+                if (!(alias in options1)) options1[alias] = options1[name];
+                delete options1[name];
             }
-            return requestWithDefaults(options);
+            return requestWithDefaults(options1);
         }
         // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
         return requestWithDefaults(...args);
@@ -8566,8 +8626,8 @@ function $db1342f2dd9071a2$var$paginate(octokit, route, parameters, mapFn) {
     }
     return $db1342f2dd9071a2$var$gather(octokit, [], $db1342f2dd9071a2$var$iterator(octokit, route, parameters)[Symbol.asyncIterator](), mapFn);
 }
-function $db1342f2dd9071a2$var$gather(octokit, results, iterator1, mapFn) {
-    return iterator1.next().then((result)=>{
+function $db1342f2dd9071a2$var$gather(octokit, results, iterator, mapFn) {
+    return iterator.next().then((result)=>{
         if (result.done) return results;
         let earlyExit = false;
         function done() {
@@ -8575,7 +8635,7 @@ function $db1342f2dd9071a2$var$gather(octokit, results, iterator1, mapFn) {
         }
         results = results.concat(mapFn ? mapFn(result.value, done) : result.value.data);
         if (earlyExit) return results;
-        return $db1342f2dd9071a2$var$gather(octokit, results, iterator1, mapFn);
+        return $db1342f2dd9071a2$var$gather(octokit, results, iterator, mapFn);
     });
 }
 const $db1342f2dd9071a2$export$44fe6ff56a1118b0 = Object.assign($db1342f2dd9071a2$var$paginate, {
