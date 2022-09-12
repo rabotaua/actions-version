@@ -1,34 +1,20 @@
 name: dependabot
-on:
-  schedule:
-    - cron: 0 10 * * 3
-  workflow_dispatch:
+
+on: pull_request
+
+env:
+  GH_TOKEN: ${{ secrets.DEPENDABOT_GITHUB_TOKEN }}
+  PR_URL: ${{ github.event.pull_request.html_url }}
+
 jobs:
-  build:
+  dependabot:
     runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GH_TOKEN }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
-
-      - run: npx npm-check-updates
-      - run: npx npm-check-updates -u
+          node-version: 16
       - run: npm install
       - run: npm test
-
-      - name: git commit package.json if needed
-        run: |
-          if git status --short | grep -q package
-          then
-            chmod +x .husky/pre-commit
-            git config user.name dependabot
-            git config user.email dependabot@github.com
-            git add .
-            git commit -m "dependabot"
-            git push
-          else
-            git status --short
-          fi
+      - run: gh pr merge "$PR_URL" --admin --squash --delete-branch
