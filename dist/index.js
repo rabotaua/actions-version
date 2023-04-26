@@ -586,9 +586,9 @@ class $94c37631a9e74248$var$HttpClient {
                         else if (contents && contents.length > 0) // it may be the case that the exception is in the body message as string
                         msg = contents;
                         else msg = `Failed request: (${statusCode})`;
-                        const err1 = new $94c37631a9e74248$var$HttpClientError(msg, statusCode);
-                        err1.result = response.result;
-                        reject(err1);
+                        const err = new $94c37631a9e74248$var$HttpClientError(msg, statusCode);
+                        err.result = response.result;
+                        reject(err);
                     } else resolve(response);
                 }));
         });
@@ -1643,8 +1643,8 @@ function $453d8174fe55ea3f$var$parseIPv4(input) {
     if (numbers[numbers.length - 1] >= Math.pow(256, 5 - numbers.length)) return $453d8174fe55ea3f$var$failure;
     let ipv4 = numbers.pop();
     let counter = 0;
-    for (const n1 of numbers){
-        ipv4 += n1 * Math.pow(256, 3 - counter);
+    for (const n of numbers){
+        ipv4 += n * Math.pow(256, 3 - counter);
         ++counter;
     }
     return ipv4;
@@ -1860,9 +1860,9 @@ function $453d8174fe55ea3f$var$URLStateMachine(input, base, encodingOverride, ur
         if (res !== this.input) this.parseError = true;
         this.input = res;
     }
-    const res1 = $453d8174fe55ea3f$var$trimTabAndNewline(this.input);
-    if (res1 !== this.input) this.parseError = true;
-    this.input = res1;
+    const res = $453d8174fe55ea3f$var$trimTabAndNewline(this.input);
+    if (res !== this.input) this.parseError = true;
+    this.input = res;
     this.state = stateOverride || "scheme start";
     this.buffer = "";
     this.atFlag = false;
@@ -2093,9 +2093,9 @@ $453d8174fe55ea3f$var$URLStateMachine.prototype["parse hostname"] = $453d8174fe5
             this.parseError = true;
             return false;
         }
-        const host1 = $453d8174fe55ea3f$var$parseHost(this.buffer, $453d8174fe55ea3f$var$isSpecial(this.url));
-        if (host1 === $453d8174fe55ea3f$var$failure) return $453d8174fe55ea3f$var$failure;
-        this.url.host = host1;
+        const host = $453d8174fe55ea3f$var$parseHost(this.buffer, $453d8174fe55ea3f$var$isSpecial(this.url));
+        if (host === $453d8174fe55ea3f$var$failure) return $453d8174fe55ea3f$var$failure;
+        this.url.host = host;
         this.buffer = "";
         this.state = "path start";
         if (this.stateOverride) return false;
@@ -2155,7 +2155,9 @@ $453d8174fe55ea3f$var$URLStateMachine.prototype["parse file"] = function parseFi
             this.url.fragment = "";
             this.state = "fragment";
         } else {
-            if (this.input.length - this.pointer - 1 === 0 || !$453d8174fe55ea3f$var$isWindowsDriveLetterCodePoints(c, this.input[this.pointer + 1]) || this.input.length - this.pointer - 1 >= 2 && !$453d8174fe55ea3f$var$fileOtherwiseCodePoints.has(this.input[this.pointer + 2])) {
+            if (this.input.length - this.pointer - 1 === 0 || // remaining consists of 0 code points
+            !$453d8174fe55ea3f$var$isWindowsDriveLetterCodePoints(c, this.input[this.pointer + 1]) || this.input.length - this.pointer - 1 >= 2 && // remaining has at least 2 code points
+            !$453d8174fe55ea3f$var$fileOtherwiseCodePoints.has(this.input[this.pointer + 2])) {
                 this.url.host = this.base.host;
                 this.url.path = this.base.path.slice();
                 $453d8174fe55ea3f$var$shortenPath(this.url);
@@ -2765,29 +2767,12 @@ var $24012dd272ea9b9a$var$__importStar = $24012dd272ea9b9a$exports && $24012dd27
 Object.defineProperty($24012dd272ea9b9a$exports, "__esModule", {
     value: true
 });
-$24012dd272ea9b9a$exports.issueCommand = void 0;
+$24012dd272ea9b9a$exports.prepareKeyValueMessage = $24012dd272ea9b9a$exports.issueFileCommand = void 0;
 
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */ const $24012dd272ea9b9a$var$fs = $24012dd272ea9b9a$var$__importStar($3B1P3$fs);
 
 const $24012dd272ea9b9a$var$os = $24012dd272ea9b9a$var$__importStar($3B1P3$os);
-
-function $24012dd272ea9b9a$var$issueCommand(command, message) {
-    const filePath = process.env[`GITHUB_${command}`];
-    if (!filePath) throw new Error(`Unable to find environment variable for file command ${command}`);
-    if (!$24012dd272ea9b9a$var$fs.existsSync(filePath)) throw new Error(`Missing file at path: ${filePath}`);
-    $24012dd272ea9b9a$var$fs.appendFileSync(filePath, `${$8edc3b90e976de31$exports.toCommandValue(message)}${$24012dd272ea9b9a$var$os.EOL}`, {
-        encoding: "utf8"
-    });
-}
-$24012dd272ea9b9a$exports.issueCommand = $24012dd272ea9b9a$var$issueCommand;
-
-
-
-
-const $8c7cc7c00e6bea0c$var$os = $8c7cc7c00e6bea0c$var$__importStar($3B1P3$os);
-
-const $8c7cc7c00e6bea0c$var$path = $8c7cc7c00e6bea0c$var$__importStar($3B1P3$path);
 
 const $7becf67cc2adf79c$var$rnds8Pool = new Uint8Array(256); // # of random values to pre-allocate
 let $7becf67cc2adf79c$var$poolPtr = $7becf67cc2adf79c$var$rnds8Pool.length;
@@ -2844,6 +2829,33 @@ var $bb5fef6ed537e5c8$export$2e2bcd8739ae039 = $bb5fef6ed537e5c8$var$v4;
 
 
 
+function $24012dd272ea9b9a$var$issueFileCommand(command, message) {
+    const filePath = process.env[`GITHUB_${command}`];
+    if (!filePath) throw new Error(`Unable to find environment variable for file command ${command}`);
+    if (!$24012dd272ea9b9a$var$fs.existsSync(filePath)) throw new Error(`Missing file at path: ${filePath}`);
+    $24012dd272ea9b9a$var$fs.appendFileSync(filePath, `${$8edc3b90e976de31$exports.toCommandValue(message)}${$24012dd272ea9b9a$var$os.EOL}`, {
+        encoding: "utf8"
+    });
+}
+$24012dd272ea9b9a$exports.issueFileCommand = $24012dd272ea9b9a$var$issueFileCommand;
+function $24012dd272ea9b9a$var$prepareKeyValueMessage(key, value) {
+    const delimiter = `ghadelimiter_${$bb5fef6ed537e5c8$export$2e2bcd8739ae039()}`;
+    const convertedValue = $8edc3b90e976de31$exports.toCommandValue(value);
+    // These should realistically never happen, but just in case someone finds a
+    // way to exploit uuid generation let's not allow keys or values that contain
+    // the delimiter.
+    if (key.includes(delimiter)) throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter}"`);
+    if (convertedValue.includes(delimiter)) throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
+    return `${key}<<${delimiter}${$24012dd272ea9b9a$var$os.EOL}${convertedValue}${$24012dd272ea9b9a$var$os.EOL}${delimiter}`;
+}
+$24012dd272ea9b9a$exports.prepareKeyValueMessage = $24012dd272ea9b9a$var$prepareKeyValueMessage;
+
+
+
+
+const $8c7cc7c00e6bea0c$var$os = $8c7cc7c00e6bea0c$var$__importStar($3B1P3$os);
+
+const $8c7cc7c00e6bea0c$var$path = $8c7cc7c00e6bea0c$var$__importStar($3B1P3$path);
 var $0a8e739db5585665$exports = {};
 "use strict";
 var $0a8e739db5585665$var$__awaiter = $0a8e739db5585665$exports && $0a8e739db5585665$exports.__awaiter || function(thisArg, _arguments, P, generator) {
@@ -3056,14 +3068,8 @@ function $8c7cc7c00e6bea0c$var$exportVariable(name, val) {
     const convertedVal = $8edc3b90e976de31$exports.toCommandValue(val);
     process.env[name] = convertedVal;
     const filePath = process.env["GITHUB_ENV"] || "";
-    if (filePath) {
-        const delimiter = `ghadelimiter_${$bb5fef6ed537e5c8$export$2e2bcd8739ae039()}`;
-        // These should realistically never happen, but just in case someone finds a way to exploit uuid generation let's not allow keys or values that contain the delimiter.
-        if (name.includes(delimiter)) throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter}"`);
-        if (convertedVal.includes(delimiter)) throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
-        const commandValue = `${name}<<${delimiter}${$8c7cc7c00e6bea0c$var$os.EOL}${convertedVal}${$8c7cc7c00e6bea0c$var$os.EOL}${delimiter}`;
-        $24012dd272ea9b9a$exports.issueCommand("ENV", commandValue);
-    } else $3ecfdf502cef912d$exports.issueCommand("set-env", {
+    if (filePath) return $24012dd272ea9b9a$exports.issueFileCommand("ENV", $24012dd272ea9b9a$exports.prepareKeyValueMessage(name, val));
+    $3ecfdf502cef912d$exports.issueCommand("set-env", {
         name: name
     }, convertedVal);
 }
@@ -3080,7 +3086,7 @@ $8c7cc7c00e6bea0c$exports.setSecret = $8c7cc7c00e6bea0c$var$setSecret;
  * @param inputPath
  */ function $8c7cc7c00e6bea0c$var$addPath(inputPath) {
     const filePath = process.env["GITHUB_PATH"] || "";
-    if (filePath) $24012dd272ea9b9a$exports.issueCommand("PATH", inputPath);
+    if (filePath) $24012dd272ea9b9a$exports.issueFileCommand("PATH", inputPath);
     else $3ecfdf502cef912d$exports.issueCommand("add-path", {}, inputPath);
     process.env["PATH"] = `${inputPath}${$8c7cc7c00e6bea0c$var$path.delimiter}${process.env["PATH"]}`;
 }
@@ -3109,7 +3115,8 @@ $8c7cc7c00e6bea0c$exports.getInput = $8c7cc7c00e6bea0c$var$getInput;
  *
  */ function $8c7cc7c00e6bea0c$var$getMultilineInput(name, options) {
     const inputs = $8c7cc7c00e6bea0c$var$getInput(name, options).split("\n").filter((x)=>x !== "");
-    return inputs;
+    if (options && options.trimWhitespace === false) return inputs;
+    return inputs.map((input)=>input.trim());
 }
 $8c7cc7c00e6bea0c$exports.getMultilineInput = $8c7cc7c00e6bea0c$var$getMultilineInput;
 /**
@@ -3145,10 +3152,12 @@ $8c7cc7c00e6bea0c$exports.getBooleanInput = $8c7cc7c00e6bea0c$var$getBooleanInpu
  * @param     value    value to store. Non-string values will be converted to a string via JSON.stringify
  */ // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function $8c7cc7c00e6bea0c$var$setOutput(name, value) {
+    const filePath = process.env["GITHUB_OUTPUT"] || "";
+    if (filePath) return $24012dd272ea9b9a$exports.issueFileCommand("OUTPUT", $24012dd272ea9b9a$exports.prepareKeyValueMessage(name, value));
     process.stdout.write($8c7cc7c00e6bea0c$var$os.EOL);
     $3ecfdf502cef912d$exports.issueCommand("set-output", {
         name: name
-    }, value);
+    }, $8edc3b90e976de31$exports.toCommandValue(value));
 }
 $8c7cc7c00e6bea0c$exports.setOutput = $8c7cc7c00e6bea0c$var$setOutput;
 /**
@@ -3264,9 +3273,11 @@ $8c7cc7c00e6bea0c$exports.group = $8c7cc7c00e6bea0c$var$group;
  * @param     value    value to store. Non-string values will be converted to a string via JSON.stringify
  */ // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function $8c7cc7c00e6bea0c$var$saveState(name, value) {
+    const filePath = process.env["GITHUB_STATE"] || "";
+    if (filePath) return $24012dd272ea9b9a$exports.issueFileCommand("STATE", $24012dd272ea9b9a$exports.prepareKeyValueMessage(name, value));
     $3ecfdf502cef912d$exports.issueCommand("save-state", {
         name: name
-    }, value);
+    }, $8edc3b90e976de31$exports.toCommandValue(value));
 }
 $8c7cc7c00e6bea0c$exports.saveState = $8c7cc7c00e6bea0c$var$saveState;
 /**
@@ -3754,7 +3765,7 @@ var $34a39b9cfdd3c6a2$var$__importStar = $34a39b9cfdd3c6a2$exports && $34a39b9cf
 Object.defineProperty($34a39b9cfdd3c6a2$exports, "__esModule", {
     value: true
 });
-$34a39b9cfdd3c6a2$exports.getOctokitOptions = $34a39b9cfdd3c6a2$exports.GitHub = $34a39b9cfdd3c6a2$exports.context = void 0;
+$34a39b9cfdd3c6a2$exports.getOctokitOptions = $34a39b9cfdd3c6a2$exports.GitHub = $34a39b9cfdd3c6a2$exports.defaults = $34a39b9cfdd3c6a2$exports.context = void 0;
 
 const $34a39b9cfdd3c6a2$var$Context = $34a39b9cfdd3c6a2$var$__importStar((parcelRequire("tRvdu")));
 
@@ -4117,7 +4128,7 @@ function $f9329cf9adbb1373$var$parse(options) {
         "url",
         "headers",
         "request",
-        "mediaType", 
+        "mediaType"
     ]);
     // extract variable names from URL to calculate remaining variables later
     const urlVariableNames = $f9329cf9adbb1373$var$extractUrlVariableNames(url);
@@ -4366,7 +4377,7 @@ $8dafdd0617a538ba$export$26e841bcf1aeb894.prototype.name = "FetchError";
 let $8dafdd0617a538ba$var$convert;
 
 try {
-    $8dafdd0617a538ba$var$convert = $8dafdd0617a538ba$import$d8738670c721d955$9c68d69a4c5bbcf9;
+    $8dafdd0617a538ba$var$convert = $8dafdd0617a538ba$import$d57b52e589a40526$9c68d69a4c5bbcf9;
 } catch (e) {}
 const $8dafdd0617a538ba$var$INTERNALS = Symbol("Body internals");
 // fix an issue where "PassThrough" isn't a named export for node <10
@@ -4705,7 +4716,8 @@ $8dafdd0617a538ba$var$Body.mixIn = function(proto) {
     return body.length;
     else if (body && typeof body.getLengthSync === "function") {
         // detect form data input from form-data module
-        if (body._lengthRetrievers && body._lengthRetrievers.length == 0 || body.hasKnownLength && body.hasKnownLength()) // 2.x
+        if (body._lengthRetrievers && body._lengthRetrievers.length == 0 || // 1.x
+        body.hasKnownLength && body.hasKnownLength()) // 2.x
         return body.getLengthSync();
         return null;
     } else // body is stream
@@ -4788,14 +4800,14 @@ class $8dafdd0617a538ba$export$79b704688b15c0f4 {
                     if (typeof pair !== "object" || typeof pair[Symbol.iterator] !== "function") throw new TypeError("Each header pair must be iterable");
                     pairs.push(Array.from(pair));
                 }
-                for (const pair1 of pairs){
-                    if (pair1.length !== 2) throw new TypeError("Each header pair must be a name/value tuple");
-                    this.append(pair1[0], pair1[1]);
+                for (const pair of pairs){
+                    if (pair.length !== 2) throw new TypeError("Each header pair must be a name/value tuple");
+                    this.append(pair[0], pair[1]);
                 }
             } else // record<ByteString, ByteString>
             for (const key of Object.keys(init)){
-                const value1 = init[key];
-                this.append(key, value1);
+                const value = init[key];
+                this.append(key, value);
             }
         } else throw new TypeError("Provided initializer must be an object");
     }
@@ -5409,9 +5421,9 @@ const $8dafdd0617a538ba$var$isDomainOrSubdomain = function isDomainOrSubdomain(d
                         if (locationURL !== null) // handle corrupted header
                         try {
                             headers.set("Location", locationURL);
-                        } catch (err1) {
+                        } catch (err) {
                             // istanbul ignore next: nodejs server prevent invalid response headers, we can't test this through normal request
-                            reject(err1);
+                            reject(err);
                         }
                         break;
                     case "follow":
@@ -5572,16 +5584,12 @@ function $6cc7b8104a34f7f8$var$wrappy(fn, cb) {
     return wrapper;
     function wrapper() {
         var args = new Array(arguments.length);
-        for(var i = 0; i < args.length; i++){
-            args[i] = arguments[i];
-        }
+        for(var i = 0; i < args.length; i++)args[i] = arguments[i];
         var ret = fn.apply(this, args);
         var cb = args[args.length - 1];
-        if (typeof ret === "function" && ret !== cb) {
-            Object.keys(cb).forEach(function(k) {
-                ret[k] = cb[k];
-            });
-        }
+        if (typeof ret === "function" && ret !== cb) Object.keys(cb).forEach(function(k) {
+            ret[k] = cb[k];
+        });
         return ret;
     }
 }
@@ -5817,7 +5825,7 @@ const $60ddf0afc740d123$var$NON_VARIABLE_OPTIONS = [
     "headers",
     "request",
     "query",
-    "mediaType", 
+    "mediaType"
 ];
 const $60ddf0afc740d123$var$FORBIDDEN_VARIABLE_OPTIONS = [
     "query",
@@ -5939,7 +5947,7 @@ class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
         // prepend default user agent with `options.userAgent` if set
         requestDefaults.headers["user-agent"] = [
             options.userAgent,
-            `octokit-core.js/${$54b3cc8c9f7e5ec5$var$VERSION} ${(0, $54242adf02630d3d$export$7935961ef7719cb0)()}`, 
+            `octokit-core.js/${$54b3cc8c9f7e5ec5$var$VERSION} ${(0, $54242adf02630d3d$export$7935961ef7719cb0)()}`
         ].filter(Boolean).join(" ");
         if (options.baseUrl) requestDefaults.baseUrl = options.baseUrl;
         if (options.previews) requestDefaults.mediaType.previews = options.previews;
@@ -5972,7 +5980,7 @@ class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
             }
         } else {
             const { authStrategy: authStrategy , ...otherOptions } = options;
-            const auth1 = authStrategy(Object.assign({
+            const auth = authStrategy(Object.assign({
                 request: this.request,
                 log: this.log,
                 // we pass the current octokit instance as well as its constructor options
@@ -5984,8 +5992,8 @@ class $54b3cc8c9f7e5ec5$export$d19f1ac68c042717 {
                 octokitOptions: otherOptions
             }, options.auth));
             // @ts-ignore  ¯\_(ツ)_/¯
-            hook.wrap("request", auth1.hook);
-            this.auth = auth1;
+            hook.wrap("request", auth.hook);
+            this.auth = auth;
         }
         // apply plugins
         // https://stackoverflow.com/a/16345172
@@ -6028,107 +6036,143 @@ $54b3cc8c9f7e5ec5$export$d19f1ac68c042717.plugins = [];
 
 const $50c44f055a02491e$var$Endpoints = {
     actions: {
+        addCustomLabelsToSelfHostedRunnerForOrg: [
+            "POST /orgs/{org}/actions/runners/{runner_id}/labels"
+        ],
+        addCustomLabelsToSelfHostedRunnerForRepo: [
+            "POST /repos/{owner}/{repo}/actions/runners/{runner_id}/labels"
+        ],
         addSelectedRepoToOrgSecret: [
-            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}", 
+            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}"
         ],
         approveWorkflowRun: [
-            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/approve", 
+            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/approve"
         ],
         cancelWorkflowRun: [
-            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel", 
+            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel"
         ],
         createOrUpdateEnvironmentSecret: [
-            "PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}", 
+            "PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}"
         ],
         createOrUpdateOrgSecret: [
             "PUT /orgs/{org}/actions/secrets/{secret_name}"
         ],
         createOrUpdateRepoSecret: [
-            "PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}", 
+            "PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}"
         ],
         createRegistrationTokenForOrg: [
-            "POST /orgs/{org}/actions/runners/registration-token", 
+            "POST /orgs/{org}/actions/runners/registration-token"
         ],
         createRegistrationTokenForRepo: [
-            "POST /repos/{owner}/{repo}/actions/runners/registration-token", 
+            "POST /repos/{owner}/{repo}/actions/runners/registration-token"
         ],
         createRemoveTokenForOrg: [
             "POST /orgs/{org}/actions/runners/remove-token"
         ],
         createRemoveTokenForRepo: [
-            "POST /repos/{owner}/{repo}/actions/runners/remove-token", 
+            "POST /repos/{owner}/{repo}/actions/runners/remove-token"
         ],
         createWorkflowDispatch: [
-            "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches", 
+            "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches"
+        ],
+        deleteActionsCacheById: [
+            "DELETE /repos/{owner}/{repo}/actions/caches/{cache_id}"
+        ],
+        deleteActionsCacheByKey: [
+            "DELETE /repos/{owner}/{repo}/actions/caches{?key,ref}"
         ],
         deleteArtifact: [
-            "DELETE /repos/{owner}/{repo}/actions/artifacts/{artifact_id}", 
+            "DELETE /repos/{owner}/{repo}/actions/artifacts/{artifact_id}"
         ],
         deleteEnvironmentSecret: [
-            "DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}", 
+            "DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}"
         ],
         deleteOrgSecret: [
             "DELETE /orgs/{org}/actions/secrets/{secret_name}"
         ],
         deleteRepoSecret: [
-            "DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}", 
+            "DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}"
         ],
         deleteSelfHostedRunnerFromOrg: [
-            "DELETE /orgs/{org}/actions/runners/{runner_id}", 
+            "DELETE /orgs/{org}/actions/runners/{runner_id}"
         ],
         deleteSelfHostedRunnerFromRepo: [
-            "DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}", 
+            "DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}"
         ],
         deleteWorkflowRun: [
             "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}"
         ],
         deleteWorkflowRunLogs: [
-            "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}/logs", 
+            "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}/logs"
         ],
         disableSelectedRepositoryGithubActionsOrganization: [
-            "DELETE /orgs/{org}/actions/permissions/repositories/{repository_id}", 
+            "DELETE /orgs/{org}/actions/permissions/repositories/{repository_id}"
         ],
         disableWorkflow: [
-            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable", 
+            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable"
         ],
         downloadArtifact: [
-            "GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}", 
+            "GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}"
         ],
         downloadJobLogsForWorkflowRun: [
-            "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs", 
+            "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs"
         ],
         downloadWorkflowRunAttemptLogs: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/logs", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/logs"
         ],
         downloadWorkflowRunLogs: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs"
         ],
         enableSelectedRepositoryGithubActionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions/repositories/{repository_id}", 
+            "PUT /orgs/{org}/actions/permissions/repositories/{repository_id}"
         ],
         enableWorkflow: [
-            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable", 
+            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable"
+        ],
+        getActionsCacheList: [
+            "GET /repos/{owner}/{repo}/actions/caches"
+        ],
+        getActionsCacheUsage: [
+            "GET /repos/{owner}/{repo}/actions/cache/usage"
+        ],
+        getActionsCacheUsageByRepoForOrg: [
+            "GET /orgs/{org}/actions/cache/usage-by-repository"
+        ],
+        getActionsCacheUsageForEnterprise: [
+            "GET /enterprises/{enterprise}/actions/cache/usage"
+        ],
+        getActionsCacheUsageForOrg: [
+            "GET /orgs/{org}/actions/cache/usage"
         ],
         getAllowedActionsOrganization: [
-            "GET /orgs/{org}/actions/permissions/selected-actions", 
+            "GET /orgs/{org}/actions/permissions/selected-actions"
         ],
         getAllowedActionsRepository: [
-            "GET /repos/{owner}/{repo}/actions/permissions/selected-actions", 
+            "GET /repos/{owner}/{repo}/actions/permissions/selected-actions"
         ],
         getArtifact: [
             "GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}"
         ],
         getEnvironmentPublicKey: [
-            "GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key", 
+            "GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key"
         ],
         getEnvironmentSecret: [
-            "GET /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}", 
+            "GET /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}"
+        ],
+        getGithubActionsDefaultWorkflowPermissionsEnterprise: [
+            "GET /enterprises/{enterprise}/actions/permissions/workflow"
+        ],
+        getGithubActionsDefaultWorkflowPermissionsOrganization: [
+            "GET /orgs/{org}/actions/permissions/workflow"
+        ],
+        getGithubActionsDefaultWorkflowPermissionsRepository: [
+            "GET /repos/{owner}/{repo}/actions/permissions/workflow"
         ],
         getGithubActionsPermissionsOrganization: [
-            "GET /orgs/{org}/actions/permissions", 
+            "GET /orgs/{org}/actions/permissions"
         ],
         getGithubActionsPermissionsRepository: [
-            "GET /repos/{owner}/{repo}/actions/permissions", 
+            "GET /repos/{owner}/{repo}/actions/permissions"
         ],
         getJobForWorkflowRun: [
             "GET /repos/{owner}/{repo}/actions/jobs/{job_id}"
@@ -6140,7 +6184,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/actions/secrets/{secret_name}"
         ],
         getPendingDeploymentsForRun: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments"
         ],
         getRepoPermissions: [
             "GET /repos/{owner}/{repo}/actions/permissions",
@@ -6150,7 +6194,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "actions",
                     "getGithubActionsPermissionsRepository"
                 ]
-            }, 
+            }
         ],
         getRepoPublicKey: [
             "GET /repos/{owner}/{repo}/actions/secrets/public-key"
@@ -6159,40 +6203,49 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/actions/secrets/{secret_name}"
         ],
         getReviewsForRun: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/approvals", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/approvals"
         ],
         getSelfHostedRunnerForOrg: [
             "GET /orgs/{org}/actions/runners/{runner_id}"
         ],
         getSelfHostedRunnerForRepo: [
-            "GET /repos/{owner}/{repo}/actions/runners/{runner_id}", 
+            "GET /repos/{owner}/{repo}/actions/runners/{runner_id}"
         ],
         getWorkflow: [
             "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}"
+        ],
+        getWorkflowAccessToRepository: [
+            "GET /repos/{owner}/{repo}/actions/permissions/access"
         ],
         getWorkflowRun: [
             "GET /repos/{owner}/{repo}/actions/runs/{run_id}"
         ],
         getWorkflowRunAttempt: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}"
         ],
         getWorkflowRunUsage: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/timing", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/timing"
         ],
         getWorkflowUsage: [
-            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing", 
+            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing"
         ],
         listArtifactsForRepo: [
             "GET /repos/{owner}/{repo}/actions/artifacts"
         ],
         listEnvironmentSecrets: [
-            "GET /repositories/{repository_id}/environments/{environment_name}/secrets", 
+            "GET /repositories/{repository_id}/environments/{environment_name}/secrets"
         ],
         listJobsForWorkflowRun: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs"
         ],
         listJobsForWorkflowRunAttempt: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs"
+        ],
+        listLabelsForSelfHostedRunnerForOrg: [
+            "GET /orgs/{org}/actions/runners/{runner_id}/labels"
+        ],
+        listLabelsForSelfHostedRunnerForRepo: [
+            "GET /repos/{owner}/{repo}/actions/runners/{runner_id}/labels"
         ],
         listOrgSecrets: [
             "GET /orgs/{org}/actions/secrets"
@@ -6207,13 +6260,13 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/actions/runners/downloads"
         ],
         listRunnerApplicationsForRepo: [
-            "GET /repos/{owner}/{repo}/actions/runners/downloads", 
+            "GET /repos/{owner}/{repo}/actions/runners/downloads"
         ],
         listSelectedReposForOrgSecret: [
-            "GET /orgs/{org}/actions/secrets/{secret_name}/repositories", 
+            "GET /orgs/{org}/actions/secrets/{secret_name}/repositories"
         ],
         listSelectedRepositoriesEnabledGithubActionsOrganization: [
-            "GET /orgs/{org}/actions/permissions/repositories", 
+            "GET /orgs/{org}/actions/permissions/repositories"
         ],
         listSelfHostedRunnersForOrg: [
             "GET /orgs/{org}/actions/runners"
@@ -6222,37 +6275,76 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/actions/runners"
         ],
         listWorkflowRunArtifacts: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts", 
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts"
         ],
         listWorkflowRuns: [
-            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs", 
+            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs"
         ],
         listWorkflowRunsForRepo: [
             "GET /repos/{owner}/{repo}/actions/runs"
         ],
+        reRunJobForWorkflowRun: [
+            "POST /repos/{owner}/{repo}/actions/jobs/{job_id}/rerun"
+        ],
+        reRunWorkflow: [
+            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun"
+        ],
+        reRunWorkflowFailedJobs: [
+            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs"
+        ],
+        removeAllCustomLabelsFromSelfHostedRunnerForOrg: [
+            "DELETE /orgs/{org}/actions/runners/{runner_id}/labels"
+        ],
+        removeAllCustomLabelsFromSelfHostedRunnerForRepo: [
+            "DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}/labels"
+        ],
+        removeCustomLabelFromSelfHostedRunnerForOrg: [
+            "DELETE /orgs/{org}/actions/runners/{runner_id}/labels/{name}"
+        ],
+        removeCustomLabelFromSelfHostedRunnerForRepo: [
+            "DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}/labels/{name}"
+        ],
         removeSelectedRepoFromOrgSecret: [
-            "DELETE /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}", 
+            "DELETE /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}"
         ],
         reviewPendingDeploymentsForRun: [
-            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments", 
+            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments"
         ],
         setAllowedActionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions/selected-actions", 
+            "PUT /orgs/{org}/actions/permissions/selected-actions"
         ],
         setAllowedActionsRepository: [
-            "PUT /repos/{owner}/{repo}/actions/permissions/selected-actions", 
+            "PUT /repos/{owner}/{repo}/actions/permissions/selected-actions"
+        ],
+        setCustomLabelsForSelfHostedRunnerForOrg: [
+            "PUT /orgs/{org}/actions/runners/{runner_id}/labels"
+        ],
+        setCustomLabelsForSelfHostedRunnerForRepo: [
+            "PUT /repos/{owner}/{repo}/actions/runners/{runner_id}/labels"
+        ],
+        setGithubActionsDefaultWorkflowPermissionsEnterprise: [
+            "PUT /enterprises/{enterprise}/actions/permissions/workflow"
+        ],
+        setGithubActionsDefaultWorkflowPermissionsOrganization: [
+            "PUT /orgs/{org}/actions/permissions/workflow"
+        ],
+        setGithubActionsDefaultWorkflowPermissionsRepository: [
+            "PUT /repos/{owner}/{repo}/actions/permissions/workflow"
         ],
         setGithubActionsPermissionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions", 
+            "PUT /orgs/{org}/actions/permissions"
         ],
         setGithubActionsPermissionsRepository: [
-            "PUT /repos/{owner}/{repo}/actions/permissions", 
+            "PUT /repos/{owner}/{repo}/actions/permissions"
         ],
         setSelectedReposForOrgSecret: [
-            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories", 
+            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories"
         ],
         setSelectedRepositoriesEnabledGithubActionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions/repositories", 
+            "PUT /orgs/{org}/actions/permissions/repositories"
+        ],
+        setWorkflowAccessToRepository: [
+            "PUT /repos/{owner}/{repo}/actions/permissions/access"
         ]
     },
     activity: {
@@ -6263,7 +6355,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "DELETE /repos/{owner}/{repo}/subscription"
         ],
         deleteThreadSubscription: [
-            "DELETE /notifications/threads/{thread_id}/subscription", 
+            "DELETE /notifications/threads/{thread_id}/subscription"
         ],
         getFeeds: [
             "GET /feeds"
@@ -6275,7 +6367,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /notifications/threads/{thread_id}"
         ],
         getThreadSubscriptionForAuthenticatedUser: [
-            "GET /notifications/threads/{thread_id}/subscription", 
+            "GET /notifications/threads/{thread_id}/subscription"
         ],
         listEventsForAuthenticatedUser: [
             "GET /users/{username}/events"
@@ -6284,7 +6376,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /notifications"
         ],
         listOrgEventsForAuthenticatedUser: [
-            "GET /users/{username}/events/orgs/{org}", 
+            "GET /users/{username}/events/orgs/{org}"
         ],
         listPublicEvents: [
             "GET /events"
@@ -6302,13 +6394,13 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /users/{username}/received_events"
         ],
         listReceivedPublicEventsForUser: [
-            "GET /users/{username}/received_events/public", 
+            "GET /users/{username}/received_events/public"
         ],
         listRepoEvents: [
             "GET /repos/{owner}/{repo}/events"
         ],
         listRepoNotificationsForAuthenticatedUser: [
-            "GET /repos/{owner}/{repo}/notifications", 
+            "GET /repos/{owner}/{repo}/notifications"
         ],
         listReposStarredByAuthenticatedUser: [
             "GET /user/starred"
@@ -6341,7 +6433,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "PUT /repos/{owner}/{repo}/subscription"
         ],
         setThreadSubscription: [
-            "PUT /notifications/threads/{thread_id}/subscription", 
+            "PUT /notifications/threads/{thread_id}/subscription"
         ],
         starRepoForAuthenticatedUser: [
             "PUT /user/starred/{owner}/{repo}"
@@ -6359,39 +6451,19 @@ const $50c44f055a02491e$var$Endpoints = {
                     "apps",
                     "addRepoToInstallationForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         addRepoToInstallationForAuthenticatedUser: [
-            "PUT /user/installations/{installation_id}/repositories/{repository_id}", 
+            "PUT /user/installations/{installation_id}/repositories/{repository_id}"
         ],
         checkToken: [
             "POST /applications/{client_id}/token"
-        ],
-        createContentAttachment: [
-            "POST /content_references/{content_reference_id}/attachments",
-            {
-                mediaType: {
-                    previews: [
-                        "corsair"
-                    ]
-                }
-            }, 
-        ],
-        createContentAttachmentForRepo: [
-            "POST /repos/{owner}/{repo}/content_references/{content_reference_id}/attachments",
-            {
-                mediaType: {
-                    previews: [
-                        "corsair"
-                    ]
-                }
-            }, 
         ],
         createFromManifest: [
             "POST /app-manifests/{code}/conversions"
         ],
         createInstallationAccessToken: [
-            "POST /app/installations/{installation_id}/access_tokens", 
+            "POST /app/installations/{installation_id}/access_tokens"
         ],
         deleteAuthorization: [
             "DELETE /applications/{client_id}/grant"
@@ -6418,10 +6490,10 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/installation"
         ],
         getSubscriptionPlanForAccount: [
-            "GET /marketplace_listing/accounts/{account_id}", 
+            "GET /marketplace_listing/accounts/{account_id}"
         ],
         getSubscriptionPlanForAccountStubbed: [
-            "GET /marketplace_listing/stubbed/accounts/{account_id}", 
+            "GET /marketplace_listing/stubbed/accounts/{account_id}"
         ],
         getUserInstallation: [
             "GET /users/{username}/installation"
@@ -6436,10 +6508,10 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /marketplace_listing/plans/{plan_id}/accounts"
         ],
         listAccountsForPlanStubbed: [
-            "GET /marketplace_listing/stubbed/plans/{plan_id}/accounts", 
+            "GET /marketplace_listing/stubbed/plans/{plan_id}/accounts"
         ],
         listInstallationReposForAuthenticatedUser: [
-            "GET /user/installations/{installation_id}/repositories", 
+            "GET /user/installations/{installation_id}/repositories"
         ],
         listInstallations: [
             "GET /app/installations"
@@ -6460,13 +6532,13 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /user/marketplace_purchases"
         ],
         listSubscriptionsForAuthenticatedUserStubbed: [
-            "GET /user/marketplace_purchases/stubbed", 
+            "GET /user/marketplace_purchases/stubbed"
         ],
         listWebhookDeliveries: [
             "GET /app/hook/deliveries"
         ],
         redeliverWebhookDelivery: [
-            "POST /app/hook/deliveries/{delivery_id}/attempts", 
+            "POST /app/hook/deliveries/{delivery_id}/attempts"
         ],
         removeRepoFromInstallation: [
             "DELETE /user/installations/{installation_id}/repositories/{repository_id}",
@@ -6476,10 +6548,10 @@ const $50c44f055a02491e$var$Endpoints = {
                     "apps",
                     "removeRepoFromInstallationForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         removeRepoFromInstallationForAuthenticatedUser: [
-            "DELETE /user/installations/{installation_id}/repositories/{repository_id}", 
+            "DELETE /user/installations/{installation_id}/repositories/{repository_id}"
         ],
         resetToken: [
             "PATCH /applications/{client_id}/token"
@@ -6494,7 +6566,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "PUT /app/installations/{installation_id}/suspended"
         ],
         unsuspendInstallation: [
-            "DELETE /app/installations/{installation_id}/suspended", 
+            "DELETE /app/installations/{installation_id}/suspended"
         ],
         updateWebhookConfigForApp: [
             "PATCH /app/hook/config"
@@ -6505,19 +6577,25 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/settings/billing/actions"
         ],
         getGithubActionsBillingUser: [
-            "GET /users/{username}/settings/billing/actions", 
+            "GET /users/{username}/settings/billing/actions"
+        ],
+        getGithubAdvancedSecurityBillingGhe: [
+            "GET /enterprises/{enterprise}/settings/billing/advanced-security"
+        ],
+        getGithubAdvancedSecurityBillingOrg: [
+            "GET /orgs/{org}/settings/billing/advanced-security"
         ],
         getGithubPackagesBillingOrg: [
             "GET /orgs/{org}/settings/billing/packages"
         ],
         getGithubPackagesBillingUser: [
-            "GET /users/{username}/settings/billing/packages", 
+            "GET /users/{username}/settings/billing/packages"
         ],
         getSharedStorageBillingOrg: [
-            "GET /orgs/{org}/settings/billing/shared-storage", 
+            "GET /orgs/{org}/settings/billing/shared-storage"
         ],
         getSharedStorageBillingUser: [
-            "GET /users/{username}/settings/billing/shared-storage", 
+            "GET /users/{username}/settings/billing/shared-storage"
         ]
     },
     checks: {
@@ -6534,25 +6612,25 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/check-suites/{check_suite_id}"
         ],
         listAnnotations: [
-            "GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations", 
+            "GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations"
         ],
         listForRef: [
             "GET /repos/{owner}/{repo}/commits/{ref}/check-runs"
         ],
         listForSuite: [
-            "GET /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs", 
+            "GET /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs"
         ],
         listSuitesForRef: [
             "GET /repos/{owner}/{repo}/commits/{ref}/check-suites"
         ],
         rerequestRun: [
-            "POST /repos/{owner}/{repo}/check-runs/{check_run_id}/rerequest", 
+            "POST /repos/{owner}/{repo}/check-runs/{check_run_id}/rerequest"
         ],
         rerequestSuite: [
-            "POST /repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest", 
+            "POST /repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest"
         ],
         setSuitesPreferences: [
-            "PATCH /repos/{owner}/{repo}/check-suites/preferences", 
+            "PATCH /repos/{owner}/{repo}/check-suites/preferences"
         ],
         update: [
             "PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}"
@@ -6560,7 +6638,7 @@ const $50c44f055a02491e$var$Endpoints = {
     },
     codeScanning: {
         deleteAnalysis: [
-            "DELETE /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}{?confirm_delete}", 
+            "DELETE /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}{?confirm_delete}"
         ],
         getAlert: [
             "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
@@ -6569,16 +6647,19 @@ const $50c44f055a02491e$var$Endpoints = {
                 renamedParameters: {
                     alert_id: "alert_number"
                 }
-            }, 
+            }
         ],
         getAnalysis: [
-            "GET /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}", 
+            "GET /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}"
         ],
         getSarif: [
             "GET /repos/{owner}/{repo}/code-scanning/sarifs/{sarif_id}"
         ],
         listAlertInstances: [
-            "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances", 
+            "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances"
+        ],
+        listAlertsForOrg: [
+            "GET /orgs/{org}/code-scanning/alerts"
         ],
         listAlertsForRepo: [
             "GET /repos/{owner}/{repo}/code-scanning/alerts"
@@ -6591,13 +6672,13 @@ const $50c44f055a02491e$var$Endpoints = {
                     "codeScanning",
                     "listAlertInstances"
                 ]
-            }, 
+            }
         ],
         listRecentAnalyses: [
             "GET /repos/{owner}/{repo}/code-scanning/analyses"
         ],
         updateAlert: [
-            "PATCH /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", 
+            "PATCH /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}"
         ],
         uploadSarif: [
             "POST /repos/{owner}/{repo}/code-scanning/sarifs"
@@ -6611,35 +6692,209 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /codes_of_conduct/{key}"
         ]
     },
+    codespaces: {
+        addRepositoryForSecretForAuthenticatedUser: [
+            "PUT /user/codespaces/secrets/{secret_name}/repositories/{repository_id}"
+        ],
+        codespaceMachinesForAuthenticatedUser: [
+            "GET /user/codespaces/{codespace_name}/machines"
+        ],
+        createForAuthenticatedUser: [
+            "POST /user/codespaces"
+        ],
+        createOrUpdateRepoSecret: [
+            "PUT /repos/{owner}/{repo}/codespaces/secrets/{secret_name}"
+        ],
+        createOrUpdateSecretForAuthenticatedUser: [
+            "PUT /user/codespaces/secrets/{secret_name}"
+        ],
+        createWithPrForAuthenticatedUser: [
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/codespaces"
+        ],
+        createWithRepoForAuthenticatedUser: [
+            "POST /repos/{owner}/{repo}/codespaces"
+        ],
+        deleteForAuthenticatedUser: [
+            "DELETE /user/codespaces/{codespace_name}"
+        ],
+        deleteFromOrganization: [
+            "DELETE /orgs/{org}/members/{username}/codespaces/{codespace_name}"
+        ],
+        deleteRepoSecret: [
+            "DELETE /repos/{owner}/{repo}/codespaces/secrets/{secret_name}"
+        ],
+        deleteSecretForAuthenticatedUser: [
+            "DELETE /user/codespaces/secrets/{secret_name}"
+        ],
+        exportForAuthenticatedUser: [
+            "POST /user/codespaces/{codespace_name}/exports"
+        ],
+        getExportDetailsForAuthenticatedUser: [
+            "GET /user/codespaces/{codespace_name}/exports/{export_id}"
+        ],
+        getForAuthenticatedUser: [
+            "GET /user/codespaces/{codespace_name}"
+        ],
+        getPublicKeyForAuthenticatedUser: [
+            "GET /user/codespaces/secrets/public-key"
+        ],
+        getRepoPublicKey: [
+            "GET /repos/{owner}/{repo}/codespaces/secrets/public-key"
+        ],
+        getRepoSecret: [
+            "GET /repos/{owner}/{repo}/codespaces/secrets/{secret_name}"
+        ],
+        getSecretForAuthenticatedUser: [
+            "GET /user/codespaces/secrets/{secret_name}"
+        ],
+        listDevcontainersInRepositoryForAuthenticatedUser: [
+            "GET /repos/{owner}/{repo}/codespaces/devcontainers"
+        ],
+        listForAuthenticatedUser: [
+            "GET /user/codespaces"
+        ],
+        listInOrganization: [
+            "GET /orgs/{org}/codespaces",
+            {},
+            {
+                renamedParameters: {
+                    org_id: "org"
+                }
+            }
+        ],
+        listInRepositoryForAuthenticatedUser: [
+            "GET /repos/{owner}/{repo}/codespaces"
+        ],
+        listRepoSecrets: [
+            "GET /repos/{owner}/{repo}/codespaces/secrets"
+        ],
+        listRepositoriesForSecretForAuthenticatedUser: [
+            "GET /user/codespaces/secrets/{secret_name}/repositories"
+        ],
+        listSecretsForAuthenticatedUser: [
+            "GET /user/codespaces/secrets"
+        ],
+        removeRepositoryForSecretForAuthenticatedUser: [
+            "DELETE /user/codespaces/secrets/{secret_name}/repositories/{repository_id}"
+        ],
+        repoMachinesForAuthenticatedUser: [
+            "GET /repos/{owner}/{repo}/codespaces/machines"
+        ],
+        setRepositoriesForSecretForAuthenticatedUser: [
+            "PUT /user/codespaces/secrets/{secret_name}/repositories"
+        ],
+        startForAuthenticatedUser: [
+            "POST /user/codespaces/{codespace_name}/start"
+        ],
+        stopForAuthenticatedUser: [
+            "POST /user/codespaces/{codespace_name}/stop"
+        ],
+        stopInOrganization: [
+            "POST /orgs/{org}/members/{username}/codespaces/{codespace_name}/stop"
+        ],
+        updateForAuthenticatedUser: [
+            "PATCH /user/codespaces/{codespace_name}"
+        ]
+    },
+    dependabot: {
+        addSelectedRepoToOrgSecret: [
+            "PUT /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}"
+        ],
+        createOrUpdateOrgSecret: [
+            "PUT /orgs/{org}/dependabot/secrets/{secret_name}"
+        ],
+        createOrUpdateRepoSecret: [
+            "PUT /repos/{owner}/{repo}/dependabot/secrets/{secret_name}"
+        ],
+        deleteOrgSecret: [
+            "DELETE /orgs/{org}/dependabot/secrets/{secret_name}"
+        ],
+        deleteRepoSecret: [
+            "DELETE /repos/{owner}/{repo}/dependabot/secrets/{secret_name}"
+        ],
+        getOrgPublicKey: [
+            "GET /orgs/{org}/dependabot/secrets/public-key"
+        ],
+        getOrgSecret: [
+            "GET /orgs/{org}/dependabot/secrets/{secret_name}"
+        ],
+        getRepoPublicKey: [
+            "GET /repos/{owner}/{repo}/dependabot/secrets/public-key"
+        ],
+        getRepoSecret: [
+            "GET /repos/{owner}/{repo}/dependabot/secrets/{secret_name}"
+        ],
+        listOrgSecrets: [
+            "GET /orgs/{org}/dependabot/secrets"
+        ],
+        listRepoSecrets: [
+            "GET /repos/{owner}/{repo}/dependabot/secrets"
+        ],
+        listSelectedReposForOrgSecret: [
+            "GET /orgs/{org}/dependabot/secrets/{secret_name}/repositories"
+        ],
+        removeSelectedRepoFromOrgSecret: [
+            "DELETE /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}"
+        ],
+        setSelectedReposForOrgSecret: [
+            "PUT /orgs/{org}/dependabot/secrets/{secret_name}/repositories"
+        ]
+    },
+    dependencyGraph: {
+        createRepositorySnapshot: [
+            "POST /repos/{owner}/{repo}/dependency-graph/snapshots"
+        ],
+        diffRange: [
+            "GET /repos/{owner}/{repo}/dependency-graph/compare/{basehead}"
+        ]
+    },
     emojis: {
         get: [
             "GET /emojis"
         ]
     },
     enterpriseAdmin: {
+        addCustomLabelsToSelfHostedRunnerForEnterprise: [
+            "POST /enterprises/{enterprise}/actions/runners/{runner_id}/labels"
+        ],
         disableSelectedOrganizationGithubActionsEnterprise: [
-            "DELETE /enterprises/{enterprise}/actions/permissions/organizations/{org_id}", 
+            "DELETE /enterprises/{enterprise}/actions/permissions/organizations/{org_id}"
         ],
         enableSelectedOrganizationGithubActionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions/organizations/{org_id}", 
+            "PUT /enterprises/{enterprise}/actions/permissions/organizations/{org_id}"
         ],
         getAllowedActionsEnterprise: [
-            "GET /enterprises/{enterprise}/actions/permissions/selected-actions", 
+            "GET /enterprises/{enterprise}/actions/permissions/selected-actions"
         ],
         getGithubActionsPermissionsEnterprise: [
-            "GET /enterprises/{enterprise}/actions/permissions", 
+            "GET /enterprises/{enterprise}/actions/permissions"
+        ],
+        getServerStatistics: [
+            "GET /enterprise-installation/{enterprise_or_org}/server-statistics"
+        ],
+        listLabelsForSelfHostedRunnerForEnterprise: [
+            "GET /enterprises/{enterprise}/actions/runners/{runner_id}/labels"
         ],
         listSelectedOrganizationsEnabledGithubActionsEnterprise: [
-            "GET /enterprises/{enterprise}/actions/permissions/organizations", 
+            "GET /enterprises/{enterprise}/actions/permissions/organizations"
+        ],
+        removeAllCustomLabelsFromSelfHostedRunnerForEnterprise: [
+            "DELETE /enterprises/{enterprise}/actions/runners/{runner_id}/labels"
+        ],
+        removeCustomLabelFromSelfHostedRunnerForEnterprise: [
+            "DELETE /enterprises/{enterprise}/actions/runners/{runner_id}/labels/{name}"
         ],
         setAllowedActionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions/selected-actions", 
+            "PUT /enterprises/{enterprise}/actions/permissions/selected-actions"
+        ],
+        setCustomLabelsForSelfHostedRunnerForEnterprise: [
+            "PUT /enterprises/{enterprise}/actions/runners/{runner_id}/labels"
         ],
         setGithubActionsPermissionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions", 
+            "PUT /enterprises/{enterprise}/actions/permissions"
         ],
         setSelectedOrganizationsEnabledGithubActionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions/organizations", 
+            "PUT /enterprises/{enterprise}/actions/permissions/organizations"
         ]
     },
     gists: {
@@ -6771,7 +7026,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "interactions",
                     "getRestrictionsForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         removeRestrictionsForAuthenticatedUser: [
             "DELETE /user/interaction-limits"
@@ -6780,7 +7035,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "DELETE /orgs/{org}/interaction-limits"
         ],
         removeRestrictionsForRepo: [
-            "DELETE /repos/{owner}/{repo}/interaction-limits", 
+            "DELETE /repos/{owner}/{repo}/interaction-limits"
         ],
         removeRestrictionsForYourPublicRepos: [
             "DELETE /user/interaction-limits",
@@ -6790,7 +7045,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "interactions",
                     "removeRestrictionsForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         setRestrictionsForAuthenticatedUser: [
             "PUT /user/interaction-limits"
@@ -6809,12 +7064,12 @@ const $50c44f055a02491e$var$Endpoints = {
                     "interactions",
                     "setRestrictionsForAuthenticatedUser"
                 ]
-            }, 
+            }
         ]
     },
     issues: {
         addAssignees: [
-            "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees", 
+            "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees"
         ],
         addLabels: [
             "POST /repos/{owner}/{repo}/issues/{issue_number}/labels"
@@ -6826,7 +7081,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /repos/{owner}/{repo}/issues"
         ],
         createComment: [
-            "POST /repos/{owner}/{repo}/issues/{issue_number}/comments", 
+            "POST /repos/{owner}/{repo}/issues/{issue_number}/comments"
         ],
         createLabel: [
             "POST /repos/{owner}/{repo}/labels"
@@ -6835,13 +7090,13 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /repos/{owner}/{repo}/milestones"
         ],
         deleteComment: [
-            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}", 
+            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}"
         ],
         deleteLabel: [
             "DELETE /repos/{owner}/{repo}/labels/{name}"
         ],
         deleteMilestone: [
-            "DELETE /repos/{owner}/{repo}/milestones/{milestone_number}", 
+            "DELETE /repos/{owner}/{repo}/milestones/{milestone_number}"
         ],
         get: [
             "GET /repos/{owner}/{repo}/issues/{issue_number}"
@@ -6877,7 +7132,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/issues/events"
         ],
         listEventsForTimeline: [
-            "GET /repos/{owner}/{repo}/issues/{issue_number}/timeline", 
+            "GET /repos/{owner}/{repo}/issues/{issue_number}/timeline"
         ],
         listForAuthenticatedUser: [
             "GET /user/issues"
@@ -6889,13 +7144,13 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/issues"
         ],
         listLabelsForMilestone: [
-            "GET /repos/{owner}/{repo}/milestones/{milestone_number}/labels", 
+            "GET /repos/{owner}/{repo}/milestones/{milestone_number}/labels"
         ],
         listLabelsForRepo: [
             "GET /repos/{owner}/{repo}/labels"
         ],
         listLabelsOnIssue: [
-            "GET /repos/{owner}/{repo}/issues/{issue_number}/labels", 
+            "GET /repos/{owner}/{repo}/issues/{issue_number}/labels"
         ],
         listMilestones: [
             "GET /repos/{owner}/{repo}/milestones"
@@ -6904,13 +7159,13 @@ const $50c44f055a02491e$var$Endpoints = {
             "PUT /repos/{owner}/{repo}/issues/{issue_number}/lock"
         ],
         removeAllLabels: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels", 
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels"
         ],
         removeAssignees: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees", 
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees"
         ],
         removeLabel: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels/{name}", 
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels/{name}"
         ],
         setLabels: [
             "PUT /repos/{owner}/{repo}/issues/{issue_number}/labels"
@@ -6928,7 +7183,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "PATCH /repos/{owner}/{repo}/labels/{name}"
         ],
         updateMilestone: [
-            "PATCH /repos/{owner}/{repo}/milestones/{milestone_number}", 
+            "PATCH /repos/{owner}/{repo}/milestones/{milestone_number}"
         ]
     },
     licenses: {
@@ -6952,7 +7207,7 @@ const $50c44f055a02491e$var$Endpoints = {
                 headers: {
                     "content-type": "text/plain; charset=utf-8"
                 }
-            }, 
+            }
         ]
     },
     meta: {
@@ -6974,16 +7229,16 @@ const $50c44f055a02491e$var$Endpoints = {
             "DELETE /repos/{owner}/{repo}/import"
         ],
         deleteArchiveForAuthenticatedUser: [
-            "DELETE /user/migrations/{migration_id}/archive", 
+            "DELETE /user/migrations/{migration_id}/archive"
         ],
         deleteArchiveForOrg: [
-            "DELETE /orgs/{org}/migrations/{migration_id}/archive", 
+            "DELETE /orgs/{org}/migrations/{migration_id}/archive"
         ],
         downloadArchiveForOrg: [
-            "GET /orgs/{org}/migrations/{migration_id}/archive", 
+            "GET /orgs/{org}/migrations/{migration_id}/archive"
         ],
         getArchiveForAuthenticatedUser: [
-            "GET /user/migrations/{migration_id}/archive", 
+            "GET /user/migrations/{migration_id}/archive"
         ],
         getCommitAuthors: [
             "GET /repos/{owner}/{repo}/import/authors"
@@ -7007,7 +7262,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/migrations"
         ],
         listReposForAuthenticatedUser: [
-            "GET /user/migrations/{migration_id}/repositories", 
+            "GET /user/migrations/{migration_id}/repositories"
         ],
         listReposForOrg: [
             "GET /orgs/{org}/migrations/{migration_id}/repositories"
@@ -7020,7 +7275,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "migrations",
                     "listReposForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         mapCommitAuthor: [
             "PATCH /repos/{owner}/{repo}/import/authors/{author_id}"
@@ -7038,10 +7293,10 @@ const $50c44f055a02491e$var$Endpoints = {
             "PUT /repos/{owner}/{repo}/import"
         ],
         unlockRepoForAuthenticatedUser: [
-            "DELETE /user/migrations/{migration_id}/repos/{repo_name}/lock", 
+            "DELETE /user/migrations/{migration_id}/repos/{repo_name}/lock"
         ],
         unlockRepoForOrg: [
-            "DELETE /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock", 
+            "DELETE /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock"
         ],
         updateImport: [
             "PATCH /repos/{owner}/{repo}/import"
@@ -7064,7 +7319,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/public_members/{username}"
         ],
         convertMemberToOutsideCollaborator: [
-            "PUT /orgs/{org}/outside_collaborators/{username}", 
+            "PUT /orgs/{org}/outside_collaborators/{username}"
         ],
         createInvitation: [
             "POST /orgs/{org}/invitations"
@@ -7091,7 +7346,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/hooks/{hook_id}/config"
         ],
         getWebhookDelivery: [
-            "GET /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}", 
+            "GET /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}"
         ],
         list: [
             "GET /organizations"
@@ -7101,6 +7356,9 @@ const $50c44f055a02491e$var$Endpoints = {
         ],
         listBlockedUsers: [
             "GET /orgs/{org}/blocks"
+        ],
+        listCustomRoles: [
+            "GET /organizations/{organization_id}/custom_roles"
         ],
         listFailedInvitations: [
             "GET /orgs/{org}/failed_invitations"
@@ -7139,7 +7397,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /orgs/{org}/hooks/{hook_id}/pings"
         ],
         redeliverWebhookDelivery: [
-            "POST /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts", 
+            "POST /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts"
         ],
         removeMember: [
             "DELETE /orgs/{org}/members/{username}"
@@ -7148,16 +7406,16 @@ const $50c44f055a02491e$var$Endpoints = {
             "DELETE /orgs/{org}/memberships/{username}"
         ],
         removeOutsideCollaborator: [
-            "DELETE /orgs/{org}/outside_collaborators/{username}", 
+            "DELETE /orgs/{org}/outside_collaborators/{username}"
         ],
         removePublicMembershipForAuthenticatedUser: [
-            "DELETE /orgs/{org}/public_members/{username}", 
+            "DELETE /orgs/{org}/public_members/{username}"
         ],
         setMembershipForUser: [
             "PUT /orgs/{org}/memberships/{username}"
         ],
         setPublicMembershipForAuthenticatedUser: [
-            "PUT /orgs/{org}/public_members/{username}", 
+            "PUT /orgs/{org}/public_members/{username}"
         ],
         unblockUser: [
             "DELETE /orgs/{org}/blocks/{username}"
@@ -7166,7 +7424,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "PATCH /orgs/{org}"
         ],
         updateMembershipForAuthenticatedUser: [
-            "PATCH /user/memberships/orgs/{org}", 
+            "PATCH /user/memberships/orgs/{org}"
         ],
         updateWebhook: [
             "PATCH /orgs/{org}/hooks/{hook_id}"
@@ -7177,22 +7435,22 @@ const $50c44f055a02491e$var$Endpoints = {
     },
     packages: {
         deletePackageForAuthenticatedUser: [
-            "DELETE /user/packages/{package_type}/{package_name}", 
+            "DELETE /user/packages/{package_type}/{package_name}"
         ],
         deletePackageForOrg: [
-            "DELETE /orgs/{org}/packages/{package_type}/{package_name}", 
+            "DELETE /orgs/{org}/packages/{package_type}/{package_name}"
         ],
         deletePackageForUser: [
-            "DELETE /users/{username}/packages/{package_type}/{package_name}", 
+            "DELETE /users/{username}/packages/{package_type}/{package_name}"
         ],
         deletePackageVersionForAuthenticatedUser: [
-            "DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}", 
+            "DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}"
         ],
         deletePackageVersionForOrg: [
-            "DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}", 
+            "DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}"
         ],
         deletePackageVersionForUser: [
-            "DELETE /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}", 
+            "DELETE /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}"
         ],
         getAllPackageVersionsForAPackageOwnedByAnOrg: [
             "GET /orgs/{org}/packages/{package_type}/{package_name}/versions",
@@ -7202,7 +7460,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "packages",
                     "getAllPackageVersionsForPackageOwnedByOrg"
                 ]
-            }, 
+            }
         ],
         getAllPackageVersionsForAPackageOwnedByTheAuthenticatedUser: [
             "GET /user/packages/{package_type}/{package_name}/versions",
@@ -7210,36 +7468,36 @@ const $50c44f055a02491e$var$Endpoints = {
             {
                 renamed: [
                     "packages",
-                    "getAllPackageVersionsForPackageOwnedByAuthenticatedUser", 
+                    "getAllPackageVersionsForPackageOwnedByAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         getAllPackageVersionsForPackageOwnedByAuthenticatedUser: [
-            "GET /user/packages/{package_type}/{package_name}/versions", 
+            "GET /user/packages/{package_type}/{package_name}/versions"
         ],
         getAllPackageVersionsForPackageOwnedByOrg: [
-            "GET /orgs/{org}/packages/{package_type}/{package_name}/versions", 
+            "GET /orgs/{org}/packages/{package_type}/{package_name}/versions"
         ],
         getAllPackageVersionsForPackageOwnedByUser: [
-            "GET /users/{username}/packages/{package_type}/{package_name}/versions", 
+            "GET /users/{username}/packages/{package_type}/{package_name}/versions"
         ],
         getPackageForAuthenticatedUser: [
-            "GET /user/packages/{package_type}/{package_name}", 
+            "GET /user/packages/{package_type}/{package_name}"
         ],
         getPackageForOrganization: [
-            "GET /orgs/{org}/packages/{package_type}/{package_name}", 
+            "GET /orgs/{org}/packages/{package_type}/{package_name}"
         ],
         getPackageForUser: [
-            "GET /users/{username}/packages/{package_type}/{package_name}", 
+            "GET /users/{username}/packages/{package_type}/{package_name}"
         ],
         getPackageVersionForAuthenticatedUser: [
-            "GET /user/packages/{package_type}/{package_name}/versions/{package_version_id}", 
+            "GET /user/packages/{package_type}/{package_name}/versions/{package_version_id}"
         ],
         getPackageVersionForOrganization: [
-            "GET /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}", 
+            "GET /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}"
         ],
         getPackageVersionForUser: [
-            "GET /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}", 
+            "GET /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}"
         ],
         listPackagesForAuthenticatedUser: [
             "GET /user/packages"
@@ -7251,22 +7509,22 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /users/{username}/packages"
         ],
         restorePackageForAuthenticatedUser: [
-            "POST /user/packages/{package_type}/{package_name}/restore{?token}", 
+            "POST /user/packages/{package_type}/{package_name}/restore{?token}"
         ],
         restorePackageForOrg: [
-            "POST /orgs/{org}/packages/{package_type}/{package_name}/restore{?token}", 
+            "POST /orgs/{org}/packages/{package_type}/{package_name}/restore{?token}"
         ],
         restorePackageForUser: [
-            "POST /users/{username}/packages/{package_type}/{package_name}/restore{?token}", 
+            "POST /users/{username}/packages/{package_type}/{package_name}/restore{?token}"
         ],
         restorePackageVersionForAuthenticatedUser: [
-            "POST /user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore", 
+            "POST /user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore"
         ],
         restorePackageVersionForOrg: [
-            "POST /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore", 
+            "POST /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore"
         ],
         restorePackageVersionForUser: [
-            "POST /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore", 
+            "POST /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore"
         ]
     },
     projects: {
@@ -7307,7 +7565,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /projects/columns/{column_id}"
         ],
         getPermissionForUser: [
-            "GET /projects/{project_id}/collaborators/{username}/permission", 
+            "GET /projects/{project_id}/collaborators/{username}/permission"
         ],
         listCards: [
             "GET /projects/columns/{column_id}/cards"
@@ -7334,7 +7592,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /projects/columns/{column_id}/moves"
         ],
         removeCollaborator: [
-            "DELETE /projects/{project_id}/collaborators/{username}", 
+            "DELETE /projects/{project_id}/collaborators/{username}"
         ],
         update: [
             "PATCH /projects/{project_id}"
@@ -7354,28 +7612,28 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /repos/{owner}/{repo}/pulls"
         ],
         createReplyForReviewComment: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies", 
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies"
         ],
         createReview: [
             "POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews"
         ],
         createReviewComment: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments", 
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments"
         ],
         deletePendingReview: [
-            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}", 
+            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}"
         ],
         deleteReviewComment: [
-            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}", 
+            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}"
         ],
         dismissReview: [
-            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals", 
+            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals"
         ],
         get: [
             "GET /repos/{owner}/{repo}/pulls/{pull_number}"
         ],
         getReview: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}", 
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}"
         ],
         getReviewComment: [
             "GET /repos/{owner}/{repo}/pulls/comments/{comment_id}"
@@ -7384,7 +7642,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/pulls"
         ],
         listCommentsForReview: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments", 
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments"
         ],
         listCommits: [
             "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits"
@@ -7393,10 +7651,10 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/pulls/{pull_number}/files"
         ],
         listRequestedReviewers: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers", 
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers"
         ],
         listReviewComments: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments", 
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments"
         ],
         listReviewCommentsForRepo: [
             "GET /repos/{owner}/{repo}/pulls/comments"
@@ -7408,25 +7666,25 @@ const $50c44f055a02491e$var$Endpoints = {
             "PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge"
         ],
         removeRequestedReviewers: [
-            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers", 
+            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers"
         ],
         requestReviewers: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers", 
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers"
         ],
         submitReview: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events", 
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events"
         ],
         update: [
             "PATCH /repos/{owner}/{repo}/pulls/{pull_number}"
         ],
         updateBranch: [
-            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch", 
+            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch"
         ],
         updateReview: [
-            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}", 
+            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}"
         ],
         updateReviewComment: [
-            "PATCH /repos/{owner}/{repo}/pulls/comments/{comment_id}", 
+            "PATCH /repos/{owner}/{repo}/pulls/comments/{comment_id}"
         ]
     },
     rateLimit: {
@@ -7436,61 +7694,67 @@ const $50c44f055a02491e$var$Endpoints = {
     },
     reactions: {
         createForCommitComment: [
-            "POST /repos/{owner}/{repo}/comments/{comment_id}/reactions", 
+            "POST /repos/{owner}/{repo}/comments/{comment_id}/reactions"
         ],
         createForIssue: [
-            "POST /repos/{owner}/{repo}/issues/{issue_number}/reactions", 
+            "POST /repos/{owner}/{repo}/issues/{issue_number}/reactions"
         ],
         createForIssueComment: [
-            "POST /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions", 
+            "POST /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions"
         ],
         createForPullRequestReviewComment: [
-            "POST /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions", 
+            "POST /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions"
         ],
         createForRelease: [
-            "POST /repos/{owner}/{repo}/releases/{release_id}/reactions", 
+            "POST /repos/{owner}/{repo}/releases/{release_id}/reactions"
         ],
         createForTeamDiscussionCommentInOrg: [
-            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions", 
+            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions"
         ],
         createForTeamDiscussionInOrg: [
-            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions", 
+            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions"
         ],
         deleteForCommitComment: [
-            "DELETE /repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}", 
+            "DELETE /repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}"
         ],
         deleteForIssue: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}", 
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}"
         ],
         deleteForIssueComment: [
-            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}", 
+            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}"
         ],
         deleteForPullRequestComment: [
-            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}", 
+            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}"
+        ],
+        deleteForRelease: [
+            "DELETE /repos/{owner}/{repo}/releases/{release_id}/reactions/{reaction_id}"
         ],
         deleteForTeamDiscussion: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id}", 
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id}"
         ],
         deleteForTeamDiscussionComment: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id}", 
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id}"
         ],
         listForCommitComment: [
-            "GET /repos/{owner}/{repo}/comments/{comment_id}/reactions", 
+            "GET /repos/{owner}/{repo}/comments/{comment_id}/reactions"
         ],
         listForIssue: [
             "GET /repos/{owner}/{repo}/issues/{issue_number}/reactions"
         ],
         listForIssueComment: [
-            "GET /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions", 
+            "GET /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions"
         ],
         listForPullRequestReviewComment: [
-            "GET /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions", 
+            "GET /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions"
+        ],
+        listForRelease: [
+            "GET /repos/{owner}/{repo}/releases/{release_id}/reactions"
         ],
         listForTeamDiscussionCommentInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions", 
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions"
         ],
         listForTeamDiscussionInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions", 
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions"
         ]
     },
     repos: {
@@ -7502,17 +7766,17 @@ const $50c44f055a02491e$var$Endpoints = {
                     "repos",
                     "acceptInvitationForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         acceptInvitationForAuthenticatedUser: [
-            "PATCH /user/repository_invitations/{invitation_id}", 
+            "PATCH /user/repository_invitations/{invitation_id}"
         ],
         addAppAccessRestrictions: [
             "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
             {},
             {
                 mapToData: "apps"
-            }, 
+            }
         ],
         addCollaborator: [
             "PUT /repos/{owner}/{repo}/collaborators/{username}"
@@ -7522,42 +7786,45 @@ const $50c44f055a02491e$var$Endpoints = {
             {},
             {
                 mapToData: "contexts"
-            }, 
+            }
         ],
         addTeamAccessRestrictions: [
             "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
             {},
             {
                 mapToData: "teams"
-            }, 
+            }
         ],
         addUserAccessRestrictions: [
             "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
             {},
             {
                 mapToData: "users"
-            }, 
+            }
         ],
         checkCollaborator: [
             "GET /repos/{owner}/{repo}/collaborators/{username}"
         ],
         checkVulnerabilityAlerts: [
-            "GET /repos/{owner}/{repo}/vulnerability-alerts", 
+            "GET /repos/{owner}/{repo}/vulnerability-alerts"
+        ],
+        codeownersErrors: [
+            "GET /repos/{owner}/{repo}/codeowners/errors"
         ],
         compareCommits: [
             "GET /repos/{owner}/{repo}/compare/{base}...{head}"
         ],
         compareCommitsWithBasehead: [
-            "GET /repos/{owner}/{repo}/compare/{basehead}", 
+            "GET /repos/{owner}/{repo}/compare/{basehead}"
         ],
         createAutolink: [
             "POST /repos/{owner}/{repo}/autolinks"
         ],
         createCommitComment: [
-            "POST /repos/{owner}/{repo}/commits/{commit_sha}/comments", 
+            "POST /repos/{owner}/{repo}/commits/{commit_sha}/comments"
         ],
         createCommitSignatureProtection: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures", 
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures"
         ],
         createCommitStatus: [
             "POST /repos/{owner}/{repo}/statuses/{sha}"
@@ -7569,7 +7836,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /repos/{owner}/{repo}/deployments"
         ],
         createDeploymentStatus: [
-            "POST /repos/{owner}/{repo}/deployments/{deployment_id}/statuses", 
+            "POST /repos/{owner}/{repo}/deployments/{deployment_id}/statuses"
         ],
         createDispatchEvent: [
             "POST /repos/{owner}/{repo}/dispatches"
@@ -7584,7 +7851,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /orgs/{org}/repos"
         ],
         createOrUpdateEnvironment: [
-            "PUT /repos/{owner}/{repo}/environments/{environment_name}", 
+            "PUT /repos/{owner}/{repo}/environments/{environment_name}"
         ],
         createOrUpdateFileContents: [
             "PUT /repos/{owner}/{repo}/contents/{path}"
@@ -7595,8 +7862,11 @@ const $50c44f055a02491e$var$Endpoints = {
         createRelease: [
             "POST /repos/{owner}/{repo}/releases"
         ],
+        createTagProtection: [
+            "POST /repos/{owner}/{repo}/tags/protection"
+        ],
         createUsingTemplate: [
-            "POST /repos/{template_owner}/{template_repo}/generate", 
+            "POST /repos/{template_owner}/{template_repo}/generate"
         ],
         createWebhook: [
             "POST /repos/{owner}/{repo}/hooks"
@@ -7609,70 +7879,73 @@ const $50c44f055a02491e$var$Endpoints = {
                     "repos",
                     "declineInvitationForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         declineInvitationForAuthenticatedUser: [
-            "DELETE /user/repository_invitations/{invitation_id}", 
+            "DELETE /user/repository_invitations/{invitation_id}"
         ],
         delete: [
             "DELETE /repos/{owner}/{repo}"
         ],
         deleteAccessRestrictions: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions", 
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions"
         ],
         deleteAdminBranchProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins", 
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins"
         ],
         deleteAnEnvironment: [
-            "DELETE /repos/{owner}/{repo}/environments/{environment_name}", 
+            "DELETE /repos/{owner}/{repo}/environments/{environment_name}"
         ],
         deleteAutolink: [
             "DELETE /repos/{owner}/{repo}/autolinks/{autolink_id}"
         ],
         deleteBranchProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection", 
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection"
         ],
         deleteCommitComment: [
             "DELETE /repos/{owner}/{repo}/comments/{comment_id}"
         ],
         deleteCommitSignatureProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures", 
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures"
         ],
         deleteDeployKey: [
             "DELETE /repos/{owner}/{repo}/keys/{key_id}"
         ],
         deleteDeployment: [
-            "DELETE /repos/{owner}/{repo}/deployments/{deployment_id}", 
+            "DELETE /repos/{owner}/{repo}/deployments/{deployment_id}"
         ],
         deleteFile: [
             "DELETE /repos/{owner}/{repo}/contents/{path}"
         ],
         deleteInvitation: [
-            "DELETE /repos/{owner}/{repo}/invitations/{invitation_id}", 
+            "DELETE /repos/{owner}/{repo}/invitations/{invitation_id}"
         ],
         deletePagesSite: [
             "DELETE /repos/{owner}/{repo}/pages"
         ],
         deletePullRequestReviewProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews", 
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"
         ],
         deleteRelease: [
             "DELETE /repos/{owner}/{repo}/releases/{release_id}"
         ],
         deleteReleaseAsset: [
-            "DELETE /repos/{owner}/{repo}/releases/assets/{asset_id}", 
+            "DELETE /repos/{owner}/{repo}/releases/assets/{asset_id}"
+        ],
+        deleteTagProtection: [
+            "DELETE /repos/{owner}/{repo}/tags/protection/{tag_protection_id}"
         ],
         deleteWebhook: [
             "DELETE /repos/{owner}/{repo}/hooks/{hook_id}"
         ],
         disableAutomatedSecurityFixes: [
-            "DELETE /repos/{owner}/{repo}/automated-security-fixes", 
+            "DELETE /repos/{owner}/{repo}/automated-security-fixes"
         ],
         disableLfsForRepo: [
             "DELETE /repos/{owner}/{repo}/lfs"
         ],
         disableVulnerabilityAlerts: [
-            "DELETE /repos/{owner}/{repo}/vulnerability-alerts", 
+            "DELETE /repos/{owner}/{repo}/vulnerability-alerts"
         ],
         downloadArchive: [
             "GET /repos/{owner}/{repo}/zipball/{ref}",
@@ -7682,7 +7955,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "repos",
                     "downloadZipballArchive"
                 ]
-            }, 
+            }
         ],
         downloadTarballArchive: [
             "GET /repos/{owner}/{repo}/tarball/{ref}"
@@ -7691,44 +7964,37 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/zipball/{ref}"
         ],
         enableAutomatedSecurityFixes: [
-            "PUT /repos/{owner}/{repo}/automated-security-fixes", 
+            "PUT /repos/{owner}/{repo}/automated-security-fixes"
         ],
         enableLfsForRepo: [
             "PUT /repos/{owner}/{repo}/lfs"
         ],
         enableVulnerabilityAlerts: [
-            "PUT /repos/{owner}/{repo}/vulnerability-alerts", 
+            "PUT /repos/{owner}/{repo}/vulnerability-alerts"
         ],
         generateReleaseNotes: [
-            "POST /repos/{owner}/{repo}/releases/generate-notes", 
+            "POST /repos/{owner}/{repo}/releases/generate-notes"
         ],
         get: [
             "GET /repos/{owner}/{repo}"
         ],
         getAccessRestrictions: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions"
         ],
         getAdminBranchProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins"
         ],
         getAllEnvironments: [
             "GET /repos/{owner}/{repo}/environments"
         ],
         getAllStatusCheckContexts: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts"
         ],
         getAllTopics: [
-            "GET /repos/{owner}/{repo}/topics",
-            {
-                mediaType: {
-                    previews: [
-                        "mercy"
-                    ]
-                }
-            }, 
+            "GET /repos/{owner}/{repo}/topics"
         ],
         getAppsWithAccessToProtectedBranch: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
         ],
         getAutolink: [
             "GET /repos/{owner}/{repo}/autolinks/{autolink_id}"
@@ -7737,7 +8003,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/branches/{branch}"
         ],
         getBranchProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection"
         ],
         getClones: [
             "GET /repos/{owner}/{repo}/traffic/clones"
@@ -7746,7 +8012,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/stats/code_frequency"
         ],
         getCollaboratorPermissionLevel: [
-            "GET /repos/{owner}/{repo}/collaborators/{username}/permission", 
+            "GET /repos/{owner}/{repo}/collaborators/{username}/permission"
         ],
         getCombinedStatusForRef: [
             "GET /repos/{owner}/{repo}/commits/{ref}/status"
@@ -7761,7 +8027,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/comments/{comment_id}"
         ],
         getCommitSignatureProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures"
         ],
         getCommunityProfileMetrics: [
             "GET /repos/{owner}/{repo}/community/profile"
@@ -7779,10 +8045,10 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/deployments/{deployment_id}"
         ],
         getDeploymentStatus: [
-            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}", 
+            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}"
         ],
         getEnvironment: [
-            "GET /repos/{owner}/{repo}/environments/{environment_name}", 
+            "GET /repos/{owner}/{repo}/environments/{environment_name}"
         ],
         getLatestPagesBuild: [
             "GET /repos/{owner}/{repo}/pages/builds/latest"
@@ -7803,7 +8069,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/stats/participation"
         ],
         getPullRequestReviewProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"
         ],
         getPunchCardStats: [
             "GET /repos/{owner}/{repo}/stats/punch_card"
@@ -7824,10 +8090,10 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/releases/tags/{tag}"
         ],
         getStatusChecksProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks"
         ],
         getTeamsWithAccessToProtectedBranch: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams"
         ],
         getTopPaths: [
             "GET /repos/{owner}/{repo}/traffic/popular/paths"
@@ -7836,7 +8102,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/traffic/popular/referrers"
         ],
         getUsersWithAccessToProtectedBranch: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users", 
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
         ],
         getViews: [
             "GET /repos/{owner}/{repo}/traffic/views"
@@ -7845,10 +8111,10 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/hooks/{hook_id}"
         ],
         getWebhookConfigForRepo: [
-            "GET /repos/{owner}/{repo}/hooks/{hook_id}/config", 
+            "GET /repos/{owner}/{repo}/hooks/{hook_id}/config"
         ],
         getWebhookDelivery: [
-            "GET /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}", 
+            "GET /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}"
         ],
         listAutolinks: [
             "GET /repos/{owner}/{repo}/autolinks"
@@ -7857,19 +8123,19 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/branches"
         ],
         listBranchesForHeadCommit: [
-            "GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head", 
+            "GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head"
         ],
         listCollaborators: [
             "GET /repos/{owner}/{repo}/collaborators"
         ],
         listCommentsForCommit: [
-            "GET /repos/{owner}/{repo}/commits/{commit_sha}/comments", 
+            "GET /repos/{owner}/{repo}/commits/{commit_sha}/comments"
         ],
         listCommitCommentsForRepo: [
             "GET /repos/{owner}/{repo}/comments"
         ],
         listCommitStatusesForRef: [
-            "GET /repos/{owner}/{repo}/commits/{ref}/statuses", 
+            "GET /repos/{owner}/{repo}/commits/{ref}/statuses"
         ],
         listCommits: [
             "GET /repos/{owner}/{repo}/commits"
@@ -7881,7 +8147,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/keys"
         ],
         listDeploymentStatuses: [
-            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses", 
+            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses"
         ],
         listDeployments: [
             "GET /repos/{owner}/{repo}/deployments"
@@ -7914,13 +8180,16 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repositories"
         ],
         listPullRequestsAssociatedWithCommit: [
-            "GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls", 
+            "GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls"
         ],
         listReleaseAssets: [
-            "GET /repos/{owner}/{repo}/releases/{release_id}/assets", 
+            "GET /repos/{owner}/{repo}/releases/{release_id}/assets"
         ],
         listReleases: [
             "GET /repos/{owner}/{repo}/releases"
+        ],
+        listTagProtection: [
+            "GET /repos/{owner}/{repo}/tags/protection"
         ],
         listTags: [
             "GET /repos/{owner}/{repo}/tags"
@@ -7929,7 +8198,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /repos/{owner}/{repo}/teams"
         ],
         listWebhookDeliveries: [
-            "GET /repos/{owner}/{repo}/hooks/{hook_id}/deliveries", 
+            "GET /repos/{owner}/{repo}/hooks/{hook_id}/deliveries"
         ],
         listWebhooks: [
             "GET /repos/{owner}/{repo}/hooks"
@@ -7944,88 +8213,81 @@ const $50c44f055a02491e$var$Endpoints = {
             "POST /repos/{owner}/{repo}/hooks/{hook_id}/pings"
         ],
         redeliverWebhookDelivery: [
-            "POST /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}/attempts", 
+            "POST /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}/attempts"
         ],
         removeAppAccessRestrictions: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
             {},
             {
                 mapToData: "apps"
-            }, 
+            }
         ],
         removeCollaborator: [
-            "DELETE /repos/{owner}/{repo}/collaborators/{username}", 
+            "DELETE /repos/{owner}/{repo}/collaborators/{username}"
         ],
         removeStatusCheckContexts: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
             {},
             {
                 mapToData: "contexts"
-            }, 
+            }
         ],
         removeStatusCheckProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks", 
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks"
         ],
         removeTeamAccessRestrictions: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
             {},
             {
                 mapToData: "teams"
-            }, 
+            }
         ],
         removeUserAccessRestrictions: [
             "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
             {},
             {
                 mapToData: "users"
-            }, 
+            }
         ],
         renameBranch: [
             "POST /repos/{owner}/{repo}/branches/{branch}/rename"
         ],
         replaceAllTopics: [
-            "PUT /repos/{owner}/{repo}/topics",
-            {
-                mediaType: {
-                    previews: [
-                        "mercy"
-                    ]
-                }
-            }, 
+            "PUT /repos/{owner}/{repo}/topics"
         ],
         requestPagesBuild: [
             "POST /repos/{owner}/{repo}/pages/builds"
         ],
         setAdminBranchProtection: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins", 
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins"
         ],
         setAppAccessRestrictions: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
             {},
             {
                 mapToData: "apps"
-            }, 
+            }
         ],
         setStatusCheckContexts: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
             {},
             {
                 mapToData: "contexts"
-            }, 
+            }
         ],
         setTeamAccessRestrictions: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
             {},
             {
                 mapToData: "teams"
-            }, 
+            }
         ],
         setUserAccessRestrictions: [
             "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
             {},
             {
                 mapToData: "users"
-            }, 
+            }
         ],
         testPushWebhook: [
             "POST /repos/{owner}/{repo}/hooks/{hook_id}/tests"
@@ -8037,7 +8299,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "PATCH /repos/{owner}/{repo}"
         ],
         updateBranchProtection: [
-            "PUT /repos/{owner}/{repo}/branches/{branch}/protection", 
+            "PUT /repos/{owner}/{repo}/branches/{branch}/protection"
         ],
         updateCommitComment: [
             "PATCH /repos/{owner}/{repo}/comments/{comment_id}"
@@ -8046,16 +8308,16 @@ const $50c44f055a02491e$var$Endpoints = {
             "PUT /repos/{owner}/{repo}/pages"
         ],
         updateInvitation: [
-            "PATCH /repos/{owner}/{repo}/invitations/{invitation_id}", 
+            "PATCH /repos/{owner}/{repo}/invitations/{invitation_id}"
         ],
         updatePullRequestReviewProtection: [
-            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews", 
+            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"
         ],
         updateRelease: [
             "PATCH /repos/{owner}/{repo}/releases/{release_id}"
         ],
         updateReleaseAsset: [
-            "PATCH /repos/{owner}/{repo}/releases/assets/{asset_id}", 
+            "PATCH /repos/{owner}/{repo}/releases/assets/{asset_id}"
         ],
         updateStatusCheckPotection: [
             "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
@@ -8065,22 +8327,22 @@ const $50c44f055a02491e$var$Endpoints = {
                     "repos",
                     "updateStatusCheckProtection"
                 ]
-            }, 
+            }
         ],
         updateStatusCheckProtection: [
-            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks", 
+            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks"
         ],
         updateWebhook: [
             "PATCH /repos/{owner}/{repo}/hooks/{hook_id}"
         ],
         updateWebhookConfigForRepo: [
-            "PATCH /repos/{owner}/{repo}/hooks/{hook_id}/config", 
+            "PATCH /repos/{owner}/{repo}/hooks/{hook_id}/config"
         ],
         uploadReleaseAsset: [
             "POST /repos/{owner}/{repo}/releases/{release_id}/assets{?name,label}",
             {
                 baseUrl: "https://uploads.github.com"
-            }, 
+            }
         ]
     },
     search: {
@@ -8100,14 +8362,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /search/repositories"
         ],
         topics: [
-            "GET /search/topics",
-            {
-                mediaType: {
-                    previews: [
-                        "mercy"
-                    ]
-                }
-            }
+            "GET /search/topics"
         ],
         users: [
             "GET /search/users"
@@ -8115,7 +8370,10 @@ const $50c44f055a02491e$var$Endpoints = {
     },
     secretScanning: {
         getAlert: [
-            "GET /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}", 
+            "GET /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}"
+        ],
+        listAlertsForEnterprise: [
+            "GET /enterprises/{enterprise}/secret-scanning/alerts"
         ],
         listAlertsForOrg: [
             "GET /orgs/{org}/secret-scanning/alerts"
@@ -8123,40 +8381,43 @@ const $50c44f055a02491e$var$Endpoints = {
         listAlertsForRepo: [
             "GET /repos/{owner}/{repo}/secret-scanning/alerts"
         ],
+        listLocationsForAlert: [
+            "GET /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}/locations"
+        ],
         updateAlert: [
-            "PATCH /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}", 
+            "PATCH /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}"
         ]
     },
     teams: {
         addOrUpdateMembershipForUserInOrg: [
-            "PUT /orgs/{org}/teams/{team_slug}/memberships/{username}", 
+            "PUT /orgs/{org}/teams/{team_slug}/memberships/{username}"
         ],
         addOrUpdateProjectPermissionsInOrg: [
-            "PUT /orgs/{org}/teams/{team_slug}/projects/{project_id}", 
+            "PUT /orgs/{org}/teams/{team_slug}/projects/{project_id}"
         ],
         addOrUpdateRepoPermissionsInOrg: [
-            "PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", 
+            "PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"
         ],
         checkPermissionsForProjectInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/projects/{project_id}", 
+            "GET /orgs/{org}/teams/{team_slug}/projects/{project_id}"
         ],
         checkPermissionsForRepoInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", 
+            "GET /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"
         ],
         create: [
             "POST /orgs/{org}/teams"
         ],
         createDiscussionCommentInOrg: [
-            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments", 
+            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"
         ],
         createDiscussionInOrg: [
             "POST /orgs/{org}/teams/{team_slug}/discussions"
         ],
         deleteDiscussionCommentInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}", 
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
         ],
         deleteDiscussionInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}", 
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"
         ],
         deleteInOrg: [
             "DELETE /orgs/{org}/teams/{team_slug}"
@@ -8165,13 +8426,13 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/teams/{team_slug}"
         ],
         getDiscussionCommentInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}", 
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
         ],
         getDiscussionInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}", 
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"
         ],
         getMembershipForUserInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/memberships/{username}", 
+            "GET /orgs/{org}/teams/{team_slug}/memberships/{username}"
         ],
         list: [
             "GET /orgs/{org}/teams"
@@ -8180,7 +8441,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/teams/{team_slug}/teams"
         ],
         listDiscussionCommentsInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments", 
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"
         ],
         listDiscussionsInOrg: [
             "GET /orgs/{org}/teams/{team_slug}/discussions"
@@ -8192,7 +8453,7 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/teams/{team_slug}/members"
         ],
         listPendingInvitationsInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/invitations", 
+            "GET /orgs/{org}/teams/{team_slug}/invitations"
         ],
         listProjectsInOrg: [
             "GET /orgs/{org}/teams/{team_slug}/projects"
@@ -8201,19 +8462,19 @@ const $50c44f055a02491e$var$Endpoints = {
             "GET /orgs/{org}/teams/{team_slug}/repos"
         ],
         removeMembershipForUserInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/memberships/{username}", 
+            "DELETE /orgs/{org}/teams/{team_slug}/memberships/{username}"
         ],
         removeProjectInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/projects/{project_id}", 
+            "DELETE /orgs/{org}/teams/{team_slug}/projects/{project_id}"
         ],
         removeRepoInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", 
+            "DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"
         ],
         updateDiscussionCommentInOrg: [
-            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}", 
+            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
         ],
         updateDiscussionInOrg: [
-            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}", 
+            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"
         ],
         updateInOrg: [
             "PATCH /orgs/{org}/teams/{team_slug}"
@@ -8228,7 +8489,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "addEmailForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         addEmailForAuthenticatedUser: [
             "POST /user/emails"
@@ -8253,7 +8514,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "createGpgKeyForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         createGpgKeyForAuthenticatedUser: [
             "POST /user/gpg_keys"
@@ -8266,7 +8527,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "createPublicSshKeyForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         createPublicSshKeyForAuthenticatedUser: [
             "POST /user/keys"
@@ -8279,7 +8540,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "deleteEmailForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         deleteEmailForAuthenticatedUser: [
             "DELETE /user/emails"
@@ -8292,7 +8553,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "deleteGpgKeyForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         deleteGpgKeyForAuthenticatedUser: [
             "DELETE /user/gpg_keys/{gpg_key_id}"
@@ -8305,7 +8566,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "deletePublicSshKeyForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         deletePublicSshKeyForAuthenticatedUser: [
             "DELETE /user/keys/{key_id}"
@@ -8330,7 +8591,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "getGpgKeyForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         getGpgKeyForAuthenticatedUser: [
             "GET /user/gpg_keys/{gpg_key_id}"
@@ -8343,7 +8604,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "getPublicSshKeyForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         getPublicSshKeyForAuthenticatedUser: [
             "GET /user/keys/{key_id}"
@@ -8359,7 +8620,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "listBlockedByAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         listBlockedByAuthenticatedUser: [
             "GET /user/blocks"
@@ -8372,7 +8633,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "listEmailsForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         listEmailsForAuthenticatedUser: [
             "GET /user/emails"
@@ -8385,7 +8646,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "listFollowedByAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         listFollowedByAuthenticatedUser: [
             "GET /user/following"
@@ -8407,7 +8668,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "listGpgKeysForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         listGpgKeysForAuthenticatedUser: [
             "GET /user/gpg_keys"
@@ -8423,7 +8684,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "listPublicEmailsForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         listPublicEmailsForAuthenticatedUser: [
             "GET /user/public_emails"
@@ -8439,7 +8700,7 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "listPublicSshKeysForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         listPublicSshKeysForAuthenticatedUser: [
             "GET /user/keys"
@@ -8452,10 +8713,10 @@ const $50c44f055a02491e$var$Endpoints = {
                     "users",
                     "setPrimaryEmailVisibilityForAuthenticatedUser"
                 ]
-            }, 
+            }
         ],
         setPrimaryEmailVisibilityForAuthenticatedUser: [
-            "PATCH /user/email/visibility", 
+            "PATCH /user/email/visibility"
         ],
         unblock: [
             "DELETE /user/blocks/{username}"
@@ -8468,7 +8729,7 @@ const $50c44f055a02491e$var$Endpoints = {
         ]
     }
 };
-const $50c44f055a02491e$var$VERSION = "5.13.0";
+const $50c44f055a02491e$var$VERSION = "5.16.2";
 function $50c44f055a02491e$var$endpointsToMethods(octokit, endpointsMap) {
     const newMethods = {};
     for (const [scope, endpoints] of Object.entries(endpointsMap))for (const [methodName, endpoint] of Object.entries(endpoints)){
@@ -8508,13 +8769,13 @@ function $50c44f055a02491e$var$decorate(octokit, scope, methodName, defaults, de
         if (decorations.deprecated) octokit.log.warn(decorations.deprecated);
         if (decorations.renamedParameters) {
             // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
-            const options1 = requestWithDefaults.endpoint.merge(...args);
-            for (const [name, alias] of Object.entries(decorations.renamedParameters))if (name in options1) {
+            const options = requestWithDefaults.endpoint.merge(...args);
+            for (const [name, alias] of Object.entries(decorations.renamedParameters))if (name in options) {
                 octokit.log.warn(`"${name}" parameter is deprecated for "octokit.${scope}.${methodName}()". Use "${alias}" instead`);
-                if (!(alias in options1)) options1[alias] = options1[name];
-                delete options1[name];
+                if (!(alias in options)) options[alias] = options[name];
+                delete options[name];
             }
-            return requestWithDefaults(options1);
+            return requestWithDefaults(options);
         }
         // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
         return requestWithDefaults(...args);
@@ -8538,7 +8799,7 @@ function $50c44f055a02491e$export$fb02754b3672af31(octokit) {
 $50c44f055a02491e$export$fb02754b3672af31.VERSION = $50c44f055a02491e$var$VERSION;
 
 
-const $db1342f2dd9071a2$var$VERSION = "2.17.0";
+const $db1342f2dd9071a2$var$VERSION = "2.21.3";
 /**
  * Some “list” response that can be paginated have a different response structure
  *
@@ -8651,7 +8912,9 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /enterprises/{enterprise}/actions/runner-groups/{runner_group_id}/organizations",
     "GET /enterprises/{enterprise}/actions/runner-groups/{runner_group_id}/runners",
     "GET /enterprises/{enterprise}/actions/runners",
-    "GET /enterprises/{enterprise}/actions/runners/downloads",
+    "GET /enterprises/{enterprise}/audit-log",
+    "GET /enterprises/{enterprise}/secret-scanning/alerts",
+    "GET /enterprises/{enterprise}/settings/billing/advanced-security",
     "GET /events",
     "GET /gists",
     "GET /gists/public",
@@ -8661,6 +8924,7 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /gists/{gist_id}/forks",
     "GET /installation/repositories",
     "GET /issues",
+    "GET /licenses",
     "GET /marketplace_listing/plans",
     "GET /marketplace_listing/plans/{plan_id}/accounts",
     "GET /marketplace_listing/stubbed/plans",
@@ -8668,17 +8932,23 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /networks/{owner}/{repo}/events",
     "GET /notifications",
     "GET /organizations",
+    "GET /orgs/{org}/actions/cache/usage-by-repository",
     "GET /orgs/{org}/actions/permissions/repositories",
     "GET /orgs/{org}/actions/runner-groups",
     "GET /orgs/{org}/actions/runner-groups/{runner_group_id}/repositories",
     "GET /orgs/{org}/actions/runner-groups/{runner_group_id}/runners",
     "GET /orgs/{org}/actions/runners",
-    "GET /orgs/{org}/actions/runners/downloads",
     "GET /orgs/{org}/actions/secrets",
     "GET /orgs/{org}/actions/secrets/{secret_name}/repositories",
+    "GET /orgs/{org}/audit-log",
     "GET /orgs/{org}/blocks",
+    "GET /orgs/{org}/code-scanning/alerts",
+    "GET /orgs/{org}/codespaces",
     "GET /orgs/{org}/credential-authorizations",
+    "GET /orgs/{org}/dependabot/secrets",
+    "GET /orgs/{org}/dependabot/secrets/{secret_name}/repositories",
     "GET /orgs/{org}/events",
+    "GET /orgs/{org}/external-groups",
     "GET /orgs/{org}/failed_invitations",
     "GET /orgs/{org}/hooks",
     "GET /orgs/{org}/hooks/{hook_id}/deliveries",
@@ -8691,10 +8961,12 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /orgs/{org}/migrations/{migration_id}/repositories",
     "GET /orgs/{org}/outside_collaborators",
     "GET /orgs/{org}/packages",
+    "GET /orgs/{org}/packages/{package_type}/{package_name}/versions",
     "GET /orgs/{org}/projects",
     "GET /orgs/{org}/public_members",
     "GET /orgs/{org}/repos",
     "GET /orgs/{org}/secret-scanning/alerts",
+    "GET /orgs/{org}/settings/billing/advanced-security",
     "GET /orgs/{org}/team-sync/groups",
     "GET /orgs/{org}/teams",
     "GET /orgs/{org}/teams/{team_slug}/discussions",
@@ -8705,14 +8977,13 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /orgs/{org}/teams/{team_slug}/members",
     "GET /orgs/{org}/teams/{team_slug}/projects",
     "GET /orgs/{org}/teams/{team_slug}/repos",
-    "GET /orgs/{org}/teams/{team_slug}/team-sync/group-mappings",
     "GET /orgs/{org}/teams/{team_slug}/teams",
     "GET /projects/columns/{column_id}/cards",
     "GET /projects/{project_id}/collaborators",
     "GET /projects/{project_id}/columns",
     "GET /repos/{owner}/{repo}/actions/artifacts",
+    "GET /repos/{owner}/{repo}/actions/caches",
     "GET /repos/{owner}/{repo}/actions/runners",
-    "GET /repos/{owner}/{repo}/actions/runners/downloads",
     "GET /repos/{owner}/{repo}/actions/runs",
     "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts",
     "GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs",
@@ -8721,26 +8992,30 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /repos/{owner}/{repo}/actions/workflows",
     "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
     "GET /repos/{owner}/{repo}/assignees",
-    "GET /repos/{owner}/{repo}/autolinks",
     "GET /repos/{owner}/{repo}/branches",
     "GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations",
     "GET /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs",
     "GET /repos/{owner}/{repo}/code-scanning/alerts",
     "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances",
     "GET /repos/{owner}/{repo}/code-scanning/analyses",
+    "GET /repos/{owner}/{repo}/codespaces",
+    "GET /repos/{owner}/{repo}/codespaces/devcontainers",
+    "GET /repos/{owner}/{repo}/codespaces/secrets",
     "GET /repos/{owner}/{repo}/collaborators",
     "GET /repos/{owner}/{repo}/comments",
     "GET /repos/{owner}/{repo}/comments/{comment_id}/reactions",
     "GET /repos/{owner}/{repo}/commits",
-    "GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head",
     "GET /repos/{owner}/{repo}/commits/{commit_sha}/comments",
     "GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls",
     "GET /repos/{owner}/{repo}/commits/{ref}/check-runs",
     "GET /repos/{owner}/{repo}/commits/{ref}/check-suites",
+    "GET /repos/{owner}/{repo}/commits/{ref}/status",
     "GET /repos/{owner}/{repo}/commits/{ref}/statuses",
     "GET /repos/{owner}/{repo}/contributors",
+    "GET /repos/{owner}/{repo}/dependabot/secrets",
     "GET /repos/{owner}/{repo}/deployments",
     "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses",
+    "GET /repos/{owner}/{repo}/environments",
     "GET /repos/{owner}/{repo}/events",
     "GET /repos/{owner}/{repo}/forks",
     "GET /repos/{owner}/{repo}/git/matching-refs/{ref}",
@@ -8774,16 +9049,16 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments",
     "GET /repos/{owner}/{repo}/releases",
     "GET /repos/{owner}/{repo}/releases/{release_id}/assets",
+    "GET /repos/{owner}/{repo}/releases/{release_id}/reactions",
     "GET /repos/{owner}/{repo}/secret-scanning/alerts",
+    "GET /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}/locations",
     "GET /repos/{owner}/{repo}/stargazers",
     "GET /repos/{owner}/{repo}/subscribers",
     "GET /repos/{owner}/{repo}/tags",
     "GET /repos/{owner}/{repo}/teams",
+    "GET /repos/{owner}/{repo}/topics",
     "GET /repositories",
     "GET /repositories/{repository_id}/environments/{environment_name}/secrets",
-    "GET /scim/v2/enterprises/{enterprise}/Groups",
-    "GET /scim/v2/enterprises/{enterprise}/Users",
-    "GET /scim/v2/organizations/{org}/Users",
     "GET /search/code",
     "GET /search/commits",
     "GET /search/issues",
@@ -8799,9 +9074,10 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /teams/{team_id}/members",
     "GET /teams/{team_id}/projects",
     "GET /teams/{team_id}/repos",
-    "GET /teams/{team_id}/team-sync/group-mappings",
     "GET /teams/{team_id}/teams",
     "GET /user/blocks",
+    "GET /user/codespaces",
+    "GET /user/codespaces/secrets",
     "GET /user/emails",
     "GET /user/followers",
     "GET /user/following",
@@ -8817,6 +9093,7 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /user/migrations/{migration_id}/repositories",
     "GET /user/orgs",
     "GET /user/packages",
+    "GET /user/packages/{package_type}/{package_name}/versions",
     "GET /user/public_emails",
     "GET /user/repos",
     "GET /user/repository_invitations",
@@ -8839,7 +9116,7 @@ const $db1342f2dd9071a2$export$f72c3e329f772158 = [
     "GET /users/{username}/received_events/public",
     "GET /users/{username}/repos",
     "GET /users/{username}/starred",
-    "GET /users/{username}/subscriptions", 
+    "GET /users/{username}/subscriptions"
 ];
 function $db1342f2dd9071a2$export$d31615f298c9ee6(arg) {
     if (typeof arg === "string") return $db1342f2dd9071a2$export$f72c3e329f772158.includes(arg);
@@ -8860,13 +9137,13 @@ $db1342f2dd9071a2$export$d8def7ab7602fc50.VERSION = $db1342f2dd9071a2$var$VERSIO
 
 $34a39b9cfdd3c6a2$exports.context = new $34a39b9cfdd3c6a2$var$Context.Context();
 const $34a39b9cfdd3c6a2$var$baseUrl = $34a39b9cfdd3c6a2$var$Utils.getApiBaseUrl();
-const $34a39b9cfdd3c6a2$var$defaults = {
+$34a39b9cfdd3c6a2$exports.defaults = {
     baseUrl: $34a39b9cfdd3c6a2$var$baseUrl,
     request: {
         agent: $34a39b9cfdd3c6a2$var$Utils.getProxyAgent($34a39b9cfdd3c6a2$var$baseUrl)
     }
 };
-$34a39b9cfdd3c6a2$exports.GitHub = $54b3cc8c9f7e5ec5$export$d19f1ac68c042717.plugin($50c44f055a02491e$export$a1fe24cc78039d62, $db1342f2dd9071a2$export$d8def7ab7602fc50).defaults($34a39b9cfdd3c6a2$var$defaults);
+$34a39b9cfdd3c6a2$exports.GitHub = $54b3cc8c9f7e5ec5$export$d19f1ac68c042717.plugin($50c44f055a02491e$export$a1fe24cc78039d62, $db1342f2dd9071a2$export$d8def7ab7602fc50).defaults($34a39b9cfdd3c6a2$exports.defaults);
 /**
  * Convience function to correctly format Octokit Options to pass into the constructor.
  *
@@ -8888,10 +9165,12 @@ $b2ffea015edc5d5f$exports.context = new $b2ffea015edc5d5f$var$Context.Context();
  *
  * @param     token    the repo PAT or GITHUB_TOKEN
  * @param     options  other options to set
- */ function $b2ffea015edc5d5f$var$getOctokit(token, options) {
-    return new $34a39b9cfdd3c6a2$exports.GitHub($34a39b9cfdd3c6a2$exports.getOctokitOptions(token, options));
+ */ function $b2ffea015edc5d5f$var$getOctokit(token, options, ...additionalPlugins) {
+    const GitHubWithPlugins = $34a39b9cfdd3c6a2$exports.GitHub.plugin(...additionalPlugins);
+    return new GitHubWithPlugins($34a39b9cfdd3c6a2$exports.getOctokitOptions(token, options));
 }
 $b2ffea015edc5d5f$exports.getOctokit = $b2ffea015edc5d5f$var$getOctokit;
+
 
 
 const $60f95bdd24cab3fa$var$exportVariable = (key, val)=>{
@@ -8899,11 +9178,13 @@ const $60f95bdd24cab3fa$var$exportVariable = (key, val)=>{
     console.log(key, val);
 };
 try {
-    var $60f95bdd24cab3fa$var$ref;
-    const version = $8c7cc7c00e6bea0c$exports.getInput("version") || "1.0";
-    if (!version || !version.match(/\d+\.\d+/)) $8c7cc7c00e6bea0c$exports.setFailed(`Unexpected version "${version}" must be something like "2.1"`);
+    var $60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift_match, $60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift, $60f95bdd24cab3fa$var$_readFileSync_match_pop_split, $60f95bdd24cab3fa$var$_readFileSync_match_pop, $60f95bdd24cab3fa$var$_readFileSync_match, $60f95bdd24cab3fa$var$_readFileSync, $60f95bdd24cab3fa$var$_github_context_payload_pull_request;
+    let version = $8c7cc7c00e6bea0c$exports.getInput("version") || "";
+    if (!version) $8c7cc7c00e6bea0c$exports.setFailed("version is required");
+    if (!version.match(/\d+\.\d+/) && (0, $3B1P3$fs.existsSync)(version)) version = (($60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift_match = ($60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift = ($60f95bdd24cab3fa$var$_readFileSync_match_pop_split = ($60f95bdd24cab3fa$var$_readFileSync_match_pop = ($60f95bdd24cab3fa$var$_readFileSync_match = ($60f95bdd24cab3fa$var$_readFileSync = (0, $3B1P3$fs.readFileSync)(version, "utf8")) === null || $60f95bdd24cab3fa$var$_readFileSync === void 0 ? void 0 : $60f95bdd24cab3fa$var$_readFileSync.match(/FROM\s+.+:(.+)/)) === null || $60f95bdd24cab3fa$var$_readFileSync_match === void 0 ? void 0 : $60f95bdd24cab3fa$var$_readFileSync_match.pop()) === null || $60f95bdd24cab3fa$var$_readFileSync_match_pop === void 0 ? void 0 : $60f95bdd24cab3fa$var$_readFileSync_match_pop.split("-")) === null || $60f95bdd24cab3fa$var$_readFileSync_match_pop_split === void 0 ? void 0 : $60f95bdd24cab3fa$var$_readFileSync_match_pop_split.shift()) === null || $60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift === void 0 ? void 0 : $60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift.match(/[0-9.]+/)) === null || $60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift_match === void 0 ? void 0 : $60f95bdd24cab3fa$var$_readFileSync_match_pop_split_shift_match.shift()) || "";
+    if (!version) $8c7cc7c00e6bea0c$exports.setFailed(`Unexpected version "${version}" must be something like "2.1" or path to Dockerfile like "./Dockerfile"`);
     // Described in readme, context section
-    const commit = $b2ffea015edc5d5f$exports.context.eventName === "pull_request" ? ($60f95bdd24cab3fa$var$ref = $b2ffea015edc5d5f$exports.context.payload.pull_request) === null || $60f95bdd24cab3fa$var$ref === void 0 ? void 0 : $60f95bdd24cab3fa$var$ref.head.sha : $b2ffea015edc5d5f$exports.context.sha;
+    const commit = $b2ffea015edc5d5f$exports.context.eventName === "pull_request" ? ($60f95bdd24cab3fa$var$_github_context_payload_pull_request = $b2ffea015edc5d5f$exports.context.payload.pull_request) === null || $60f95bdd24cab3fa$var$_github_context_payload_pull_request === void 0 ? void 0 : $60f95bdd24cab3fa$var$_github_context_payload_pull_request.head.sha : $b2ffea015edc5d5f$exports.context.sha;
     const branch = (process.env.GITHUB_HEAD_REF || $b2ffea015edc5d5f$exports.context.ref).split("/").pop();
     const num = $b2ffea015edc5d5f$exports.context.runNumber;
     const sha = commit.substring(0, 7);
