@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import { existsSync, readFileSync } from "fs";
 
 const exportVariable = (key: string, val: string): void => {
   core.exportVariable(key, val);
@@ -7,9 +8,22 @@ const exportVariable = (key: string, val: string): void => {
 };
 
 try {
-  const version = core.getInput("version") || "1.0";
-  if (!version || !version.match(/\d+\.\d+/)) {
-    core.setFailed(`Unexpected version "${version}" must be something like "2.1"`);
+  let version = core.getInput("version") || "";
+  if (!version) {
+    core.setFailed("version is required");
+  }
+  if (!version.match(/\d+\.\d+/) && existsSync(version)) {
+    version =
+      readFileSync(version, "utf8")
+        ?.match(/FROM\s+.+:(.+)/)
+        ?.pop()
+        ?.split("-")
+        ?.shift()
+        ?.match(/[0-9.]+/)
+        ?.shift() || "";
+  }
+  if (!version) {
+    core.setFailed(`Unexpected version "${version}" must be something like "2.1" or path to Dockerfile like "./Dockerfile"`);
   }
 
   // Described in readme, context section
