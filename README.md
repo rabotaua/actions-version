@@ -1,6 +1,5 @@
 # Version
 
-GitHub action to generate version numbers based on current build
 
 ## Inputs
 
