@@ -15,12 +15,12 @@ try {
   if (!version.match(/\d+\.\d+/) && existsSync(version)) {
     version =
       readFileSync(version, "utf8")
-        ?.match(/FROM\s+.+:(.+)/)
-        ?.pop()
-        ?.split("-")
-        ?.shift()
-        ?.match(/[0-9.]+/)
-        ?.shift() || "";
+        .match(/FROM\s+.+:(.+)/)
+        .pop()
+        .split("-")
+        .shift()
+        .match(/[0-9.]+/)
+        .shift() || "";
   }
   if (!version) {
     core.setFailed(`Unexpected version "${version}" must be something like "2.1" or path to Dockerfile like "./Dockerfile"`);
