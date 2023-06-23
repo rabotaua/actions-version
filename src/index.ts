@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from "fs";
 
 const exportVariable = (key: string, val: string): void => {
   core.exportVariable(key, val);
+  core.setOutput(key, val);
   console.log(key, val);
 };
 

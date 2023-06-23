@@ -2405,9 +2405,9 @@ var $22e03c642950fcda$var$PROCESSING_OPTIONS = {
     NONTRANSITIONAL: 1
 };
 function $22e03c642950fcda$var$normalize(str) {
-    return str.split("\0").map(function(s) {
+    return str.split("\x00").map(function(s) {
         return s.normalize("NFC");
-    }).join("\0");
+    }).join("\x00");
 }
 function $22e03c642950fcda$var$findStatus(val) {
     var start = 0;
@@ -4377,7 +4377,7 @@ $8dafdd0617a538ba$export$26e841bcf1aeb894.prototype.name = "FetchError";
 let $8dafdd0617a538ba$var$convert;
 
 try {
-    $8dafdd0617a538ba$var$convert = $8dafdd0617a538ba$import$d57b52e589a40526$9c68d69a4c5bbcf9;
+    $8dafdd0617a538ba$var$convert = $8dafdd0617a538ba$import$801ef83bf5ac8669$9c68d69a4c5bbcf9;
 } catch (e) {}
 const $8dafdd0617a538ba$var$INTERNALS = Symbol("Body internals");
 // fix an issue where "PassThrough" isn't a named export for node <10
@@ -9175,6 +9175,7 @@ $b2ffea015edc5d5f$exports.getOctokit = $b2ffea015edc5d5f$var$getOctokit;
 
 const $60f95bdd24cab3fa$var$exportVariable = (key, val)=>{
     $8c7cc7c00e6bea0c$exports.exportVariable(key, val);
+    $8c7cc7c00e6bea0c$exports.setOutput(key, val);
     console.log(key, val);
 };
 try {
