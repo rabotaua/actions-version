@@ -17,15 +17,17 @@ updates:
     groups:
       devDependencies:
         patterns:
-          - '@typescript-eslint/*'
-          - 'eslint'
-          - 'eslint-*'
-          - 'husky'
-          - 'lint-staged'
-          - 'parcel'
-          - 'prettier'
-          - 'ts-*'
-          - 'typescript'
+          - "@typescript-eslint/*"
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+          - "globals"
+          - "husky"
+          - "lint-staged"
+          - "parcel"
+          - "prettier"
+          - "ts-*"
+          - "typescript"
       dependencies:
         patterns:
-          - '@actions/*'
+          - "@actions/*"
