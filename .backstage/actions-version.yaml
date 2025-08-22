@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: actions-version
+  annotations:
+    github.com/project-slug: rabotaua/actions-version
+  tags:
+    - frontend
+    - codesnoop
+spec:
+  owner: robota.ua
