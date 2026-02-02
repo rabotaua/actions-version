@@ -52,10 +52,10 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "eslint": "^9.39.2",
-    "globals": "^17.1.0",
+    "globals": "^17.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "parcel": "^2.16.3",
+    "parcel": "^2.16.4",
     "prettier": "3.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
